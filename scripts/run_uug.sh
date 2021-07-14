@@ -5,12 +5,14 @@
 scriptsdir=${0%/*}
 
 # specify data directory
-dir=test1
+dir=test_uug
 
 # load parameters
 source $scriptsdir/parameters_test.sh
 #source $scriptsdir/parameters_opt.sh
 #source $scriptsdir/parameters_semeval.sh
+
+graphtype=uug
 
 # remove when running multiple times (e.g. testing)
 rm -rf $dir/data_joint
@@ -25,6 +27,7 @@ source $scriptsdir/data2join.sh
 source $scriptsdir/data2annotators.sh # skip if annotator mapping is manual
 source $scriptsdir/data2agr.sh
 source $scriptsdir/use2graph.sh 
+source $scriptsdir/sense2graph.sh
 source $scriptsdir/sense2node.sh
 source $scriptsdir/judgments2graph.sh
 source $scriptsdir/exclude_nodes.sh

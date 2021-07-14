@@ -1,6 +1,7 @@
 
 annotators=$dir/annotators.csv
 modus=test
+graphtype=uug
 # clustering
 iters=1
 min=1

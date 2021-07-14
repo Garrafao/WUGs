@@ -137,13 +137,13 @@ class Constellation(object):
         self.prob = list(self.distribution/np.sum(self.distribution))
 
         
-    def _make_graph_stats(self, old='old', new='new'):
+    def _make_graph_stats(self, old='old', new='new', attributes={'type':'usage'}):
         """
-        Get basic statistics from graph.  
+        Get basic statistics from graph. Ignores non-usage nodes by default.
         :param self: Constellation instance
         """
 
-        self.nodes = list(self.G.nodes)
+        self.nodes = [node for node in self.G.nodes if all([self.G.nodes()[node][k]==v for (k,v) in attributes.items()])]
         self.oldnodes = [node for node in self.nodes if self.G.nodes()[node]['grouping']==old]
         self.newnodes = [node for node in self.nodes if self.G.nodes()[node]['grouping']==new]
         self.restnodes = [node for node in self.nodes if (not self.G.nodes()[node]['grouping']==new) and (not self.G.nodes()[node]['grouping']==old)]

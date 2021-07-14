@@ -9,17 +9,6 @@ from scipy.stats import spearmanr, pearsonr
 from scipy.spatial.distance import euclidean, cosine
 import krippendorff
 from sklearn.metrics import hamming_loss
-from pyvis.network import Network
-import networkx as nx
-from networkx.drawing.nx_agraph import graphviz_layout
-from textwrap import wrap
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
-nice_colors = [x for x in mcolors.get_named_colors_mapping().values() if isinstance(x, str)] # Nice colors
-colors_global = ['#377eb8', '#ff7f00', '#4daf4a', '#f781bf', '#a65628', '#984ea3', '#999999', '#e41a1c', '#dede00'] # color-blind colors
-colors_global = colors_global + nice_colors
 
     
 def add_annotation(G, annotation, is_non_value=lambda x: np.isnan(x)):
@@ -306,16 +295,19 @@ def get_data_maps_edges(G, annotators, summary_statistic=np.median):
     return combo2annotator2judgment, combo2annotator2comment, annotator2judgments, combo2judgments, node2judgments, node2weights
 
 
-def get_data_maps_nodes(G):
+def get_data_maps_nodes(G, attributes={'type':'usage'}):
     """
-    Get node data maps.
+    Get node data maps. Ignores non-usage nodes by default.
     :param G: graph
     :return : several data maps
     """
     
     node2period = {}
     for node in G.nodes():
-        node2period[node] = G.nodes()[node]['grouping']
+        node_data = G.nodes()[node]
+        #print(node_data)
+        if all([node_data[k]==v for (k,v) in attributes.items()]):
+            node2period[node] = G.nodes()[node]['grouping']
                                
     return node2period
 
@@ -628,3 +620,26 @@ def get_time_stats(G, threshold=0.5, lower_range=(1,3), upper_range=(3,5), lower
     return stats
 
 
+def perturb_graph(G, annotators, range_ = (1,4), share = 0.1, normalization = lambda x: x):
+    """
+    Perturb graph with set of random annotations      
+    :param G: graph
+    :param range_: range of annotation values
+    :return graph: perturbed graph
+    """
+
+    G = G.copy()
+
+    U = len(G.nodes())
+    F = (U*(U-1))/2
+    P = int(share*F)
+
+    weights_noise = [random.randint(range_[0],range_[1]) for i in range(P)]
+    combos = list(combinations(G.nodes(), 2))
+    random.shuffle(combos)
+    
+    annotation = [(combos[i][0],combos[i][1],float(w),'-','annotator_noise') for i, w in enumerate(weights_noise)]
+    G = add_annotation(G, annotation)    
+    G = make_weights(G, annotators+['annotator_noise'], normalization=normalization, non_value=0.0)
+    
+    return G

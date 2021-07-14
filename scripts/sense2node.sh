@@ -7,7 +7,7 @@ outdir=$dir/graphs
 
 for data in "${datas[@]}"
 do
-    if [ ! -f "$data/senses.csv" ]
+    if [ ! -f "$data/judgments_senses.csv" ] || [ $graphtype == "usg" ];
     then
 	continue
     fi

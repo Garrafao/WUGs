@@ -15,9 +15,10 @@ Under `scripts/` we provide a pipeline creating and clustering graphs and extrac
 
 	chmod 755 scripts/*.sh
 
-Then run
+Then run one of the following commands for Usage-Usage Graphs (UUGs) and Usage-Sense Graphs (USGs) respectively:
 
-	bash -e scripts/run_release.sh
+	bash -e scripts/run_uug.sh
+	bash -e scripts/run_usg.sh
 
 __Attention__: modifies graphs iteratively, i.e., current run is dependent on previous run. Script deletes previously written data to avoid dependence.
 
@@ -25,8 +26,16 @@ We recommend you to run the scripts within a [virtual environment](https://pypi.
 
 ### Input
 
-- __uses__: find examples at `test1/data/*/uses.csv`
-- __judgments__: find examples at `test1/data/*/judgments.csv`
+ For usage-usage graphs:
+
+- __uses__: find examples at `test_uug/data/*/uses.csv`
+- __judgments__: find examples at `test_uug/data/*/judgments.csv`
+
+ For usage-sense graphs:
+
+- __uses__: find examples at `test_usg/data/*/uses.csv`
+- __senses__: find examples at `test_usg/data/*/senses.csv`
+- __judgments__: find examples at `test_usg/data/*/judgments.csv`
 
 ### Description
 
@@ -34,7 +43,8 @@ We recommend you to run the scripts within a [virtual environment](https://pypi.
 - `data2annotators.py`:  extracts mapping from users to (anonymized) annotators
 - `data2agr.py`:  computes agreement on full data
 - `use2graph.py`:  adds uses to graph
-- `sense2node.py`:  adds sense annotation data to graph, if available
+- `sense2graph.py`:  adds senses to graph, for usage-sense graphs
+- `sense2node.py`:  adds sense annotation data to nodes, if available
 - `judgments2graph.py`:  adds judgments to graph
 - `exclude_nodes.py`:  excludes nodes with many invalid judgments, removes invalid edges
 - `graph2cluster.py`:  clusters graph
@@ -50,13 +60,6 @@ BibTex
 --------
 
 ```
-@inproceedings{Schlechtweg2021wugs,
-	title = {{Clustering Word Usage Graphs: A Flexible Framework to Measure Changes in Contextual Word Meaning}},
-	author = {Schlechtweg, Dominik and {Schulte im Walde}, Sabine},
-	year = {submitted}
-}
-```
-```
 @article{Schlechtweg2021dwug,
 	title = {{DWUG: A large Resource of Diachronic Word Usage Graphs in Four Languages}},
 	author = "Schlechtweg, Dominik and Tahmasebi, Nina and Hengchen, Simon and Dubossarsky, Haim and McGillivray, Barbara",
@@ -66,6 +69,13 @@ BibTex
 	archivePrefix = {arXiv},
 	eprint    = {2104.08540},
 	url = {https://arxiv.org/abs/2104.08540}
+}
+```
+```
+@inproceedings{Schlechtweg2021wugs,
+	title = {{Clustering Word Usage Graphs: A Flexible Framework to Measure Changes in Contextual Word Meaning}},
+	author = {Schlechtweg, Dominik and {Schulte im Walde}, Sabine},
+	year = {submitted}
 }
 ```
 

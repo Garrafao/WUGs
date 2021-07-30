@@ -55,6 +55,10 @@ Please find the parameters for the current optimized WUG versions in `parameters
 
 For annotating and plotting your own graphs we recommend to use the [DURel Tool](https://www.ims.uni-stuttgart.de/data/durel-tool).
 
+### Additional scripts
+
+- `usim2data.sh`:  downloads USim data and converts it to WUG format
+
 
 BibTex
 --------

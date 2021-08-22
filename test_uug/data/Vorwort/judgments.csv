@@ -1,186 +1,22 @@
 identifier1	identifier2	annotator	judgment	comment	lemma
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1319-9	annotator0	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1319-9	annotator1	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1319-9	annotator2	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1319-9	annotator3	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1319-9	annotator4	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	liszt_reichsstrafrecht_1881-3-0	annotator0	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	liszt_reichsstrafrecht_1881-3-0	annotator1	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	liszt_reichsstrafrecht_1881-3-0	annotator2	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	liszt_reichsstrafrecht_1881-3-0	annotator3	2.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	liszt_reichsstrafrecht_1881-3-0	annotator4	2.0	 	Vorwort
-lambert_organon02_1764-1342-56	burdel_trunksucht_1855-13-0	annotator0	1.0	 	Vorwort
-lambert_organon02_1764-1342-56	burdel_trunksucht_1855-13-0	annotator1	1.0	 	Vorwort
-lambert_organon02_1764-1342-56	burdel_trunksucht_1855-13-0	annotator2	1.0	 	Vorwort
-lambert_organon02_1764-1342-56	burdel_trunksucht_1855-13-0	annotator3	2.0	 	Vorwort
-lambert_organon02_1764-1342-56	burdel_trunksucht_1855-13-0	annotator4	2.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1324-16	annotator0	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1324-16	annotator1	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1324-16	annotator2	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1324-16	annotator3	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1324-16	annotator4	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	nietzsche_tragoedie_1872-2-0	annotator0	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	nietzsche_tragoedie_1872-2-0	annotator1	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	nietzsche_tragoedie_1872-2-0	annotator2	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	nietzsche_tragoedie_1872-2-0	annotator3	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	nietzsche_tragoedie_1872-2-0	annotator4	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lambert_architectonic01_1771-4049-8	annotator0	1.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lambert_architectonic01_1771-4049-8	annotator1	1.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lambert_architectonic01_1771-4049-8	annotator2	1.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lambert_architectonic01_1771-4049-8	annotator3	2.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lambert_architectonic01_1771-4049-8	annotator4	2.0	 	Vorwort
-lambert_organon02_1764-1340-4	burdel_trunksucht_1855-13-0	annotator0	1.0	 	Vorwort
-lambert_organon02_1764-1340-4	burdel_trunksucht_1855-13-0	annotator1	1.0	 	Vorwort
-lambert_organon02_1764-1340-4	burdel_trunksucht_1855-13-0	annotator2	1.0	 	Vorwort
-lambert_organon02_1764-1340-4	burdel_trunksucht_1855-13-0	annotator3	2.0	 	Vorwort
-lambert_organon02_1764-1340-4	burdel_trunksucht_1855-13-0	annotator4	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	krane_reitpferd_1856-5-0	annotator0	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	krane_reitpferd_1856-5-0	annotator1	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	krane_reitpferd_1856-5-0	annotator2	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	krane_reitpferd_1856-5-0	annotator3	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	krane_reitpferd_1856-5-0	annotator4	4.0	 	Vorwort
-lambert_organon02_1764-1334-51	burdel_trunksucht_1855-13-0	annotator0	1.0	 	Vorwort
-lambert_organon02_1764-1334-51	burdel_trunksucht_1855-13-0	annotator1	1.0	 	Vorwort
-lambert_organon02_1764-1334-51	burdel_trunksucht_1855-13-0	annotator2	1.0	 	Vorwort
-lambert_organon02_1764-1334-51	burdel_trunksucht_1855-13-0	annotator3	2.0	 	Vorwort
-lambert_organon02_1764-1334-51	burdel_trunksucht_1855-13-0	annotator4	2.0	 	Vorwort
-lambert_organon02_1764-2054-23	burdel_trunksucht_1855-13-0	annotator0	1.0	 	Vorwort
-lambert_organon02_1764-2054-23	burdel_trunksucht_1855-13-0	annotator1	1.0	 	Vorwort
-lambert_organon02_1764-2054-23	burdel_trunksucht_1855-13-0	annotator2	1.0	 	Vorwort
-lambert_organon02_1764-2054-23	burdel_trunksucht_1855-13-0	annotator3	2.0	 	Vorwort
-lambert_organon02_1764-2054-23	burdel_trunksucht_1855-13-0	annotator4	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1342-56	annotator0	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1342-56	annotator1	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1342-56	annotator2	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1342-56	annotator3	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lambert_organon02_1764-1342-56	annotator4	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	fontane_brandenburg01_1862-7-0	annotator0	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	fontane_brandenburg01_1862-7-0	annotator1	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	fontane_brandenburg01_1862-7-0	annotator2	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	fontane_brandenburg01_1862-7-0	annotator3	2.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	fontane_brandenburg01_1862-7-0	annotator4	2.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lehnert_seehaefen01_1891-6-0	annotator0	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lehnert_seehaefen01_1891-6-0	annotator1	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lehnert_seehaefen01_1891-6-0	annotator2	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lehnert_seehaefen01_1891-6-0	annotator3	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lehnert_seehaefen01_1891-6-0	annotator4	4.0	 	Vorwort
-rossmaessler_suesswasseraquarium_1857-6-0	burdel_trunksucht_1855-13-0	annotator0	4.0	 	Vorwort
-rossmaessler_suesswasseraquarium_1857-6-0	burdel_trunksucht_1855-13-0	annotator1	4.0	 	Vorwort
-rossmaessler_suesswasseraquarium_1857-6-0	burdel_trunksucht_1855-13-0	annotator2	4.0	 	Vorwort
-rossmaessler_suesswasseraquarium_1857-6-0	burdel_trunksucht_1855-13-0	annotator3	4.0	 	Vorwort
-rossmaessler_suesswasseraquarium_1857-6-0	burdel_trunksucht_1855-13-0	annotator4	4.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lehnert_seehaefen01_1891-6-0	annotator0	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lehnert_seehaefen01_1891-6-0	annotator1	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lehnert_seehaefen01_1891-6-0	annotator2	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lehnert_seehaefen01_1891-6-0	annotator3	2.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	lehnert_seehaefen01_1891-6-0	annotator4	2.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	burdel_trunksucht_1855-13-0	annotator0	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	burdel_trunksucht_1855-13-0	annotator1	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	burdel_trunksucht_1855-13-0	annotator2	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	burdel_trunksucht_1855-13-0	annotator3	2.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	burdel_trunksucht_1855-13-0	annotator4	2.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	miller_siegwart02_1776-4413-31	annotator0	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	miller_siegwart02_1776-4413-31	annotator1	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	miller_siegwart02_1776-4413-31	annotator2	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	miller_siegwart02_1776-4413-31	annotator3	2.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	miller_siegwart02_1776-4413-31	annotator4	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	rossmaessler_suesswasseraquarium_1857-6-0	annotator0	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	rossmaessler_suesswasseraquarium_1857-6-0	annotator1	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	rossmaessler_suesswasseraquarium_1857-6-0	annotator2	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	rossmaessler_suesswasseraquarium_1857-6-0	annotator3	2.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	rossmaessler_suesswasseraquarium_1857-6-0	annotator4	2.0	 	Vorwort
-burdel_trunksucht_1855-13-0	liszt_reichsstrafrecht_1881-3-0	annotator0	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	liszt_reichsstrafrecht_1881-3-0	annotator1	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	liszt_reichsstrafrecht_1881-3-0	annotator2	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	liszt_reichsstrafrecht_1881-3-0	annotator3	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	liszt_reichsstrafrecht_1881-3-0	annotator4	4.0	 	Vorwort
-miller_siegwart02_1776-4413-31	burdel_trunksucht_1855-13-0	annotator0	1.0	 	Vorwort
-miller_siegwart02_1776-4413-31	burdel_trunksucht_1855-13-0	annotator1	3.0	 	Vorwort
-miller_siegwart02_1776-4413-31	burdel_trunksucht_1855-13-0	annotator2	2.0	 	Vorwort
-miller_siegwart02_1776-4413-31	burdel_trunksucht_1855-13-0	annotator3	2.0	 	Vorwort
-miller_siegwart02_1776-4413-31	burdel_trunksucht_1855-13-0	annotator4	1.0	 	Vorwort
-lambert_organon02_1764-1475-16	burdel_trunksucht_1855-13-0	annotator0	1.0	 	Vorwort
-lambert_organon02_1764-1475-16	burdel_trunksucht_1855-13-0	annotator1	1.0	 	Vorwort
-lambert_organon02_1764-1475-16	burdel_trunksucht_1855-13-0	annotator2	1.0	 	Vorwort
-lambert_organon02_1764-1475-16	burdel_trunksucht_1855-13-0	annotator3	2.0	 	Vorwort
-lambert_organon02_1764-1475-16	burdel_trunksucht_1855-13-0	annotator4	2.0	 	Vorwort
-lambert_organon02_1764-1340-4	lambert_architectonic01_1771-3684-23	annotator0	4.0	 	Vorwort
-lambert_organon02_1764-1340-4	lambert_architectonic01_1771-3684-23	annotator1	4.0	 	Vorwort
-lambert_organon02_1764-1340-4	lambert_architectonic01_1771-3684-23	annotator2	4.0	 	Vorwort
-lambert_organon02_1764-1340-4	lambert_architectonic01_1771-3684-23	annotator3	4.0	 	Vorwort
-lambert_organon02_1764-1340-4	lambert_architectonic01_1771-3684-23	annotator4	4.0	 	Vorwort
-lambert_organon02_1764-2054-23	lambert_architectonic01_1771-3684-23	annotator0	3.0	 	Vorwort
-lambert_organon02_1764-2054-23	lambert_architectonic01_1771-3684-23	annotator1	4.0	 	Vorwort
-lambert_organon02_1764-2054-23	lambert_architectonic01_1771-3684-23	annotator2	4.0	 	Vorwort
-lambert_organon02_1764-2054-23	lambert_architectonic01_1771-3684-23	annotator3	4.0	 	Vorwort
-lambert_organon02_1764-2054-23	lambert_architectonic01_1771-3684-23	annotator4	2.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	bastian_voelkergedanke_1881-1-0	annotator0	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	bastian_voelkergedanke_1881-1-0	annotator1	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	bastian_voelkergedanke_1881-1-0	annotator2	1.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	bastian_voelkergedanke_1881-1-0	annotator3	2.0	 	Vorwort
-lambert_architectonic01_1771-3684-23	bastian_voelkergedanke_1881-1-0	annotator4	2.0	 	Vorwort
-boelsche_liebesleben01_1898-4-0	lambert_architectonic01_1771-3684-23	annotator0	1.0	 	Vorwort
-boelsche_liebesleben01_1898-4-0	lambert_architectonic01_1771-3684-23	annotator1	1.0	 	Vorwort
-boelsche_liebesleben01_1898-4-0	lambert_architectonic01_1771-3684-23	annotator2	1.0	 	Vorwort
-boelsche_liebesleben01_1898-4-0	lambert_architectonic01_1771-3684-23	annotator3	2.0	 	Vorwort
-boelsche_liebesleben01_1898-4-0	lambert_architectonic01_1771-3684-23	annotator4	2.0	 	Vorwort
-boelsche_liebesleben01_1898-4-0	burdel_trunksucht_1855-13-0	annotator0	4.0	 	Vorwort
-boelsche_liebesleben01_1898-4-0	burdel_trunksucht_1855-13-0	annotator1	4.0	 	Vorwort
-boelsche_liebesleben01_1898-4-0	burdel_trunksucht_1855-13-0	annotator2	4.0	 	Vorwort
-boelsche_liebesleben01_1898-4-0	burdel_trunksucht_1855-13-0	annotator3	4.0	 	Vorwort
-boelsche_liebesleben01_1898-4-0	burdel_trunksucht_1855-13-0	annotator4	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	bastian_voelkergedanke_1881-1-0	annotator0	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	bastian_voelkergedanke_1881-1-0	annotator1	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	bastian_voelkergedanke_1881-1-0	annotator2	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	bastian_voelkergedanke_1881-1-0	annotator3	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	bastian_voelkergedanke_1881-1-0	annotator4	4.0	 	Vorwort
-parthey_jugenderinnerungen01_1871-19-0	burdel_trunksucht_1855-13-0	annotator0	4.0	 	Vorwort
-parthey_jugenderinnerungen01_1871-19-0	burdel_trunksucht_1855-13-0	annotator1	4.0	 	Vorwort
-parthey_jugenderinnerungen01_1871-19-0	burdel_trunksucht_1855-13-0	annotator2	4.0	 	Vorwort
-parthey_jugenderinnerungen01_1871-19-0	burdel_trunksucht_1855-13-0	annotator3	4.0	 	Vorwort
-parthey_jugenderinnerungen01_1871-19-0	burdel_trunksucht_1855-13-0	annotator4	4.0	 	Vorwort
-lambert_organon02_1764-1334-51	lambert_architectonic01_1771-3684-23	annotator0	4.0	 	Vorwort
-lambert_organon02_1764-1334-51	lambert_architectonic01_1771-3684-23	annotator1	4.0	 	Vorwort
-lambert_organon02_1764-1334-51	lambert_architectonic01_1771-3684-23	annotator2	4.0	 	Vorwort
-lambert_organon02_1764-1334-51	lambert_architectonic01_1771-3684-23	annotator3	4.0	 	Vorwort
-lambert_organon02_1764-1334-51	lambert_architectonic01_1771-3684-23	annotator4	4.0	 	Vorwort
-parthey_jugenderinnerungen01_1871-19-0	lambert_architectonic01_1771-3684-23	annotator0	1.0	 	Vorwort
-parthey_jugenderinnerungen01_1871-19-0	lambert_architectonic01_1771-3684-23	annotator1	1.0	 	Vorwort
-parthey_jugenderinnerungen01_1871-19-0	lambert_architectonic01_1771-3684-23	annotator2	1.0	 	Vorwort
-parthey_jugenderinnerungen01_1871-19-0	lambert_architectonic01_1771-3684-23	annotator3	2.0	 	Vorwort
-parthey_jugenderinnerungen01_1871-19-0	lambert_architectonic01_1771-3684-23	annotator4	2.0	 	Vorwort
-lambert_organon02_1764-1324-16	burdel_trunksucht_1855-13-0	annotator0	1.0	 	Vorwort
-lambert_organon02_1764-1324-16	burdel_trunksucht_1855-13-0	annotator1	1.0	 	Vorwort
-lambert_organon02_1764-1324-16	burdel_trunksucht_1855-13-0	annotator2	1.0	 	Vorwort
-lambert_organon02_1764-1324-16	burdel_trunksucht_1855-13-0	annotator3	2.0	 	Vorwort
-lambert_organon02_1764-1324-16	burdel_trunksucht_1855-13-0	annotator4	2.0	 	Vorwort
-fontane_brandenburg01_1862-7-0	burdel_trunksucht_1855-13-0	annotator0	4.0	 	Vorwort
-fontane_brandenburg01_1862-7-0	burdel_trunksucht_1855-13-0	annotator1	4.0	 	Vorwort
-fontane_brandenburg01_1862-7-0	burdel_trunksucht_1855-13-0	annotator2	4.0	 	Vorwort
-fontane_brandenburg01_1862-7-0	burdel_trunksucht_1855-13-0	annotator3	4.0	 	Vorwort
-fontane_brandenburg01_1862-7-0	burdel_trunksucht_1855-13-0	annotator4	4.0	 	Vorwort
-nietzsche_tragoedie_1872-2-0	lambert_architectonic01_1771-3684-23	annotator0	1.0	 	Vorwort
-nietzsche_tragoedie_1872-2-0	lambert_architectonic01_1771-3684-23	annotator1	1.0	 	Vorwort
-nietzsche_tragoedie_1872-2-0	lambert_architectonic01_1771-3684-23	annotator2	1.0	 	Vorwort
-nietzsche_tragoedie_1872-2-0	lambert_architectonic01_1771-3684-23	annotator3	2.0	 	Vorwort
-nietzsche_tragoedie_1872-2-0	lambert_architectonic01_1771-3684-23	annotator4	2.0	 	Vorwort
-lambert_organon02_1764-1475-16	lambert_architectonic01_1771-3684-23	annotator0	4.0	 	Vorwort
-lambert_organon02_1764-1475-16	lambert_architectonic01_1771-3684-23	annotator1	4.0	 	Vorwort
-lambert_organon02_1764-1475-16	lambert_architectonic01_1771-3684-23	annotator2	4.0	 	Vorwort
-lambert_organon02_1764-1475-16	lambert_architectonic01_1771-3684-23	annotator3	4.0	 	Vorwort
-lambert_organon02_1764-1475-16	lambert_architectonic01_1771-3684-23	annotator4	4.0	 	Vorwort
-lambert_architectonic01_1771-4049-8	lambert_architectonic01_1771-3684-23	annotator0	4.0	 	Vorwort
-lambert_architectonic01_1771-4049-8	lambert_architectonic01_1771-3684-23	annotator1	4.0	 	Vorwort
-lambert_architectonic01_1771-4049-8	lambert_architectonic01_1771-3684-23	annotator2	4.0	 	Vorwort
-lambert_architectonic01_1771-4049-8	lambert_architectonic01_1771-3684-23	annotator3	4.0	 	Vorwort
-lambert_architectonic01_1771-4049-8	lambert_architectonic01_1771-3684-23	annotator4	4.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lambert_organon02_1764-1319-9	annotator0	1.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lambert_organon02_1764-1319-9	annotator1	1.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lambert_organon02_1764-1319-9	annotator2	1.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lambert_organon02_1764-1319-9	annotator3	2.0	 	Vorwort
-burdel_trunksucht_1855-13-0	lambert_organon02_1764-1319-9	annotator4	2.0	 	Vorwort
-krane_reitpferd_1856-5-0	lambert_architectonic01_1771-3684-23	annotator0	1.0	 	Vorwort
-krane_reitpferd_1856-5-0	lambert_architectonic01_1771-3684-23	annotator1	1.0	 	Vorwort
-krane_reitpferd_1856-5-0	lambert_architectonic01_1771-3684-23	annotator2	1.0	 	Vorwort
-krane_reitpferd_1856-5-0	lambert_architectonic01_1771-3684-23	annotator3	2.0	 	Vorwort
-krane_reitpferd_1856-5-0	lambert_architectonic01_1771-3684-23	annotator4	2.0	 	Vorwort
+217	206	dev	0	comment	Vorwort
+200	213	dev	0	comment	Vorwort
+218	201	dev	2	comment	Vorwort
+218	217	dev	4	comment	Vorwort
+199	204	dev	2	comment	Vorwort
+202	209	dev	2	comment	Vorwort
+211	217	dev	0	comment	Vorwort
+204	210	dev	4	comment	Vorwort
+204	209	dev	0	comment	Vorwort
+210	201	dev	3	comment	Vorwort
+205	201	dev	0	comment	Vorwort
+213	199	dev	2	comment	Vorwort
+208	203	dev	0	comment	Vorwort
+208	210	dev	0	comment	Vorwort
+206	208	dev	0	comment	Vorwort
+206	200	dev	0	comment	Vorwort
+206	199	dev	1	comment	Vorwort
+212	218	dev	4	comment	Vorwort
+203	210	dev	0	comment	Vorwort
+203	216	dev	4	comment	Vorwort
+209	200	dev	0	comment	Vorwort

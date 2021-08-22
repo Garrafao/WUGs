@@ -37,6 +37,8 @@ We recommend you to run the scripts within a [virtual environment](https://pypi.
 - __senses__: find examples at `test_usg/data/*/senses.csv`
 - __judgments__: find examples at `test_usg/data/*/judgments.csv`
 
+__Note__: The column 'identifier' in each `uses.csv` should identify each word to usage uniquely across all words.
+
 ### Description
 
 - `data2join.py`:  joins annotated data

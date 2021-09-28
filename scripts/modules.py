@@ -254,7 +254,7 @@ def get_excluded_nodes(node2judgments, node2weights, non_value=0.0, share=1.0, i
     nodes_zero = [node for node in node2judgments if len([judgment for judgment in node2judgments[node] if judgment == non_value])/len(node2judgments[node]) >= share] # nodes with more than half zero-judgments
     nodes_nan = [node for node in node2weights if len([weight for weight in node2weights[node] if is_non_value(weight)]) == len(node2weights[node])] # nodes with only nan edges
     
-    nodes_excluded = nodes_zero + nodes_nan
+    nodes_excluded = list(set(nodes_zero + nodes_nan))
                    
     return nodes_excluded
 

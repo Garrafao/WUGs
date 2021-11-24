@@ -23,7 +23,8 @@ with open(annotators, encoding='utf-8') as csvfile:
 empty_edges = get_empty_edges(graph, annotators)    
 graph.remove_edges_from(empty_edges)
 
-combo2annotator2judgment, combo2annotator2comment, annotator2judgments, combo2judgments, node2judgments, node2weights = get_data_maps_edges(graph, annotators)      
+mappings_edges = get_data_maps_edges(graph, annotators)
+node2judgments, node2weights = mappings_edges['node2judgments'], mappings_edges['node2weights']
 excluded_nodes = get_excluded_nodes(node2judgments, node2weights, share=0.5)
 #print(excluded_nodes)
 

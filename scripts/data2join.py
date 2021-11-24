@@ -38,12 +38,12 @@ for row in judgments:
     annotator = row['annotator']
     comment = row['comment'] if row['comment']!='' else '-'
     comment = ' ' if (row['comment']=='-' or row['comment']=='') else row['comment']
-    data = {'identifier1':id2identifier[row['identifier1']],'identifier2':id2identifier[row['identifier2']],'judgment':float(row['judgment']),'comment':comment,'annotator':annotator}
+    data = {'identifier1':id2identifier[row['identifier1']],'identifier2':id2identifier[row['identifier2']],'judgment':float(row['judgment']),'comment':comment,'annotator':annotator,'lemma':row['lemma']}
     annotation.append(data)
     
 # Export data
 with open(output_file, 'a') as f:  
-    w = csv.DictWriter(f, ['identifier1', 'identifier2', 'judgment', 'comment', 'annotator'], delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
+    w = csv.DictWriter(f, ['identifier1', 'identifier2', 'judgment', 'comment', 'annotator', 'lemma'], delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
     if is_header:
         w.writeheader()
     w.writerows(annotation)

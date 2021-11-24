@@ -4,11 +4,11 @@ from itertools import combinations, chain
 import random
 import numpy as np
 from constellation import Constellation
-from cluster_ import get_clusters, get_uncompared_clusters, get_low_prob_clusters, transform_edge_weights
+from cluster_ import get_clusters, get_uncompared_clusters, get_low_prob_clusters, transform_edge_weights, Loss, transform_judgments
 from scipy.stats import spearmanr, pearsonr
 from scipy.spatial.distance import euclidean, cosine
-import krippendorff
-from sklearn.metrics import hamming_loss
+import krippendorff_ as krippendorff
+from sklearn.metrics import hamming_loss, cohen_kappa_score
 
     
 def add_annotation(G, annotation, is_non_value=lambda x: np.isnan(x)):
@@ -171,6 +171,66 @@ def make_weights(G, annotators, summary_statistic=np.median, non_value=0.0, norm
         
     return G
 
+def scale_weights(G, mapping, annotators, exponent=1.0, non_value=0.0, normalization=lambda x: ((x-1)/3.0)):
+    """
+    Scale edge weights.
+    :param G: graph
+    :param non_value: value of non-judgment
+    :return G: updated graph
+    """
+
+    if mapping == 'std': # scale by standard deviation of judgments
+        
+        combo2std = get_edge_std(G, annotators, non_value=non_value, normalization=normalization)
+        mapping = {c:(1.0-std)*exponent for (c,std) in combo2std.items()}
+    
+    for (i,j) in G.edges():
+        
+        weight = G[i][j]['weight']
+        factor = mapping[(i,j)]
+        weight_scaled = weight*factor
+        G[i][j]['weight'] = weight_scaled
+        #print(weight,std,weight_scaled)
+        #print('-----')
+        
+    return G
+
+def get_edge_std(G, annotators, non_value=0.0, normalization=lambda x: ((x-1)/3.0)):
+    """
+    Get edge standard deviation.
+    :param G: graph
+    :param annotators: list of annotators
+    :return combo2std: mapping from edges to their standard deviation
+    """
+    
+    G_copy = G.copy()
+    G_copy = transform_judgments(G_copy, transformation = normalization) # normalize judgments
+    mappings_edges = get_data_maps_edges(G_copy, annotators)
+    combo2judgments = mappings_edges['combo2judgments']
+    combo2judgments_clean = {c:[j for j in js if j != non_value and not np.isnan(j)] for (c,js) in combo2judgments.items()}
+    combo2std = {c:np.std(js) for (c,js) in combo2judgments_clean.items()}
+    #for (c,s) in combo2std.items():
+    #    print((c,s),combo2judgments_clean[c])        
+        
+    return combo2std
+
+def get_node_std(G, annotators, non_value=0.0, normalization=lambda x: ((x-1)/3.0)):
+    """
+    Get standard deviation an outgoing edges from each node.
+    :param G: graph
+    :param annotators: list of annotators
+    :return node2stds: mapping from nodes to their standard deviation on outgoing edges
+    """
+    
+    combo2std = get_edge_std(G, annotators, non_value=non_value, normalization=normalization)
+    node2stds = defaultdict(lambda: [])
+    for (i,j) in combo2std:
+        std = combo2std[(i,j)]
+        node2stds[i].append(std)
+        node2stds[j].append(std)
+        
+    return dict(node2stds)
+
 def get_empty_edges(G, annotators):
     """
     Get edges without annotations.
@@ -255,7 +315,7 @@ def get_excluded_nodes(node2judgments, node2weights, non_value=0.0, share=1.0, i
     nodes_nan = [node for node in node2weights if len([weight for weight in node2weights[node] if is_non_value(weight)]) == len(node2weights[node])] # nodes with only nan edges
     
     nodes_excluded = list(set(nodes_zero + nodes_nan))
-                   
+    
     return nodes_excluded
 
 
@@ -266,7 +326,8 @@ def get_data_maps_edges(G, annotators, summary_statistic=np.median):
     :param annotators: list of annotators
     :return : several data maps
     """
-    
+
+    mappings = {}
     combo2annotator2judgment = defaultdict(lambda: {})
     combo2annotator2comment = defaultdict(lambda: {})
     for (i,j) in G.edges():
@@ -291,8 +352,15 @@ def get_data_maps_edges(G, annotators, summary_statistic=np.median):
         weight = G[i][j]['weight']
         node2weights[i].append(weight)
         node2weights[j].append(weight)
+
+    mappings['combo2annotator2judgment'] = combo2annotator2judgment    
+    mappings['combo2annotator2comment'] = combo2annotator2comment    
+    mappings['annotator2judgments'] = annotator2judgments    
+    mappings['combo2judgments'] = combo2judgments    
+    mappings['node2judgments'] = node2judgments   
+    mappings['node2weights'] = node2weights    
                                
-    return combo2annotator2judgment, combo2annotator2comment, annotator2judgments, combo2judgments, node2judgments, node2weights
+    return mappings 
 
 
 def get_data_maps_nodes(G, attributes={'type':'usage'}):
@@ -302,6 +370,7 @@ def get_data_maps_nodes(G, attributes={'type':'usage'}):
     :return : several data maps
     """
     
+    mappings = {}
     node2period = {}
     for node in G.nodes():
         node_data = G.nodes()[node]
@@ -309,16 +378,20 @@ def get_data_maps_nodes(G, attributes={'type':'usage'}):
         if all([node_data[k]==v for (k,v) in attributes.items()]):
             node2period[node] = G.nodes()[node]['grouping']
                                
-    return node2period
+    mappings['node2period'] = node2period
+    
+    return mappings
 
-def get_graph_stats(G, annotators, non_value=0.0, annotation_values=range(5), share=0.5, value_domain=None, limit=300, metrics=['kri','spr', 'ham', 'prs', 'eud']):
+def get_graph_stats(G, annotators, non_value=0.0, annotation_values=range(5), share=0.5, value_domain=None, expected=None, limit=300, metrics=['kri', 'kri2', 'coh', 'spr', 'ham', 'prs', 'eud']):
     """
     Get statistics from annotated graph.
     :param G: Networkx graph
     :return stats: dictionary with statistics
     """
     
-    combo2annotator2judgment, combo2annotator2comment, annotator2judgments, combo2judgments, node2judgments, node2weights = get_data_maps_edges(G, annotators)
+    mappings_edges = get_data_maps_edges(G, annotators)
+    combo2annotator2judgment, annotator2judgments, node2judgments, node2weights = mappings_edges['combo2annotator2judgment'], mappings_edges['annotator2judgments'], mappings_edges['node2judgments'], mappings_edges['node2weights']    
+
     stats = {}
     judgments, combos = 0, 0
     judgmentno = []
@@ -341,14 +414,15 @@ def get_graph_stats(G, annotators, non_value=0.0, annotation_values=range(5), sh
     stats['excluded_nodes'] = len(excluded_nodes)
     stats['nodes'] = len(node2judgments.keys())
     
-    
-    # Get Spearman correlation between annotators
-    agreements = get_agreements(annotator2judgments, non_value=non_value, value_domain=value_domain, metrics=metrics)
+    '''
+    # Get agreements between annotators
+    agreements = get_agreements(annotator2judgments, non_value=non_value, value_domain=value_domain, expected=expected, metrics=metrics)
     for metric in agreements:
         for i, s in enumerate(sorted(agreements[metric].keys(), reverse=True)):
             if i==limit:
                 break
             stats[metric+'_'+s] = agreements[metric][s]
+    '''
             
     annotator2numberjudgments = {}  
     # Get judgment frequencies per annotator
@@ -372,7 +446,7 @@ def get_graph_stats(G, annotators, non_value=0.0, annotation_values=range(5), sh
     return stats
 
 
-def get_agreements(annotator2judgments, non_value=0.0, level_of_measurement='ordinal', value_domain=None, metrics=['kri','spr', 'ham', 'prs', 'eud'], combo2annotator2judgment=None, is_data=False):
+def get_agreements(annotator2judgments, non_value=0.0, level_of_measurement='ordinal', value_domain=None, expected=None, metrics=['kri', 'kri2', 'coh', 'spr', 'ham', 'prs', 'eud'], combo2annotator2judgment=None, is_data=False):
     """
     Get agreement between annotators.
     :param annotator2judgments: mapping from annotators to judgment list
@@ -403,10 +477,22 @@ def get_agreements(annotator2judgments, non_value=0.0, level_of_measurement='ord
         if 'kri' in metrics:
             reliability_data = [data1, data2]
             try:
+                #print(list(data1))
+                #print(list(data2))
                 kri = krippendorff.alpha(reliability_data=reliability_data, level_of_measurement=level_of_measurement, value_domain=value_domain)
-            except ValueError as e:
+            except AssertionError as e:
                 kri = float('nan')
             stats['kri'][anno1+','+anno2] = kri
+                
+        if 'kri2' in metrics:
+            if expected is None:
+                sys.exit('Breaking: no expected distribution provided for kri2.')
+            reliability_data = [data1, data2]
+            try:
+                kri = krippendorff.alpha(reliability_data=reliability_data, level_of_measurement=level_of_measurement, value_domain=value_domain, expected=expected)
+            except ValueError as e:
+                kri = float('nan')
+            stats['kri2'][anno1+','+anno2] = kri
 
         if 'spr' in metrics:
             try:
@@ -414,6 +500,13 @@ def get_agreements(annotator2judgments, non_value=0.0, level_of_measurement='ord
             except ValueError as e:
                 rho, p = float('nan'), float('nan')
             stats['spr'][anno1+','+anno2] = rho
+
+        if 'coh' in metrics:
+            try:
+                coh = cohen_kappa_score(data1_, data2_)
+            except ValueError as e:
+                coh = float('nan')
+            stats['coh'][anno1+','+anno2] = coh
 
         if 'prs' in metrics:
             try:
@@ -439,7 +532,7 @@ def get_agreements(annotator2judgments, non_value=0.0, level_of_measurement='ord
                 ham = float('nan')
             stats['ham'][anno1+','+anno2] = ham        
 
-    if 'kri' in metrics:
+    if 'kri' in metrics or 'kri2' in metrics:
         reliability_data = []
         for annotator in annotator2judgments:
             # Get data
@@ -448,11 +541,18 @@ def get_agreements(annotator2judgments, non_value=0.0, level_of_measurement='ord
             np.place(data, data==non_value, np.nan)
             reliability_data.append(data)
 
-        kri = krippendorff.alpha(reliability_data=reliability_data, level_of_measurement=level_of_measurement, value_domain=value_domain) 
-        stats['kri']['full'] = kri
+        if 'kri' in metrics:
+            kri = krippendorff.alpha(reliability_data=reliability_data, level_of_measurement=level_of_measurement, value_domain=value_domain) 
+            stats['kri']['full'] = kri
+
+        if 'kri2' in metrics:
+            if expected is None:
+                sys.exit('Breaking: no expected distribution provided for kri2.')
+            kri = krippendorff.alpha(reliability_data=reliability_data, level_of_measurement=level_of_measurement, value_domain=value_domain, expected=expected) 
+            stats['kri2']['full'] = kri
     
     for metric in metrics:
-        if metric == 'kri':
+        if metric == 'kri' or metric == 'kri2':
             continue       
         stats[metric]['mean'] = np.nanmean(list(stats[metric].values()))        
 
@@ -477,10 +577,17 @@ def get_agreements(annotator2judgments, non_value=0.0, level_of_measurement='ord
         if 'kri' in metrics:
             reliability_data = [data1, data2]
             try:
-                kri = krippendorff.alpha(reliability_data=reliability_data, level_of_measurement=level_of_measurement, value_domain=value_domain)
-            except ValueError as e:
+                kri = krippendorff.alpha(reliability_data=reliability_data, level_of_measurement=level_of_measurement) # currently not done with external expected distribution, as value_domain changes for averages
+            except AssertionError as e:
                 kri = float('nan')
             stats['kri'][i+','+'mean_others'] = kri
+                
+        if 'coh' in metrics:
+            try:
+                coh = cohen_kappa_score(data1_, data2_)
+            except ValueError as e:
+                coh = float('nan')
+            stats['coh'][i+','+'mean_others'] = coh
 
         # compute correlation
         if 'spr' in metrics:
@@ -488,8 +595,7 @@ def get_agreements(annotator2judgments, non_value=0.0, level_of_measurement='ord
                 rho, p = spearmanr(data1_, data2_)
             except ValueError as e:
                 rho, p = float('nan'), float('nan')
-            stats['spr'][i+','+'mean_others'] = rho
-        
+            stats['spr'][i+','+'mean_others'] = rho        
 
         if 'prs' in metrics:
             try:
@@ -519,7 +625,7 @@ def get_agreements(annotator2judgments, non_value=0.0, level_of_measurement='ord
     return stats
 
 
-def get_cluster_stats(G, threshold=0.5, max_val=1.0, is_non_value=lambda x: np.isnan(x)):
+def get_cluster_stats(G, threshold=0.5, min_val=0.0, max_val=1.0, is_non_value=lambda x: np.isnan(x), loss_function='linear_loss'):
     """
     Get clusters with conflicting judgments.       
     :param G: graph
@@ -530,30 +636,46 @@ def get_cluster_stats(G, threshold=0.5, max_val=1.0, is_non_value=lambda x: np.i
 
     clusters = get_clusters(G)
     stats = {}
-    between_conflicts = []
-    within_conflicts = []
-    max_error = max(threshold,max_val-threshold)
-    node2clusterid = {node:i for i, cluster in enumerate(clusters) for node in cluster}
-    valid_edges = 0
-    for (i,j) in G.edges():
-        weight = G[i][j]['weight']
-        if not is_non_value(weight):
-            valid_edges += 1
-        if weight>=threshold and node2clusterid[i]!=node2clusterid[j]:
-            between_conflicts.append((node2clusterid[i],node2clusterid[j],i,j,(weight-threshold)))
-        if weight<threshold and node2clusterid[i]==node2clusterid[j]:
-            within_conflicts.append((node2clusterid[i],i,j,(threshold-weight)))
-            
-    clusterid2conflicts_within = {c:[(i,j,error) for (clusterid,i,j,error) in within_conflicts if c==clusterid] for c, cluster in enumerate(clusters)}  
-    clusterpairids2conflicts_between = {(c1, c2):[(i,j,error) for (clusterid1,clusterid2,i,j,error) in between_conflicts if (c1==clusterid1 and c2==clusterid2) or (c2==clusterid1 and c1==clusterid2)] for c1, c2 in combinations(range(len(clusters)), 2)}
-    errors_between, errors_within = [error for conflict_list in clusterpairids2conflicts_between.values() for (i,j,error) in conflict_list], [error for conflict_list in clusterid2conflicts_within.values() for (i,j,error) in conflict_list]
-    loss = np.sum(errors_between)+np.sum(errors_within)
+    max_error = max(threshold-min_val,max_val-threshold)
+
+    n2i = {node:i for i, node in enumerate(G.nodes())}
+    i2n = {i:node for i, node in enumerate(G.nodes())}
+    n2c = {n2i[node]:i for i, cluster in enumerate(clusters) for node in cluster}
+   
+    edges_positive = set([(n2i[i],n2i[j],w-threshold) for (i,j,w) in G.edges.data("weight") if w >= threshold])
+    edges_negative = set([(n2i[i],n2i[j],w-threshold) for (i,j,w) in G.edges.data("weight") if w < threshold])
+    valid_edges = len(edges_positive) + len(edges_negative)
+    
+    cluster_state = np.array([n2c[n] for n in sorted(n2c.keys())])
+    loss = Loss('linear_loss', edges_positive=edges_positive, edges_negative=edges_negative).loss(cluster_state)
+
     stats['loss'] = loss
     stats['loss_normalized'] = loss/(valid_edges*max_error) if (valid_edges*max_error) != 0.0 else 0.0
-    stats['conflicts'] = len(between_conflicts) + len(within_conflicts)
+
+    between_conflicts = Loss('binary_loss', edges_positive=edges_positive, edges_negative=edges_negative, signs=['pos']).loss(cluster_state)
+    within_conflicts = Loss('binary_loss', edges_positive=edges_positive, edges_negative=edges_negative, signs=['neg']).loss(cluster_state)
+    stats['conflicts'] = between_conflicts + within_conflicts
     stats['conflicts_normalized'] = stats['conflicts']/valid_edges if valid_edges != 0.0 else 0.0
-    stats['conflicts_within_clusters'] = len(within_conflicts)
-    stats['conflicts_between_clusters'] = len(between_conflicts)
+    stats['conflicts_between_clusters'] = between_conflicts
+    stats['conflicts_within_clusters'] = within_conflicts
+
+    edges_min = set([(n2i[i],n2i[j],w) for (i,j,w) in G.edges.data("weight") if w == min_val])
+    edges_max = set([(n2i[i],n2i[j],w) for (i,j,w) in G.edges.data("weight") if w == max_val])
+    edges_min_no = len(edges_min)
+    edges_max_no = len(edges_max)
+    edges_min_max_no = edges_min_no + edges_max_no
+    loss_min = Loss('binary_loss_poles', edges_min=edges_min, edges_max=edges_max, signs=['min']).loss(cluster_state)
+    loss_max = Loss('binary_loss_poles', edges_min=edges_min, edges_max=edges_max, signs=['max']).loss(cluster_state)
+    loss_min_max = loss_min + loss_max
+    win_min = edges_min_no - loss_min
+    win_max = edges_max_no - loss_max
+    win_min_max = win_min + win_max
+    #stats['win_min'] = win_min
+    #stats['win_max'] = win_max
+    #stats['win_min_max'] = win_min_max
+    stats['win_min_normalized'] = win_min / edges_min_no if edges_min_no != 0.0 else float('nan') 
+    stats['win_max_normalized'] = win_max / edges_max_no if edges_max_no != 0.0 else float('nan') 
+    stats['win_min_max_normalized'] = win_min_max / edges_min_max_no if edges_min_max_no != 0.0 else float('nan')   
 
     uncompared_cluster_combs = get_uncompared_clusters(G, clusters)
     low_prob_clusters = get_low_prob_clusters(clusters)

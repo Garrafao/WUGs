@@ -2,6 +2,7 @@
 annotators=$dir/annotators.csv
 modus=full
 graphtype=uug
+isanonymize=True
 # clustering
 iters=1
 min=1

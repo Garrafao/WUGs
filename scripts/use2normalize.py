@@ -9,7 +9,7 @@ with open(uses, encoding='utf-8') as csvfile:
     uses = [row for row in reader]
 
     
-if dataset=='dwug_de' or dataset=='discowug' or dataset=='refwug':    
+if dataset=='dwug_de' or dataset=='discowug' or dataset=='refwug' or dataset=='durel' or dataset=='surel':    
     trans_table = {'aͤ' : 'ä', 'oͤ' : 'ö', 'uͤ' : 'ü', 'Aͤ' : 'Ä', 
                'Oͤ' : 'Ö', 'Uͤ' : 'Ü', 'ſ' : 's', '\ua75b' : 'r', 
                'm̃' : 'mm', 'æ' : 'ae', 'Æ' : 'Ae', ' ,': ',',

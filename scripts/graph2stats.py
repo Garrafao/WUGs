@@ -22,8 +22,8 @@ with open(annotators, encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
     annotators = [row['annotator'] for row in reader]
 
-graph_stats = get_graph_stats(graph, annotators, value_domain=list(range(int(min_), int(max_)+1)), limit=50, metrics=['kri','spr', 'ham'])
-cluster_stats = get_cluster_stats(graph, threshold=threshold, max_val=int(max_))
+graph_stats = get_graph_stats(graph, annotators, value_domain=list(range(int(min_), int(max_)+1)), limit=50, metrics=[])
+cluster_stats = get_cluster_stats(graph, threshold=threshold, min_val=int(min_), max_val=int(max_))
 
 general_stats = {'lemma':name}
 stats = general_stats | cluster_stats | graph_stats
@@ -35,7 +35,8 @@ with open(output_file + 'stats.csv', 'a', encoding='utf-8') as f_out:
     f_out.write('\t'.join([str(stats[key]) for key in stats])+'\n')
 
 
-node2period = get_data_maps_nodes(graph)
+mappings_nodes = get_data_maps_nodes(graph)
+node2period = mappings_nodes['node2period']
 periods = sorted(set(node2period.values()))
 combos = combinations(periods, 2)
 for (old, new) in combos:

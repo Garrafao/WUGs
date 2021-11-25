@@ -9,7 +9,7 @@ tar xvzf $dir/source/cl-meaningincontext.tgz -C $dir/source/
 
 datadir=$dir/data
 mkdir -p $datadir
-python3 $scriptsdir/usim2data.py $dir/source/Data/lexsub_wcdata.xml $dir/source/Markup/UsageSimilarity/usim2ratings.csv $datadir
+python3.9 $scriptsdir/usim2data.py $dir/source/Data/lexsub_wcdata.xml $dir/source/Markup/UsageSimilarity/usim2ratings.csv $datadir
 
 dataset=usim
 usedir=$dir/data
@@ -19,7 +19,7 @@ for word in "${words[@]}"
 do	
     echo $word
     mkdir -p $outdir/$(basename "$word")
-    python3 $scriptsdir/use2normalize.py $word/uses.csv $dataset $outdir/$(basename "$word")/uses.csv
+    python3.9 $scriptsdir/use2normalize.py $word/uses.csv $dataset $outdir/$(basename "$word")/uses.csv
 done
 
 datadir=$dir/use_data/normalize
@@ -31,5 +31,5 @@ for word in "${words[@]}"
 do	
     echo $word
     mkdir -p $outdir/$(basename "$word")
-    python3 $scriptsdir/data2use.py $word/uses.csv $datadir $outdir/$(basename "$word")/uses.csv
+    python3.9 $scriptsdir/data2use.py $word/uses.csv $datadir $outdir/$(basename "$word")/uses.csv
 done

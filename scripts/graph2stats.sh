@@ -9,7 +9,7 @@ mkdir -p $outdir
 for graph in "${graphs[@]}"
 do
     echo $graph
-    python3 $scriptsdir/graph2stats.py $graph $isheader $annotators $threshold $min $max $lowerrangemin $lowerrangemax $upperrangemin $upperrangemax $lowerprob $upperprob $outdir/
+    python3.9 $scriptsdir/graph2stats.py $graph $isheader $annotators $threshold $min $max $lowerrangemin $lowerrangemax $upperrangemin $upperrangemax $lowerprob $upperprob $outdir/
     isheader=False
 done
 #cd $dir/ && zip -r stats.zip stats/ && cd ../..

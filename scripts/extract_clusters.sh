@@ -8,5 +8,5 @@ mkdir -p $outdir
 for graph in "${graphs[@]}"
 do
     echo $graph
-    python3 $scriptsdir/extract_clusters.py $graph $outdir/$(basename "$graph").csv
+    python3.9 $scriptsdir/extract_clusters.py $graph $outdir/$(basename "$graph").csv
 done

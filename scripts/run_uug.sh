@@ -5,11 +5,11 @@
 scriptsdir=${0%/*}
 
 # specify data directory
-dir=test_uug
+dir=norwegian
 
 # load parameters
-source $scriptsdir/parameters_test.sh
-#source $scriptsdir/parameters_opt.sh
+#source $scriptsdir/parameters_test.sh
+source $scriptsdir/parameters_opt.sh
 #source $scriptsdir/parameters_semeval.sh
 
 graphtype=uug

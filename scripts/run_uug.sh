@@ -5,7 +5,7 @@
 scriptsdir=${0%/*}
 
 # specify data directory
-dir=norwegian
+dir=test_uug
 
 # load parameters
 #source $scriptsdir/parameters_test.sh

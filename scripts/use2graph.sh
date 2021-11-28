@@ -8,5 +8,5 @@ datas=($datadir/*)
 for data in "${datas[@]}"
 do
     echo $data
-    python3.9 $scriptsdir/use2graph.py $data/uses.csv $(basename "$data") $outdir/$(basename "$data")
+    python3 $scriptsdir/use2graph.py $data/uses.csv $(basename "$data") $outdir/$(basename "$data")
 done

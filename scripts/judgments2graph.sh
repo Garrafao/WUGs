@@ -8,6 +8,6 @@ mkdir -p $outdir
 for data in "${datas[@]}"
 do
     echo $data
-    python3.9 $scriptsdir/judgments2graph.py $data/judgments.csv $data/uses.csv $annotators $outdir/$(basename "$data")
+    python3 $scriptsdir/judgments2graph.py $data/judgments.csv $data/uses.csv $annotators $outdir/$(basename "$data")
 done
 cp -r $dir/graphs $dir/graphs_full

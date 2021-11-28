@@ -12,5 +12,5 @@ do
 	continue
     fi
     echo $data
-    python3.9 $scriptsdir/sense2node.py $data/senses.csv $data/judgments_senses.csv $outdir/$(basename "$data")
+    python3 $scriptsdir/sense2node.py $data/senses.csv $data/judgments_senses.csv $outdir/$(basename "$data")
 done

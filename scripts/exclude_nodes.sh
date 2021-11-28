@@ -11,6 +11,6 @@ mkdir -p $statsdir
 for graph in "${graphs[@]}"
 do	
     echo $graph
-    python3.9 $scriptsdir/exclude_nodes.py $graph $statsdir/excluded_nodes.csv $isheader $annotators $outdir/$(basename "$graph")
+    python3 $scriptsdir/exclude_nodes.py $graph $statsdir/excluded_nodes.csv $isheader $annotators $outdir/$(basename "$graph")
     isheader=False
 done

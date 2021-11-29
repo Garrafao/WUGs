@@ -23,5 +23,5 @@ for word in "${words[@]}"
 do	
     echo $word
     mkdir -p $outdir/$(basename "$word")
-    python3 scripts/misc/data2use.py $word/uses.csv $datadir $outdir/$(basename "$word")/uses.csv
+    python3.9 scripts/misc/data2use.py $word/uses.csv $datadir $outdir/$(basename "$word")/uses.csv
 done

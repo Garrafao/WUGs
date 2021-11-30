@@ -15,4 +15,3 @@ upperrangemin=3
 upperrangemax=5
 lowerprob=0.01
 upperprob=0.1
-python3=python3.9  # Should be at least 3.9

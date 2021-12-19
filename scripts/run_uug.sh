@@ -8,8 +8,8 @@ scriptsdir=${0%/*}
 dir=test_uug
 
 # load parameters
-#source $scriptsdir/parameters_test.sh
-source $scriptsdir/parameters_opt.sh
+source $scriptsdir/parameters_test.sh
+#source $scriptsdir/parameters_opt.sh
 #source $scriptsdir/parameters_semeval.sh
 
 graphtype=uug

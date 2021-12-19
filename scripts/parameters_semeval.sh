@@ -1,5 +1,6 @@
 
 annotators=$dir/annotators.csv
+excluded=$dir/annotators_excluded.csv
 modus=full
 graphtype=uug
 isanonymize=True

@@ -693,13 +693,15 @@ def get_cluster_stats(G, threshold=0.5, min_val=0.0, max_val=1.0, is_non_value=l
     return stats
 
 
-def get_time_stats(G, threshold=0.5, lower_range=(1,3), upper_range=(3,5), lower_prob=0.01, upper_prob=0.1, old='old', new='new'):
+def get_time_stats(G, threshold=0.5, lower_range=(1,3), upper_range=(3,5), lower_prob=0.01, upper_prob=0.1, old='old', new='new', attributes={'type':'usage'}):
     """
     Get time-related statistics from clustered graph.
     :param G: Networkx graph
     :return stats: dictionary with statistics
     """
     
+    G = G.copy()
+
     stats = {}
 
     co = Constellation(graph=G, old=old, new=new) # just to get old and new nodes
@@ -732,12 +734,27 @@ def get_time_stats(G, threshold=0.5, lower_range=(1,3), upper_range=(3,5), lower
     stats['cluster_prob_dist2'] = [round(pr, 3) for pr in co.prob2]
     
     stats['change_binary'] = co.c_mb
+    stats['change_binary_gain'] = co.i_mb
+    stats['change_binary_loss'] = co.r_mb
     stats['change_graded'] = co.c_u
     
     stats['k1'] = lowerbound1
     stats['n1'] = upperbound1
     stats['k2'] = lowerbound2
     stats['n2'] = upperbound2
+
+    # Get DURel statistics, currently done on median edge weights, but was originally done on mean edge weights!
+    non_target_nodes = [n for n in G.nodes() if not all([G.nodes()[n][k]==v for (k,v) in attributes.items()])]
+    G_target = G.copy()
+    G_target.remove_nodes_from(non_target_nodes) # Ignore non-usage nodes by default
+    wearlier=[d['weight'] for (u,v,d) in G_target.edges(data=True) if G_target.nodes()[u]['grouping']==old and G_target.nodes()[v]['grouping']==old]
+    wlater=[d['weight'] for (u,v,d) in G_target.edges(data=True) if G_target.nodes()[u]['grouping']==new and G_target.nodes()[v]['grouping']==new]
+    wcompare=[d['weight'] for (u,v,d) in G_target.edges(data=True) if (G_target.nodes()[u]['grouping']==old and G_target.nodes()[v]['grouping']==new) or (G_target.nodes()[u]['grouping']==new and G_target.nodes()[v]['grouping']==old)]
+    #print(wearlier)
+
+    stats['EARLIER'] = np.nanmean(wearlier)
+    stats['LATER'] = np.nanmean(wlater)
+    stats['COMPARE'] = np.nanmean(wcompare)
     
     return stats
 

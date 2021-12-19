@@ -1,5 +1,6 @@
 
 annotators=$dir/annotators.csv
+excluded=$dir/annotators_excluded.csv
 modus=test
 graphtype=uug
 isanonymize=True
@@ -15,3 +16,4 @@ upperrangemin=3
 upperrangemax=5
 lowerprob=0.01
 upperprob=0.1
+python3=python3.10  # Should be at least 3.9

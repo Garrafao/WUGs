@@ -5,20 +5,28 @@ from collections import defaultdict, Counter
 from modules import *
 import unicodedata
 
-[_, annotation, min_, max_, annotators, output_file] = sys.argv
+[_, annotation, min_, max_, annotators, excluded, output_file] = sys.argv
         
 with open(annotators, encoding='utf-8') as csvfile: 
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
     user2annotator = {row['user']:row['annotator'] for row in reader}
     annotators = list(user2annotator.values())
 
+try:
+    with open(excluded, encoding='utf-8') as csvfile: 
+        reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
+        excluded = [row['user'] for row in reader]
+except FileNotFoundError:
+    excluded = []    
+
 with open(annotation, encoding='utf-8') as csvfile: 
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
-    annotation = [(row['identifier1'],row['identifier2'],user2annotator[row['annotator']],row['judgment'],row['lemma']) for row in reader]
+    annotation = [(row['identifier1'],row['identifier2'],user2annotator[row['annotator']],row['judgment'],row['lemma']) for row in reader if not row['annotator'] in excluded]
 
     
 annotators = sorted(list(set(annotators)))
 value_domain = [float(v) for v in range(int(min_), int(max_)+1)]
+non_value = 0.0
 combo2annotator2judgment_global = defaultdict(lambda: defaultdict(lambda: []))
 lemma2combos = defaultdict(lambda: [])
 for (u,v,a,j,l) in annotation:
@@ -40,14 +48,14 @@ for lemma in lemmas:
         for annotator, judgments in annotator2judgment.items():
             if len(judgments) == 0:
                 continue
-            non_values = [v for v in judgments if v==0.0]        
-            values = [v for v in judgments if v!=0.0]
+            non_values = [v for v in judgments if v==non_value]        
+            values = [v for v in judgments if v!=non_value]
             if len(values)>0:
                 j = np.median(values)
                 if not j in value_domain: # exclude instances with more than one judgment from the same annotator which don't yield median in the value domain
                     j = float('nan')
             elif len(non_values)>0:
-                j = 0.0
+                j = non_value
             else:
                 j = float('nan')
             #print(judgments, j)
@@ -69,20 +77,22 @@ for lemma in lemmas:
     for pair, annotator2judgment in combo2annotator2judgment.items():
         for annotator in annotators:
             judgments = annotator2judgment[annotator]
-            non_values = [v for v in judgments if v==0.0]        
-            values = [v for v in judgments if v!=0.0]
+            non_values = [v for v in judgments if v==non_value]        
+            values = [v for v in judgments if v!=non_value]
             if len(values)>0:
                 j = np.median(values)
                 if not j in value_domain: # exclude instances with more than one judgment from the same annotator which don't yield median in the value domain
                     j = float('nan')
             elif len(non_values)>0:
-                j = 0.0
+                j = non_value
             else:
                 j = float('nan')
             annotator2judgments[annotator].append(j)
+            
+    annotator2judgments = dict(annotator2judgments)
 
     if lemma == 'full':
-        global_judgments = [j for a, js in annotator2judgments.items() for j in js if not np.isnan(j) and not j == 0.0]
+        global_judgments = [j for a, js in annotator2judgments.items() for j in js if not np.isnan(j) and not j == non_value]
         global_distribution = Counter(global_judgments)
         #print(global_distribution)
         global_distribution = np.array([global_distribution[k] for k in sorted(global_distribution.keys())])
@@ -97,7 +107,7 @@ for lemma in lemmas:
 
     # Get agreement between annotators
     #print(annotator2judgments)
-    agreements = get_agreements(annotator2judgments, non_value=0.0, value_domain=value_domain, expected=global_distribution, combo2annotator2judgment=combo2annotator2judgment, metrics=['kri', 'kri2', 'spr'])
+    agreements = get_agreements(annotator2judgments, non_value=non_value, value_domain=value_domain, expected=global_distribution, combo2annotator2judgment=combo2annotator2judgment, metrics=['kri', 'kri2', 'spr', 'ham'])
     limit = 50
     for metric in agreements:
         for i, s in enumerate(sorted(agreements[metric].keys(), reverse=True)):
@@ -114,7 +124,16 @@ for lemma in lemmas:
         agree_stats['judgments_'+annotator] = len(judgments)
 
     agree_stats['judgments_total'] = np.sum(list(annotator2numberjudgments.values()))
-
+    
+    # Get judgment frequencies per judgment value
+    judgments = [d for d in list(chain.from_iterable(annotator2judgments.values())) if not np.isnan(d)]
+    judgment2freq = Counter(judgments)
+    for j in value_domain + [non_value]:
+        try:
+            agree_stats['judgment_'+str(j)] = judgment2freq[j]
+        except KeyError:
+            pass
+        
     general_stats = {'data':lemma}
     stats.append(general_stats | agree_stats)    
 

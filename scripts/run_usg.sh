@@ -38,3 +38,4 @@ source $scriptsdir/judgments2graph.sh
 source $scriptsdir/graph2cluster.sh
 source $scriptsdir/extract_clusters.sh
 source $scriptsdir/graph2stats.sh
+source $scriptsdir/graph2plot.sh

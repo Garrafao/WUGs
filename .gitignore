@@ -1,6 +1,6 @@
 update-git.sh
-data/
-results/
+data
+results
 test_uug/uses
 todo.txt
 scripts/__pycache__

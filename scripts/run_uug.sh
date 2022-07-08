@@ -1,5 +1,5 @@
 
-# Attention: modifiesgraphs iteratively, i.e., current run is dependent on previous run. To avoid, run full pipeline and remove graphs from last round.
+# Attention: modifies graphs iteratively, i.e., current run is dependent on previous run. To avoid, run full pipeline and remove graphs from last round.
 
 # specify script directory
 scriptsdir=${0%/*}
@@ -20,6 +20,7 @@ rm -rf $dir/graphs
 rm -rf $dir/graphs1
 rm -rf $dir/clusters
 rm -rf $dir/stats
+rm -rf $dir/plots
 
 # run pipeline
 source $scriptsdir/data2join.sh
@@ -32,3 +33,4 @@ source $scriptsdir/judgments2graph.sh
 source $scriptsdir/graph2cluster.sh
 source $scriptsdir/extract_clusters.sh
 source $scriptsdir/graph2stats.sh
+source $scriptsdir/graph2plot.sh

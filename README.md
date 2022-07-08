@@ -22,7 +22,7 @@ Then run one of the following commands for Usage-Usage Graphs (UUGs) and Usage-S
 
 __Attention__: modifies graphs iteratively, i.e., current run is dependent on previous run. Script deletes previously written data to avoid dependence.
 
-We recommend you to run the scripts within a [virtual environment](https://pypi.org/project/virtualenv/) with Python 3.9.5. Install the required packages running `pip install -r requirements.txt`.
+We recommend you to run the scripts within a [virtual environment](https://pypi.org/project/virtualenv/) with Python 3.9.5. Install the required packages running `pip install -r requirements.txt`. The script uses simple test parameters; in order to improve the clustering load `parameters_opt.sh` in `run_uug.sh` or `run_usg.sh`.
 
 ### Input
 
@@ -52,6 +52,7 @@ __Note__: The column 'identifier' in each `uses.csv` should identify each word t
 - `graph2cluster.py`:  clusters graph
 - `extract_clusters.py`:  extract clusters from graph
 - `graph2stats.py`:  extracts statistics from graph, including change scores
+- `graph2plot.py`:  plots interactive graph in 2D
 
 Please find the parameters for the current optimized WUG versions in `parameters_opt.sh`. Note that the parameters for the SemEval versions in `parameters_semeval.sh` will only roughly reproduce the published versions, because of non-deterministic clustering and small changes in the cleaning as well as clustering procedure.
 

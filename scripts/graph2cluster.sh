@@ -16,6 +16,6 @@ do
 	   cp $graph $dir/graphs1/$(basename "$graph")
 	fi
 	echo $graph
-	python3 $scriptsdir/graph2cluster.py $graph $threshold $modus $outdir/$(basename "$graph")
+	python3 $scriptsdir/graph2cluster.py $graph $threshold $modus True $annotators $outdir/$(basename "$graph")
     done
 done

@@ -19,7 +19,7 @@ for root, subdirectories, files in os.walk(data):
 
 uses_out = []
 for row in uses:
-    identifier = row['identifier']
+    identifier = row['identifier']    
     if identifier in id2data.keys():
         data_row = {l:d.strip(' ') for l,d in id2data[identifier].items() if ((not l in row) or (l in row and row[l]==' '))}
         row = row | data_row
@@ -29,6 +29,7 @@ for row in uses:
             indexes_target = int(row['indexes_target_token_tokenized']) # may later be various indexes, not yet
             row['pos'] = row['context_pos'].split(' ')[indexes_target]
     else:
+        uses_out.append(row)
         print('no data')
         pass
 

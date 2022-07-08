@@ -1,6 +1,5 @@
 import sys
 from collections import defaultdict
-from docopt import docopt
 import random
 import numpy as np
 from scipy.stats import entropy
@@ -75,7 +74,7 @@ class Constellation(object):
             self.prob2 = list(distribution2/np.sum(distribution2))
             self.distribution = [x+y for x,y in zip(distribution1, distribution2)]
             self.prob = list(self.distribution/np.sum(self.distribution))
-            self._make_graph(old=old, new=new) 
+            #self._make_graph(old=old, new=new) 
             self._make_change_scores(bound1=bound1, bound2=bound2, lowerbound1=lowerbound1, lowerbound2=lowerbound2, is_prob=is_prob) 
             
         elif graph!=None:
@@ -86,7 +85,7 @@ class Constellation(object):
             if is_cluster:
                 self._make_dist(algorithm=algorithm, threshold=threshold)
             else:
-                clusters = get_clusters(graph)
+                clusters, _, _ = get_clusters(graph)
                 self._make_cluster_stats(clusters, threshold=threshold)
                 
             self._make_change_scores(bound1=bound1, bound2=bound2, lowerbound1=lowerbound1, lowerbound2=lowerbound2, is_prob=is_prob)             

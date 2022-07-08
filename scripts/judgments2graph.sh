@@ -10,4 +10,3 @@ do
     echo $data
     python3 $scriptsdir/judgments2graph.py $data/judgments.csv $data/uses.csv $annotators $excluded $outdir/$(basename "$data")
 done
-cp -r $dir/graphs $dir/graphs_full

@@ -9,6 +9,7 @@ The module naming follows the one from the Wikipedia link.
 from typing import Any, Callable, Iterable, Optional, Sequence, Union
 
 import numpy as np
+from math import isclose
 
 
 def _nominal_metric(v1: np.ndarray, v2: np.ndarray, dtype: Any = np.float64, **kwargs) -> np.ndarray:  # noqa
@@ -246,7 +247,7 @@ def alpha(reliability_data: Optional[Iterable[Any]] = None, value_counts: Option
             raise ValueError("If expected is provided, value_domain must be provided.")
         if len(value_domain) != len(expected):
             raise ValueError("value_domain and expected must be of same length.")
-        if np.sum(expected) != 1.0:
+        if not isclose(np.sum(expected), 1.0):
             raise ValueError("Expected probabilities don't sum to 1.0.")
             
     if (reliability_data is None) == (value_counts is None):

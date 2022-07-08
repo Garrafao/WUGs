@@ -31,7 +31,7 @@ def cluster_correlation_search(G, s = 10, max_attempts = 200, max_iters = 5000, 
  
     start_time = time.time()    
     stats = {}
-    G = G.copy()    
+    G = G.copy()
 
     if initial == []: # initialize with connected components unless initial clustering is provided
         classes = cluster_connected_components(G)
@@ -57,6 +57,7 @@ def cluster_correlation_search(G, s = 10, max_attempts = 200, max_iters = 5000, 
         classes.sort(key=lambda x:-len(x)) # sort by size
         end_time = time.time()
         stats['runtime'] = (end_time - start_time)/60
+        stats = stats | {'s':s, 'max_attempts':max_attempts, 'max_iters':max_iters, 'split_flag':split_flag, 'runtime':(end_time - start_time)/60} 
         return classes, stats
 
     l2s = defaultdict(lambda: [])
@@ -76,8 +77,8 @@ def cluster_correlation_search(G, s = 10, max_attempts = 200, max_iters = 5000, 
     for l2s_ in solutions:
         #print(l2s_)
         for (l,ss) in l2s_.items():        
-            for s in ss:        
-                l2s[l].append(s)
+            for st in ss:        
+                l2s[l].append(st)
 
     #print(l2s.values())
 
@@ -101,7 +102,8 @@ def cluster_correlation_search(G, s = 10, max_attempts = 200, max_iters = 5000, 
     classes.sort(key=lambda x:-len(x)) # sort by size
 
     end_time = time.time()
-    stats['runtime'] = (end_time - start_time)/60
+    stats = stats | {'s':s, 'max_attempts':max_attempts, 'max_iters':max_iters, 'split_flag':split_flag, 'runtime':(end_time - start_time)/60} 
+    
     #print(stats['runtime'])
     
     return classes, stats
@@ -135,7 +137,7 @@ class Loss(object):
     def linear_loss(self, state):        
         loss_pos = np.sum([w for (i,j,w) in self.edges_positive if state[i] != state[j]])
         loss_neg = np.sum([abs(w) for (i,j,w) in self.edges_negative if state[i] == state[j]])        
-        loss = loss_pos + loss_neg        
+        loss = loss_pos + loss_neg
         return loss
 
     def binary_loss(self, state):        
@@ -284,38 +286,46 @@ def transform_judgments(G, non_value=0.0, transformation = lambda x: x):
     return G
 
     
-def get_clusters(G):
+def get_clusters(G, is_include_noise = False, is_include_main = True, noise_label = -1):
     """
     Get clusters stored in graph.       
     :param G: graph
-    :param classes: list of clusters
-    :return G: 
+    :param is_include_noise: include noise cluster
+    :param is_include_main: include main clusters
+    :param noise_label: label for noise cluster
+    :return clusters, c2n, n2c: clusters and mappings
     """
 
     c2n = defaultdict(lambda: [])
+    n2c = {}
     for node in G.nodes():
-        c2n[G.nodes()[node]['cluster']].append(node)
+        cluster = G.nodes()[node]['cluster']
+        if cluster == noise_label and not is_include_noise:
+            continue
+        if cluster != noise_label and not is_include_main:
+            continue
+        c2n[cluster].append(node)
+        n2c[node] = cluster
+
+    c2n = dict(c2n)
+    clusters = [set(c2n[c]) for c in c2n]
+    clusters.sort(key=lambda x:-len(x)) # sort by size
         
-    classes = [set(c2n[c]) for c in c2n]
-    classes.sort(key=lambda x:-len(x)) # sort by size
-        
-    return classes
+    return clusters, c2n, n2c
 
 
-def add_clusters(G, clusters):
+def add_clusters(G, node2cluster):
     """
     Add clusters to graph.       
     :param G: graph
-    :param classes: list of clusters
+    :param node2cluster: mapping of nodes to clusters
     :return G: 
     """
-
-    n2c = {}
-    for i, clas in enumerate(clusters):
-        for node in clas:
-            n2c[node] = i
-            
-    nx.set_node_attributes(G, n2c, 'cluster')
+    
+    if set(G.nodes()) != set(node2cluster.keys()):
+        sys.exit('Breaking: Cluster labels need to be provided for all nodes in graph.')
+        
+    nx.set_node_attributes(G, node2cluster, 'cluster')
         
     return G
 
@@ -366,17 +376,14 @@ def make_meta_graph(graph, test_statistic=np.nanmedian):
     :return graph_meta: meta-graph
     """
                
-    clusters = get_clusters(graph)
+    clusters, c2n, n2c = get_clusters(graph, is_include_noise = True)
     graph_meta = nx.Graph(lemma=graph.graph['lemma'])
     node_attribute_keys = list(graph.nodes()[list(graph.nodes().keys())[0]].keys()) # infer node format from first node in input graph
     node_attribute_keys.remove('type')
     node_attributes = {k:'-' for k in node_attribute_keys} | {'type':'cluster'}
 
-    n2c = {}
-    for i, clas in enumerate(clusters):
-        graph_meta.add_node(str(i))
-        for node in clas:
-            n2c[node] = i
+    n2c_meta = {str(c):c for c in c2n.keys()}
+    graph_meta.add_nodes_from(n2c_meta.keys())
             
     identifier2data = {node:node_attributes.copy() for node in graph_meta.nodes()}
     nx.set_node_attributes(graph_meta, identifier2data)
@@ -394,8 +401,7 @@ def make_meta_graph(graph, test_statistic=np.nanmedian):
         combo = list(combo)
         graph_meta.add_edge(str(combo[0]), str(combo[1]), weight=test_statistic(weights))
        
-    clusters = [{n} for n in graph_meta.nodes()]
-    graph_meta = add_clusters(graph_meta, clusters)
+    graph_meta = add_clusters(graph_meta, n2c_meta)
     
     return graph_meta
 

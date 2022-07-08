@@ -17,7 +17,6 @@ graphtype=uug
 # remove when running multiple times (e.g. testing)
 rm -rf $dir/data_joint
 rm -rf $dir/graphs
-rm -rf $dir/graphs_full
 rm -rf $dir/graphs1
 rm -rf $dir/clusters
 rm -rf $dir/stats
@@ -30,7 +29,6 @@ source $scriptsdir/use2graph.sh
 source $scriptsdir/sense2graph.sh
 source $scriptsdir/sense2node.sh
 source $scriptsdir/judgments2graph.sh
-source $scriptsdir/exclude_nodes.sh
 source $scriptsdir/graph2cluster.sh
 source $scriptsdir/extract_clusters.sh
 source $scriptsdir/graph2stats.sh

@@ -73,10 +73,12 @@ for lemma in lemmas:
     #print(totalcombos)
 
     annotator2judgments = defaultdict(lambda: [])
-    
+
+    judgments_total = 0
     for pair, annotator2judgment in combo2annotator2judgment.items():
         for annotator in annotators:
             judgments = annotator2judgment[annotator]
+            judgments_total += len(judgments)
             non_values = [v for v in judgments if v==non_value]        
             values = [v for v in judgments if v!=non_value]
             if len(values)>0:
@@ -107,7 +109,7 @@ for lemma in lemmas:
 
     # Get agreement between annotators
     #print(annotator2judgments)
-    agreements = get_agreements(annotator2judgments, non_value=non_value, value_domain=value_domain, expected=global_distribution, combo2annotator2judgment=combo2annotator2judgment, metrics=['kri', 'kri2', 'spr'])
+    agreements = get_agreements(annotator2judgments, non_value=non_value, value_domain=value_domain, expected=global_distribution, combo2annotator2judgment=combo2annotator2judgment, metrics=['kri', 'kri2', 'spr', 'ham'])
     limit = 50
     for metric in agreements:
         for i, s in enumerate(sorted(agreements[metric].keys(), reverse=True)):
@@ -123,7 +125,7 @@ for lemma in lemmas:
         annotator2numberjudgments[annotator] = len(judgments)
         agree_stats['judgments_'+annotator] = len(judgments)
 
-    agree_stats['judgments_total'] = np.sum(list(annotator2numberjudgments.values()))
+    agree_stats['judgments_total'] = judgments_total
     
     # Get judgment frequencies per judgment value
     judgments = [d for d in list(chain.from_iterable(annotator2judgments.values())) if not np.isnan(d)]

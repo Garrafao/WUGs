@@ -190,7 +190,7 @@ def scale_weights(G, mapping, annotators, exponent=1.0, non_value=0.0, normaliza
         factor = mapping[(i,j)]
         weight_scaled = weight*factor
         G[i][j]['weight'] = weight_scaled
-        #print(weight,std,weight_scaled)
+        #print(weight,factor,weight_scaled)
         #print('-----')
         
     return G
@@ -203,14 +203,12 @@ def get_edge_std(G, annotators, non_value=0.0, normalization=lambda x: ((x-1)/3.
     :return combo2std: mapping from edges to their standard deviation
     """
     
-    G_copy = G.copy()
-    G_copy = transform_judgments(G_copy, transformation = normalization) # normalize judgments
-    mappings_edges = get_data_maps_edges(G_copy, annotators)
+    mappings_edges = get_data_maps_edges(G, annotators)
     combo2judgments = mappings_edges['combo2judgments']
-    combo2judgments_clean = {c:[j for j in js if j != non_value and not np.isnan(j)] for (c,js) in combo2judgments.items()}
+    combo2judgments_clean = {c:[normalization(j) for j in js if j != non_value and not np.isnan(j)] for (c,js) in combo2judgments.items()}
     combo2std = {c:np.std(js) for (c,js) in combo2judgments_clean.items()}
     #for (c,s) in combo2std.items():
-    #    print((c,s),combo2judgments_clean[c])        
+    #    print((c,s),combo2judgments[c],combo2judgments_clean[c],G[c[0]][c[1]]['weight'])        
         
     return combo2std
 
@@ -230,6 +228,17 @@ def get_node_std(G, annotators, non_value=0.0, normalization=lambda x: ((x-1)/3.
         node2stds[j].append(std)
         
     return dict(node2stds)
+
+def get_nan_edges(G):
+    """
+    Get edges with nan weights.
+    :param G: graph
+    :return nan_edges: list of nan edges
+    """
+    
+    nan_edges = [(u,v) for (u,v,d) in G.edges(data=True) if np.isnan(d['weight'])]
+        
+    return nan_edges
 
 def get_empty_edges(G, annotators):
     """
@@ -311,7 +320,7 @@ def get_excluded_nodes(node2judgments, node2weights, non_value=0.0, share=1.0, i
     :return nodes_excluded: list of excluded nodes
     """
             
-    nodes_zero = [node for node in node2judgments if len([judgment for judgment in node2judgments[node] if judgment == non_value])/len(node2judgments[node]) >= share] # nodes with more than half zero-judgments
+    nodes_zero = [node for node in node2judgments if len([judgment for judgment in node2judgments[node] if judgment == non_value])/len(node2judgments[node]) >= share] # nodes with at least half zero-judgments
     nodes_nan = [node for node in node2weights if len([weight for weight in node2weights[node] if is_non_value(weight)]) == len(node2weights[node])] # nodes with only nan edges
     
     nodes_excluded = list(set(nodes_zero + nodes_nan))
@@ -625,7 +634,7 @@ def get_agreements(annotator2judgments, non_value=0.0, level_of_measurement='ord
     return stats
 
 
-def get_cluster_stats(G, threshold=0.5, min_val=0.0, max_val=1.0, is_non_value=lambda x: np.isnan(x), loss_function='linear_loss'):
+def get_cluster_stats(G, threshold=0.5, min_val=0.0, max_val=1.0, is_non_value=lambda x: np.isnan(x), loss_function='linear_loss', noise_label = -1):
     """
     Get clusters with conflicting judgments.       
     :param G: graph
@@ -634,16 +643,20 @@ def get_cluster_stats(G, threshold=0.5, min_val=0.0, max_val=1.0, is_non_value=l
     :return :
     """
 
-    clusters = get_clusters(G)
+    clusters, _, _ = get_clusters(G, is_include_noise = False)
+    noise, _, _ = get_clusters(G, is_include_noise = True, is_include_main = False)
+    G_clean = G.copy()    
+    G_clean.remove_nodes_from([node for cluster in noise for node in cluster])
+    
     stats = {}
     max_error = max(threshold-min_val,max_val-threshold)
 
-    n2i = {node:i for i, node in enumerate(G.nodes())}
-    i2n = {i:node for i, node in enumerate(G.nodes())}
+    n2i = {node:i for i, node in enumerate(G_clean.nodes())}
+    i2n = {i:node for i, node in enumerate(G_clean.nodes())}
     n2c = {n2i[node]:i for i, cluster in enumerate(clusters) for node in cluster}
-   
-    edges_positive = set([(n2i[i],n2i[j],w-threshold) for (i,j,w) in G.edges.data("weight") if w >= threshold])
-    edges_negative = set([(n2i[i],n2i[j],w-threshold) for (i,j,w) in G.edges.data("weight") if w < threshold])
+    
+    edges_positive = set([(n2i[i],n2i[j],w-threshold) for (i,j,w) in G_clean.edges.data("weight") if w >= threshold])
+    edges_negative = set([(n2i[i],n2i[j],w-threshold) for (i,j,w) in G_clean.edges.data("weight") if w < threshold])
     valid_edges = len(edges_positive) + len(edges_negative)
     
     cluster_state = np.array([n2c[n] for n in sorted(n2c.keys())])
@@ -659,8 +672,8 @@ def get_cluster_stats(G, threshold=0.5, min_val=0.0, max_val=1.0, is_non_value=l
     stats['conflicts_between_clusters'] = between_conflicts
     stats['conflicts_within_clusters'] = within_conflicts
 
-    edges_min = set([(n2i[i],n2i[j],w) for (i,j,w) in G.edges.data("weight") if w == min_val])
-    edges_max = set([(n2i[i],n2i[j],w) for (i,j,w) in G.edges.data("weight") if w == max_val])
+    edges_min = set([(n2i[i],n2i[j],w) for (i,j,w) in G_clean.edges.data("weight") if w == min_val])
+    edges_max = set([(n2i[i],n2i[j],w) for (i,j,w) in G_clean.edges.data("weight") if w == max_val])
     edges_min_no = len(edges_min)
     edges_max_no = len(edges_max)
     edges_min_max_no = edges_min_no + edges_max_no
@@ -677,14 +690,16 @@ def get_cluster_stats(G, threshold=0.5, min_val=0.0, max_val=1.0, is_non_value=l
     stats['win_max_normalized'] = win_max / edges_max_no if edges_max_no != 0.0 else float('nan') 
     stats['win_min_max_normalized'] = win_min_max / edges_min_max_no if edges_min_max_no != 0.0 else float('nan')   
 
-    uncompared_cluster_combs = get_uncompared_clusters(G, clusters)
+    uncompared_cluster_combs = get_uncompared_clusters(G_clean, clusters)
     low_prob_clusters = get_low_prob_clusters(clusters)
     uncompared_high_prob_cluster_combs = [(c1,c2) for (c1,c2) in uncompared_cluster_combs if not (c1 in low_prob_clusters or c2 in low_prob_clusters)]
     stats['uncompared_cluster_combinations'] = len(uncompared_cluster_combs)
     stats['uncompared_multi_cluster_combinations'] = len(uncompared_high_prob_cluster_combs)
+    stats['excluded_nodes'] = len(noise)
 
     try:
         cluster_stats_inner = G.graph['cluster_stats']
+        #cluster_stats_inner['s'] = '20' # only used for repair reasons
         for stat in cluster_stats_inner:
             stats[stat] = cluster_stats_inner[stat]
     except KeyError:
@@ -709,7 +724,7 @@ def get_time_stats(G, threshold=0.5, lower_range=(1,3), upper_range=(3,5), lower
     oldnodes = co.oldnodes
     newnodes = co.newnodes         
     frequency = len(nodes)
-    frequency1 = len(oldnodes)
+    frequency1 = len(oldnodes) # this includes the noise cluster for calculation of total frequency
     frequency2 = len(newnodes)
     stats['nodes'] = frequency
     stats['nodes1'] = frequency1

@@ -48,7 +48,6 @@ __Note__: The column 'identifier' in each `uses.csv` should identify each word t
 - `sense2graph.py`:  adds senses to graph, for usage-sense graphs
 - `sense2node.py`:  adds sense annotation data to nodes, if available
 - `judgments2graph.py`:  adds judgments to graph
-- `exclude_nodes.py`:  excludes nodes with many invalid judgments, removes invalid edges
 - `graph2cluster.py`:  clusters graph
 - `extract_clusters.py`:  extract clusters from graph
 - `graph2stats.py`:  extracts statistics from graph, including change scores
@@ -60,7 +59,8 @@ For annotating and plotting your own graphs we recommend to use the [DURel Tool]
 
 ### Additional scripts
 
-- `usim2data.sh`:  downloads USim data and converts it to WUG format
+- `misc/usim2data.sh`:  downloads USim data and converts it to WUG format
+- `misc/make_release.sh`: create data for publication from pipeline output (compare to format of published data sets on [WUGsite](https://www.ims.uni-stuttgart.de/data/wugs))
 
 ### Further reading
 

@@ -12,7 +12,7 @@ def data2context(tweet,grouping):
     context_tokenized = ' '.join(tweet['tokens'])
     indexes_target_token_tokenized = tweet['token_idx']
     text = tweet['text']
-    context = {'lemma':lemma, 'pos':'-', 'date':date, 'grouping':grouping, 'identifier':identifier+'-tweet'+grouping, 'description':'-', 'context':text, 'indexes_target_token':'-', 'indexes_target_sentence':'-', 'context_tokenized':context_tokenized, 'indexes_target_token_tokenized':indexes_target_token_tokenized, 'indexes_target_sentence_tokenized':'-'}
+    context = {'lemma':lemma, 'pos':'-', 'date':date, 'grouping':date, 'identifier':identifier+'-tweet'+grouping, 'description':'-', 'context':text, 'indexes_target_token':'-', 'indexes_target_sentence':'-', 'context_tokenized':context_tokenized, 'indexes_target_token_tokenized':indexes_target_token_tokenized, 'indexes_target_sentence_tokenized':'-'}
     return(context)
 
 [_, data, annotations, datadir, label] = sys.argv

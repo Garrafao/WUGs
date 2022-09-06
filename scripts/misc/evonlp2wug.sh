@@ -16,7 +16,7 @@ do
   fi
   datadir=$dir/wugdata/
   mkdir -p $datadir
-  python3 $dir/evonlp2wug.py $dir/source/TempoWiC_Starting_Kit/data/$data.data.jl $dir/source/TempoWiC_Starting_Kit/data/$data.$label.tsv $datadir $data 
+  python3 $dir/evonlp2wug.py $dir/source/TempoWiC_Starting_Kit/data/$data.data.jl $dir/source/TempoWiC_Starting_Kit/data/$data.$label.tsv $datadir $data
 done
 
 rm -r $dir/source

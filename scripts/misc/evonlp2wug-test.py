@@ -6,6 +6,7 @@ from collections import defaultdict
 import os
 import json
 import numpy as np
+from nltk.tokenize import word_tokenize
 
 def data2context(tweet,grouping):
     date = tweet['date']
@@ -15,7 +16,7 @@ def data2context(tweet,grouping):
     context = {'lemma':lemma, 'pos':'-', 'date':date, 'grouping':grouping, 'identifier':identifier+'-tweet'+grouping, 'description':'-', 'context':text, 'indexes_target_token':'-', 'indexes_target_sentence':'-', 'context_tokenized':context_tokenized, 'indexes_target_token_tokenized':indexes_target_token_tokenized, 'indexes_target_sentence_tokenized':'-'}
     return(context)
 
-[_, data, annotations, datadir, label] = sys.argv
+[_, data, datadir, label] = sys.argv
 
 # parse an JSON file by name
 with open(data) as jsonfile:
@@ -27,23 +28,21 @@ for data_instance in data_instances:
     lemma = data_instance['word'] # this should be lematized
     tweet1 = data_instance['tweet1']
     context = data2context(tweet1,'1')
+
     lemma2group2context[lemma][identifier]['1'] = context
     tweet2 = data_instance['tweet2']
     context = data2context(tweet2,'2')
     lemma2group2context[lemma][identifier]['2'] = context
 
 
-with open(annotations, encoding='utf-8') as csvfile:
-    table = [row for row in csv.reader(csvfile,delimiter='\t')]
-
-
 lemma2data = defaultdict(lambda: [])
-for row in table:
-    lemma = row[0].split('-')[1]
-    id1 = row[0]
-    id2 = row[0]
+for data_instance in data_instances:
+    tweet1 = data_instance['tweet1']
+    lemma = data_instance['word']
+    id1 = data_instance['id']
+    id2 = data_instance['id']
     comment = ' '
-    judgment = row[1]
+    judgment = '0'
     annotator = np.nan
     data = {'identifier1':id1+'-tweet1','identifier2':id2+'-tweet2','annotator':annotator,'judgment':float(judgment),'comment':comment,'lemma':lemma}
     lemma2data[lemma].append(data)

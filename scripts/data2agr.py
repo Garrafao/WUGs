@@ -82,13 +82,17 @@ for lemma in lemmas:
             non_values = [v for v in judgments if v==non_value]        
             values = [v for v in judgments if v!=non_value]
             if len(values)>0:
-                j = np.median(values)
-                if not j in value_domain: # exclude instances with more than one judgment from the same annotator which don't yield median in the value domain
-                    j = float('nan')
+                if len(values)>1:
+                    j = np.median(values)
+                    if not j in value_domain: # exclude instances with more than one judgment from the same annotator which don't yield median in the value domain
+                        j = float('nan')
+                else:
+                    j = values[0]
             elif len(non_values)>0:
                 j = non_value
             else:
                 j = float('nan')
+            #print(values, j)
             annotator2judgments[annotator].append(j)
             
     annotator2judgments = dict(annotator2judgments)

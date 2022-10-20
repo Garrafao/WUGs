@@ -61,7 +61,7 @@ zip -r $(basename "$dir").zip $(basename "$dir")
 cd ../..
 
 # to do: copy release version to semrel
-cp $dir/$(basename "$dir").zip /mount/projekte50/projekte/semrel/Annotations/Semantic-Change/WUGs/$(basename "$dir").zip
+cp $dir/$(basename "$dir").zip /mount/projekte/cik/resources/WUGs/$(basename "$dir").zip
 
 # exchange release online
 

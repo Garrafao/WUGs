@@ -557,6 +557,7 @@ def get_agreements(annotator2judgments, non_value=0.0, level_of_measurement='ord
         if 'kri2' in metrics:
             if expected is None:
                 sys.exit('Breaking: no expected distribution provided for kri2.')
+            print(value_domain, expected)
             kri = krippendorff.alpha(reliability_data=reliability_data, level_of_measurement=level_of_measurement, value_domain=value_domain, expected=expected) 
             stats['kri2']['full'] = kri
     

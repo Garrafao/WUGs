@@ -24,6 +24,29 @@ __Attention__: modifies graphs iteratively, i.e., current run is dependent on pr
 
 We recommend you to run the scripts within a [virtual environment](https://pypi.org/project/virtualenv/) with Python 3.9.5. Install the required packages running `pip install -r requirements.txt`. The script uses simple test parameters; in order to improve the clustering load `parameters_opt.sh` in `run_uug.sh` or `run_usg.sh`.
 
+### Description
+
+- `data2join.py`:  joins annotated data
+- `data2annotators.py`:  extracts mapping from users to (anonymized) annotators
+- `data2agr.py`:  computes agreement on full data
+- `use2graph.py`:  adds uses to graph
+- `sense2graph.py`:  adds senses to graph, for usage-sense graphs
+- `sense2node.py`:  adds sense annotation data to nodes, if available
+- `judgments2graph.py`:  adds judgments to graph
+- `graph2cluster.py`:  clusters graph
+- `extract_clusters.py`:  extract clusters from graph
+- `graph2stats.py`:  extracts statistics from graph, including change scores
+- `graph2plot.py`:  plots interactive graph in 2D
+
+Please find the parameters for the current optimized WUG versions in `parameters_opt.sh`. Note that the parameters for the SemEval versions in `parameters_semeval.sh` will only roughly reproduce the published versions, because of non-deterministic clustering and small changes in the cleaning as well as clustering procedure.
+
+For annotating and plotting your own graphs we recommend to use the [DURel Tool](https://www.ims.uni-stuttgart.de/data/durel-tool).
+
+### Additional scripts
+
+- `misc/usim2data.sh`:  downloads USim data and converts it to WUG format
+- `misc/make_release.sh`: create data for publication from pipeline output (compare to format of published data sets on [WUGsite](https://www.ims.uni-stuttgart.de/data/wugs))
+
 ### Input
 
  For usage-usage graphs:
@@ -73,29 +96,6 @@ Find information on the individual fields below:
 - __judgment__: annotator judgment on graded scale (e.g. 1 for unrelated, 4 for identical)
 - __comment__: the annotator's comment (if any)
 - __lemma__: the lemma form of the target word in both uses
-
-### Description
-
-- `data2join.py`:  joins annotated data
-- `data2annotators.py`:  extracts mapping from users to (anonymized) annotators
-- `data2agr.py`:  computes agreement on full data
-- `use2graph.py`:  adds uses to graph
-- `sense2graph.py`:  adds senses to graph, for usage-sense graphs
-- `sense2node.py`:  adds sense annotation data to nodes, if available
-- `judgments2graph.py`:  adds judgments to graph
-- `graph2cluster.py`:  clusters graph
-- `extract_clusters.py`:  extract clusters from graph
-- `graph2stats.py`:  extracts statistics from graph, including change scores
-- `graph2plot.py`:  plots interactive graph in 2D
-
-Please find the parameters for the current optimized WUG versions in `parameters_opt.sh`. Note that the parameters for the SemEval versions in `parameters_semeval.sh` will only roughly reproduce the published versions, because of non-deterministic clustering and small changes in the cleaning as well as clustering procedure.
-
-For annotating and plotting your own graphs we recommend to use the [DURel Tool](https://www.ims.uni-stuttgart.de/data/durel-tool).
-
-### Additional scripts
-
-- `misc/usim2data.sh`:  downloads USim data and converts it to WUG format
-- `misc/make_release.sh`: create data for publication from pipeline output (compare to format of published data sets on [WUGsite](https://www.ims.uni-stuttgart.de/data/wugs))
 
 ### Further reading
 

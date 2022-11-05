@@ -1,0 +1,258 @@
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+    background: #f1f1f1;
+    font-family: 'Roboto', sans-serif;
+}
+
+body a {
+    text-decoration: none;
+}
+
+.body-container {
+
+    width: 1100px ;
+    margin: 20px auto;
+}
+
+.forty-left {
+
+    float: left;
+    width:35%;
+    /*border: 3px solid #73AD21;*/
+
+}
+
+.sixty-right {
+
+    float: right;
+    width: 64%;
+    /*border: 3px solid #73AD21;*/
+}
+
+.fifty-left {
+    float: left;
+    width:49%;
+}
+
+.fifty-right {
+    float: right;
+    width:49%;
+}
+
+.annotation-text {
+    font-size: 11pt!important;
+    padding: 0pt 10pt 0pt 0pt!important;
+}
+
+
+.border-right {
+    border-right: 1px solid gray;
+    border-right-style: dashed;
+}
+
+.sidebar {
+    font-size: 9pt;
+    float: left;
+    min-height: 350px;
+    width: 18%;
+    color: #edf0f1;
+    border-radius: 15px;
+    background-color: #3e404a;
+}
+
+.sidebar p {
+
+text-align: center!important;
+}
+
+.sidebar h2 {
+    padding: 20px 32px!important;
+    color: #edf0f1;
+
+}
+
+body ul {
+    list-style: none;
+}
+
+.sidebar button {
+  font-size: 12px;
+  padding: 10px 10px 6px 32px;
+  text-decoration: none;
+  color: #edf0f1;
+  display: block;
+  border-radius: 15px;
+  border:none;
+  cursor: pointer;
+  background-color: #3e404a;
+  width: 100%;
+  text-align: left;
+  outline:none;
+}
+
+
+
+.sidebar button:hover {
+    cursor:pointer;
+    background-color: #696c80;
+}
+
+.sidebar button.active {
+    background-color: #505361;
+}
+
+
+.right-half {
+  float: right;
+  width: 80%;
+}
+
+.card {
+    font-size: 9pt;
+    border-radius: 15px;
+    background-color: white;
+    padding: 35px 70px;
+    -moz-box-shadow: 0 0 10px #999;
+    -webkit-box-shadow: 0 0 10px #999;
+    box-shadow: 0 0 10px #999;
+}
+
+.no-superior-margin {
+margin-top:0px!important;
+}
+
+
+
+body .card h1 {
+    text-align:center;
+    padding: 20px 0px ;
+}
+
+body .card h2 {
+    padding: 15px 0px ;
+    color: #74778a;
+}
+
+body .card p {
+    margin: 10px 0px;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+body .card button , body .card a.button {
+    font-size: 12px;
+    color: white;
+    padding: 10px 20px;
+    background-color: rgba(143, 113, 89, 1) ;
+    border:none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease 0s;
+}
+
+body .card button:hover, body .card a.button:hover  {
+    background-color: #614b38 ;
+}
+
+body .card ol {
+padding: 0px 0px 0px 50px;
+}
+
+.container {
+position: relative;
+}
+
+.center {
+    display: block;
+    margin: auto;
+}
+
+body .card img {
+    margin-top:40px;
+    margin-bottom:40px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+
+.biglogo {
+    width: 400px;
+}
+
+body .card nav {
+    margin: 20px 0px;
+}
+
+body .card nav ul li {
+    float: right ;
+    margin: 0px 10px;
+}
+
+button.disabled-link {
+    cursor: default;
+    pointer-events: none;
+    text-decoration: none;
+    background-color: grey!important;
+}
+
+a.disabled-link {
+    cursor: default;
+    pointer-events: none;
+}
+
+.hinnen {
+    display: none!important;
+}
+
+.red-button {
+
+background-color: #c95d5d!important;
+
+}
+
+.red-button:hover {
+
+background-color: #8f3838!important;
+
+}
+
+
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+	background-color: ghostwhite;
+	margin: 15% 0 auto 0; /* 15% from the top and centered */
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.pale-background {
+}
+
+.info {
+    text-align: justify;
+    margin: 0px 5px;
+    color: grey;
+}
+
+.flush-right{
+float:right;
+}

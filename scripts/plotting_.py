@@ -75,10 +75,9 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x
         pass       
         
     G_int = Network(height='1000px', width='1000px', directed=False, notebook=False, bgcolor='#ffffff', font_color=False, layout=None, heading=period)
-    
-    G_int.set_template('test_template.html')
 
-    
+    #G_int.set_template('test_template.html')
+
     for n, cluster in c2n.items():
 
         for node in cluster:
@@ -137,7 +136,7 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x
                 label = ' '  
 
             color = colors[n] if n!=-1 else noise_color   
-            G_int.add_node(n_id = node,label = label,shape='circle',size=node_size,physics=False,x=x,y=y,color=color,title=text) 
+            G_int.add_node(n_id = node,label = label,shape='circle',size=node_size,physics=False,x=x,y=y,color=color,title=text, date=date)
 
         
     for (i,j) in elarge:

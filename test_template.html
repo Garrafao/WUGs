@@ -1,0 +1,621 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+    <center>
+        <h1>{{heading}}</h1>
+    </center>
+
+    <!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+    <style type="text/css">
+        #mynetwork {
+            width: 65%;
+
+            margin-right: 2%;
+
+            height: {{height}};
+
+            background-color: {{bgcolor}};
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+            {
+            % if nodes|length>100 and physics_enabled %
+        }
+
+        #loadingBar {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+
+            width: {{width}};
+
+            height: {{height}};
+            background-color:rgba(200, 200, 200, 0.8);
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+            opacity:1;
+        }
+
+        #bar {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 20px;
+            height: 20px;
+            margin: auto auto auto auto;
+            border-radius: 11px;
+            border: 2px solid rgba(30, 30, 30, 0.05);
+            background: rgb(0, 173, 246);
+            /* Old browsers */
+            box-shadow: 2px 0px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        #border {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 500px;
+            height: 23px;
+            margin: auto auto auto auto;
+            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        #text {
+            position: absolute;
+            top: 8px;
+            left: 530px;
+            width: 30px;
+            height: 50px;
+            margin: auto auto auto auto;
+            font-size: 22px;
+            color: #000000;
+        }
+
+        div.outerBorder {
+            position: relative;
+            top: 400px;
+            width: 600px;
+            height: 44px;
+            margin: auto auto auto auto;
+            border: 8px solid rgba(0, 0, 0, 0.1);
+            background: rgb(252, 252, 252);
+            /* Old browsers */
+            background: -moz-linear-gradient(top, rgba(252, 252, 252, 1) 0%, rgba(237, 237, 237, 1) 100%);
+            /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(252, 252, 252, 1)), color-stop(100%, rgba(237, 237, 237, 1)));
+            /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, rgba(252, 252, 252, 1) 0%, rgba(237, 237, 237, 1) 100%);
+            /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top, rgba(252, 252, 252, 1) 0%, rgba(237, 237, 237, 1) 100%);
+            /* Opera 11.10+ */
+            background: -ms-linear-gradient(top, rgba(252, 252, 252, 1) 0%, rgba(237, 237, 237, 1) 100%);
+            /* IE10+ */
+            background: linear-gradient(to bottom, rgba(252, 252, 252, 1) 0%, rgba(237, 237, 237, 1) 100%);
+            /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcfcfc', endColorstr='#ededed', GradientType=0);
+            /* IE6-9 */
+            border-radius: 72px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+            {
+            % endif %
+        }
+
+            {
+            % if conf %
+        }
+
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+
+            {
+            % endif %
+        }
+
+            {
+            % if tooltip_link %
+        }
+
+        /* position absolute is important and the container has to be relative or absolute as well. */
+        div.popup {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            display: none;
+            background-color: #f5f4ed;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            border: 1px solid #808074;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+       
+
+        /* hide the original tooltip */
+        
+
+        .vis-tooltip {
+    position: absolute;
+  }
+
+        #config {
+            display: none;
+
+        }
+
+            {
+            % endif %
+        }
+
+        #custom_wugs > * {
+            padding: 1%;
+            margin-left: 2%;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <div id="mynetwork"></div>
+    {% if nodes|length > 100 and physics_enabled %}
+    <div id="loadingBar">
+        <div class="outerBorder">
+            <div id="text">0%</div>
+            <div id="border">
+                <div id="bar"></div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% if conf %}
+
+    <div id="custom_wugs">
+        <div class="slidecontainer">
+            <input type="range" min="0" max="5" value="5" class="slider" id="slider">
+            Max Weight: <span id="sliderValueDisplay">5</span>
+        </div>
+
+        <div id="dateButtons">
+
+        </div>
+
+        <div class="slidecontainer">
+            <input type="range" class="slider" id="dateSlider" list="dateList">
+            <datalist id="dateList"></datalist>
+           Min year: <span id="dateSliderValueDisplay"></span>
+        </div>
+
+        <div class="selectContainer">
+            <label for="minPicker">From year: </label>
+            <select class="picker" id="minPicker" onchange="selectMinYear()"></select>
+            <label for="maxPicker">To year: </label>
+            <select class="picker" id="maxPicker" onchange="selectMaxYear()"></select>
+        </div>
+
+        <div class="formContainer">
+            <form onsubmit="pickDates();return false">
+            <label for="minPicker">From year: </label>
+            <select class="picker" id="minPicker2" ></select>
+            <label for="maxPicker">To year: </label>
+            <select class="picker" id="maxPicker2"></select>
+            <input type="submit">
+            </form>
+        </div>
+    </div>
+
+    <div id="config">
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="5" value="5" class="slider" id="slider">
+            Max Weight: <span id="sliderValueDisplay">5</span>
+        </div>
+
+        <div id="dateButtons">
+
+        </div>
+
+        <div class="slidecontainer">
+            <input type="range" class="slider" id="dateSlider" list="dateList">
+            <datalist id="dateList"></datalist>
+           Min year: <span id="dateSliderValueDisplay"></span>
+        </div>
+
+        <div class="selectContainer">
+            <label for="minPicker">From year: </label>
+            <select class="picker" id="minPicker" onchange="selectMinYear()"></select>
+            <label for="maxPicker">To year: </label>
+            <select class="picker" id="maxPicker" onchange="selectMaxYear()"></select>
+        </div>
+
+        <div class="formContainer">
+            <form onsubmit="pickDates();return false">
+            <label for="minPicker">From year: </label>
+            <select class="picker" id="minPicker2" ></select>
+            <label for="maxPicker">To year: </label>
+            <select class="picker" id="maxPicker2"></select>
+            <input type="submit">
+            </form>
+        </div>
+
+
+    </div>
+    {% endif %}
+    <script type="text/javascript">
+
+        // initialize global variables.
+        var edges;
+        var nodes;
+        var network;
+        var container;
+        var options, data;
+
+
+        // This method is responsible for drawing the graph, returns the drawn network
+        function drawGraph() {
+            var container = document.getElementById('mynetwork');
+
+            {% if use_DOT %}
+
+            var DOTstring = "{{dot_lang|safe}}";
+            var parsedData = vis.network.convertDot(DOTstring);
+
+            data = {
+                nodes: parsedData.nodes,
+                edges: parsedData.edges
+            }
+
+            var options = parsedData.options;
+            options.conf = 'false';
+            setOptions(options);
+
+            options.nodes = {
+                shape: "dot"
+            }
+
+            {% else %}
+
+            // parsing and collecting nodes and edges from the python
+            nodes = new vis.DataSet({{ nodes| tojson}});
+        edges = new vis.DataSet({{ edges| tojson}});
+
+        // adding nodes and edges to the graph
+        data = { nodes: nodes, edges: edges };
+
+        var options = {{ options| safe}};
+
+        {% endif %}
+
+        {% if conf %}
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        {% endif %}
+
+        network = new vis.Network(container, data, options);
+
+        {% if tooltip_link %}
+        // make a custom popup
+        var popup = document.createElement("div");
+        popup.className = 'popup';
+        popupTimeout = null;
+        popup.addEventListener('mouseover', function () {
+            console.log(popup)
+            if (popupTimeout !== null) {
+                clearTimeout(popupTimeout);
+                popupTimeout = null;
+            }
+        });
+        popup.addEventListener('mouseout', function () {
+            if (popupTimeout === null) {
+                hidePopup();
+            }
+        });
+        container.appendChild(popup);
+
+
+        // use the popup event to show
+        network.on("hoverNode", function (params) {
+            console.log("popup?");
+            showPopup(params);
+        });
+
+        // use the hide event to hide it
+        network.on("blurNode", function (params) {
+            hidePopup();
+        });
+
+
+        // hiding the popup through css
+        function hidePopup() {
+            popupTimeout = setTimeout(function () { popup.style.display = 'none'; }, 500);
+        }
+
+        // showing the popup
+        function showPopup(nodeId) {
+            // get the data from the vis.DataSet
+            var nodeData = nodes.get([nodeId]);
+            popup.innerHTML = nodeData[0].title;
+            console.log(nodeData[0].title);
+
+            // get the position of the node
+            var posCanvas = network.getPositions([nodeId])[nodeId];
+
+            // get the bounding box of the node
+            var boundingBox = network.getBoundingBox(nodeId);
+
+            //position tooltip:
+            posCanvas.x = posCanvas.x + 0.5 * (boundingBox.right - boundingBox.left);
+
+            // convert coordinates to the DOM space
+            var posDOM = network.canvasToDOM(posCanvas);
+
+            // Give it an offset
+            posDOM.x += 10;
+            posDOM.y -= 20;
+
+            // show and place the tooltip.
+            popup.style.display = 'block';
+            popup.style.top = posDOM.y + 'px';
+            popup.style.left = posDOM.x + 'px';
+        }
+        {% endif %}
+
+
+        {% if nodes | length > 100 and physics_enabled %}
+        network.on("stabilizationProgress", function (params) {
+            document.getElementById('loadingBar').removeAttribute("style");
+            var maxWidth = 496;
+            var minWidth = 20;
+            var widthFactor = params.iterations / params.total;
+            var width = Math.max(minWidth, maxWidth * widthFactor);
+
+            document.getElementById('bar').style.width = width + 'px';
+            document.getElementById('text').innerHTML = Math.round(widthFactor * 100) + '%';
+        });
+        network.once("stabilizationIterationsDone", function () {
+            document.getElementById('text').innerHTML = '100%';
+            document.getElementById('bar').style.width = '496px';
+            document.getElementById('loadingBar').style.opacity = 0;
+            // really clean the dom element
+            setTimeout(function () { document.getElementById('loadingBar').style.display = 'none'; }, 500);
+        });
+        {% endif %}
+
+        return network;
+
+    }
+
+        drawGraph();
+
+
+
+        //slider code from pyvis filter example
+        // Handler event when slider changes
+        document.getElementById('slider').oninput = function () {
+            // Get the value of the slider
+            var sliderValue = this.value;
+
+            // Display the selected value next to slider
+            document.getElementById('sliderValueDisplay').innerHTML = sliderValue;
+
+            // Loop through the edges
+            edges.forEach(function (edge) {
+                // Check if the edge should be displayed based on its weight
+                if (edge.weight <= sliderValue) {
+                    // Edge should be displayed
+                    // Unhide edge if it's hidden and update DataSet
+                    if (edge.hidden) {
+                        edge.hidden = false;
+                        edges.update(edge);
+                    }
+                } else {
+                    // Edge should not be displayed
+                    // Hide edge if not already hidden and update DataSet
+                    if (!edge.hidden) {
+                        edge.hidden = true;
+                        edges.update(edge);
+                    }
+                }
+            });
+        }
+
+
+        //code for node date filter
+        var dates = [];
+        nodes.forEach(function (node) {
+            date = node.date;
+            if (!dates.includes(date)) {
+                dates.push(date);
+            }
+        });
+        dates.sort();
+
+        function dateClick() {
+            btnDate = this.className;
+            console.log("click" + btnDate);
+            nodes.forEach(function(node) {
+                if (Number(node.date) == Number(btnDate) && !node.hidden) {
+                    console.log("hide");
+                    node.hidden = true;
+                    nodes.update(node);
+                } else if (Number(node.date) == Number(btnDate) && node.hidden) {
+                    console.log("show");
+                    node.hidden = false;
+                    nodes.update(node);
+                }
+            });
+        }
+
+        dates.forEach(function (date) {
+            var btn = document.createElement("button");
+            btn.setAttribute("class", date);
+            btn.setAttribute("value", date);
+            btn.onclick = dateClick;
+            btn.innerHTML = date;
+
+            document.getElementById("dateButtons").append(btn);
+        });
+
+
+
+
+        //code for date slider
+        minDate = 10000;
+        maxDate = 0;
+        value1 = 0;
+        value2 = 0;
+
+
+        dates.forEach(function(date) {
+            if (Number(date) < minDate) {
+                minDate = Number(date);
+            }
+            if (Number(date) > maxDate) {
+                maxDate = Number(date);
+            }
+            var option = document.createElement('option');
+            option.text = date;
+            option.value = date;
+            document.getElementById('dateList').append(option);
+            var option2 = document.createElement('option');
+            option2.text = date;
+            option2.value = date;
+            document.getElementById('minPicker').append(option2);
+            var option3 = document.createElement('option');
+            option3.text = date;
+            option3.value = date;
+            document.getElementById('maxPicker').append(option3);
+            var option4 = document.createElement('option');
+            option4.text = date;
+            option4.value = date;
+            document.getElementById('minPicker2').append(option4);
+            var option5 = document.createElement('option');
+            option5.text = date;
+            option5.value = date;
+            document.getElementById('maxPicker2').append(option5);
+        })
+
+        //console.log("datelist: " + document.getElementById('dateList'));
+
+        //console.log("minDate: ");
+        //console.log(minDate);
+        //console.log("maxDate: " + maxDate);
+
+        document.getElementById('dateSlider').setAttribute("min", minDate);
+        //document.getElementById('minPicker').setAttribute("min", minDate);
+        //document.getElementById('maxPicker').setAttribute("min", minDate);
+
+        document.getElementById('dateSlider').setAttribute("max", maxDate);
+        //document.getElementById('minPicker').setAttribute("max", maxDate);
+        //document.getElementById('maxPicker').setAttribute("max", maxDate);
+
+        document.getElementById('dateSlider').setAttribute("value", minDate);
+        //document.getElementById('minPicker').setAttribute("value", minDate);
+        document.getElementById('maxPicker').selectedIndex = dates.length-1;
+        document.getElementById('maxPicker2').selectedIndex = dates.length-1;
+
+        document.getElementById('dateSliderValueDisplay').innerHTML = minDate;
+        // Handler event when slider changes
+        document.getElementById('dateSlider').oninput = function () {
+            // Get the value of the slider
+            var sliderValue = this.value;
+
+            // Display the selected value next to slider
+            document.getElementById('dateSliderValueDisplay').innerHTML = sliderValue;
+
+            nodes.forEach(function(node) {
+                if (Number(node.date) < sliderValue) {
+                    node.hidden = true;
+                    nodes.update(node);
+                } else if (Number(node.date) > sliderValue) {
+                    node.hidden = false;
+                    nodes.update(node);
+                }
+            })
+
+            
+        }
+
+
+        function selectMinYear() {
+            //console.log("changed selection");
+            var selectValue = document.getElementById('minPicker').value;
+            var maxValue = document.getElementById('maxPicker').value;
+            //console.log(selectValue);
+            nodes.forEach(function(node) {
+                if (Number(node.date) < Number(selectValue)) {
+                    //console.log("found a smaller date");
+                    node.hidden = true;
+                    nodes.update(node);
+                } else if (Number(node.date) >= Number(selectValue) && Number(node.date) <= Number(maxValue)) {
+                    node.hidden = false;
+                    nodes.update(node);
+                }
+            })
+        }
+
+        function selectMaxYear() {
+            //console.log("changed selection");
+            var selectValue = document.getElementById('maxPicker').value;
+            var minValue = document.getElementById('minPicker').value;
+            //console.log(selectValue);
+            nodes.forEach(function(node) {
+                if (Number(node.date) > Number(selectValue)) {
+                    //console.log("found a bigger date");
+                    node.hidden = true;
+                    nodes.update(node);
+                } else if (Number(node.date) <= Number(selectValue) && Number(node.date) >= Number(minValue)) {
+                    node.hidden = false;
+                    nodes.update(node);
+                }
+            })
+        }
+
+        function pickDates() {
+            var minValue = document.getElementById('minPicker2').value;
+            var maxValue = document.getElementById('maxPicker2').value;
+
+            console.log("showing dates between " + minValue + " and " + maxValue);
+            
+            nodes.forEach(function(node) {
+                if (Number(node.date) < Number(minValue)) {
+                    //console.log("found a smaller date");
+                    node.hidden = true;
+                    nodes.update(node);
+                } else if (Number(node.date) >= Number(minValue) && Number(node.date) <= Number(maxValue)) {
+                    node.hidden = false;
+                    nodes.update(node);
+                } else if (Number(node.date) > Number(maxValue)) {
+                    //console.log("found a bigger date");
+                    node.hidden = true;
+                    nodes.update(node);
+                } else if (Number(node.date) <= Number(maxValue) && Number(node.date) >= Number(minValue)) {
+                    node.hidden = false;
+                    nodes.update(node);
+                }
+            })
+        }
+
+        
+
+    </script>
+</body>
+
+</html>

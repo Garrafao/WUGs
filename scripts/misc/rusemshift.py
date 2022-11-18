@@ -95,7 +95,7 @@ for i in list(df_final["lemma"].value_counts().index):
     np.savetxt(i+"/judgments.csv", numpy_df,fmt='%s', delimiter='\t')
 
 
-URL = "https://raw.githubusercontent.com/juliarodina/RuSemShift/master/rusemshift_1/binary.csv"
+URL = "https://raw.githubusercontent.com/juliarodina/RuSemShift/master/rusemshift_2/binary.csv"
 
 download = requests.get(URL).content
 
@@ -117,7 +117,7 @@ df_final = pd.merge(df_final, df_binary, on="word", how="left")
 
 def get_indices_of_tags(sentence, word):
     if sentence.find("<b>")!=-1:
-        return str(sentence.find("<b>"))+":"+str(sentence.find("</i>")-7)
+        return str(sentence.find("<b>"))+":"+str(sentence.find("</i>")-6)
     else:
         max_score_partial = 0
         max_score_sort = 0

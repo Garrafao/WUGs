@@ -14,7 +14,7 @@ You can refer to the Server.java file and the Argprs.java file in the repository
 ## Tutorial Format
 One should provide two csv file. 
 
-The first file provide uses. Please check the [sample file](https://github.com/Garrafao/WUGs/blob/main/resources/tutorials/tutorial_sentences/english.csv) and strictly follows this format. Note the value under indexes column corresponds to word position. For example, the first word in the sentence has the index 0.
+The first file provide uses. Please check the [sample file](https://github.com/Garrafao/WUGs/blob/main/durel_system/tutorials/tutorial_sentences/english.csv) and strictly follows this format. Note the value under indexes column corresponds to word position. For example, the first word in the sentence has the index 0.
 
-The second file provide judgments. Please check  [sample file](https://github.com/Garrafao/WUGs/blob/main/resources/tutorials/tutorial_gold_annotations/english.csv) and strictly follows this format. The identifier in the identifiers1 and identifiers2	column should correspond to the identifier provided in the first file.
+The second file provide judgments. Please check  [sample file](https://github.com/Garrafao/WUGs/blob/main/durel_system/tutorials/tutorial_gold_annotations/english.csv) and strictly follows this format. The identifier in the identifiers1 and identifiers2	column should correspond to the identifier provided in the first file.
 

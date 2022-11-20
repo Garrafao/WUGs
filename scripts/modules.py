@@ -557,7 +557,7 @@ def get_agreements(annotator2judgments, non_value=0.0, level_of_measurement='ord
         if 'kri2' in metrics:
             if expected is None:
                 sys.exit('Breaking: no expected distribution provided for kri2.')
-            print(value_domain, expected)
+            #print(value_domain, expected)
             kri = krippendorff.alpha(reliability_data=reliability_data, level_of_measurement=level_of_measurement, value_domain=value_domain, expected=expected) 
             stats['kri2']['full'] = kri
     
@@ -643,8 +643,12 @@ def get_cluster_stats(G, threshold=0.5, min_val=0.0, max_val=1.0, is_non_value=l
     :param threshold: threshold
     :return :
     """
-
-    clusters, _, _ = get_clusters(G, is_include_noise = False)
+    try:
+        clusters, _, _ = get_clusters(G, is_include_noise = False)
+    except KeyError:
+        print('No clusters found.')
+        return {}
+        
     noise, _, _ = get_clusters(G, is_include_noise = True, is_include_main = False)
     G_clean = G.copy()    
     G_clean.remove_nodes_from([node for cluster in noise for node in cluster])
@@ -720,10 +724,10 @@ def get_time_stats(G, threshold=0.5, lower_range=(1,3), upper_range=(3,5), lower
 
     stats = {}
 
-    co = Constellation(graph=G, old=old, new=new) # just to get old and new nodes
-    nodes = co.nodes
-    oldnodes = co.oldnodes
-    newnodes = co.newnodes         
+    # Get node stats
+    nodes = [node for node in G.nodes if all([G.nodes()[node][k]==v for (k,v) in attributes.items()])]
+    oldnodes = [node for node in nodes if G.nodes()[node]['grouping']==old]
+    newnodes = [node for node in nodes if G.nodes()[node]['grouping']==new]
     frequency = len(nodes)
     frequency1 = len(oldnodes) # this includes the noise cluster for calculation of total frequency
     frequency2 = len(newnodes)
@@ -731,6 +735,7 @@ def get_time_stats(G, threshold=0.5, lower_range=(1,3), upper_range=(3,5), lower
     stats['nodes1'] = frequency1
     stats['nodes2'] = frequency2
 
+    # Define thresholds
     lower_prob1 = round(lower_prob*frequency1)
     lower_prob2 = round(lower_prob*frequency2)
     upper_prob1 = round(upper_prob*frequency1)
@@ -739,25 +744,32 @@ def get_time_stats(G, threshold=0.5, lower_range=(1,3), upper_range=(3,5), lower
     lowerbound2 = min(max(lower_range[0],lower_prob2),lower_range[1])
     upperbound1 = min(max(upper_range[0],upper_prob1),upper_range[1])
     upperbound2 = min(max(upper_range[0],upper_prob2),upper_range[1])    
+
+    try:    
+        co = Constellation(graph=G, bound1=upperbound1, bound2=upperbound2, lowerbound1=lowerbound1, lowerbound2=lowerbound2, is_prob=False, old=old, new=new, threshold=threshold)        
+        is_clusters = True
+    except KeyError:
+        print('No clusters found.')
+        is_clusters = False
+
+    if is_clusters:    
     
-    co = Constellation(graph=G, bound1=upperbound1, bound2=upperbound2, lowerbound1=lowerbound1, lowerbound2=lowerbound2, is_prob=False, old=old, new=new, threshold=threshold)
+        stats['cluster_freq_dist'] = co.distribution
+        stats['cluster_freq_dist1'] = co.distribution1
+        stats['cluster_freq_dist2'] = co.distribution2
+        stats['cluster_prob_dist'] = [round(pr, 3) for pr in co.prob]
+        stats['cluster_prob_dist1'] = [round(pr, 3) for pr in co.prob1]
+        stats['cluster_prob_dist2'] = [round(pr, 3) for pr in co.prob2]
     
-    stats['cluster_freq_dist'] = co.distribution
-    stats['cluster_freq_dist1'] = co.distribution1
-    stats['cluster_freq_dist2'] = co.distribution2
-    stats['cluster_prob_dist'] = [round(pr, 3) for pr in co.prob]
-    stats['cluster_prob_dist1'] = [round(pr, 3) for pr in co.prob1]
-    stats['cluster_prob_dist2'] = [round(pr, 3) for pr in co.prob2]
+        stats['change_binary'] = co.c_mb
+        stats['change_binary_gain'] = co.i_mb
+        stats['change_binary_loss'] = co.r_mb
+        stats['change_graded'] = co.c_u
     
-    stats['change_binary'] = co.c_mb
-    stats['change_binary_gain'] = co.i_mb
-    stats['change_binary_loss'] = co.r_mb
-    stats['change_graded'] = co.c_u
-    
-    stats['k1'] = lowerbound1
-    stats['n1'] = upperbound1
-    stats['k2'] = lowerbound2
-    stats['n2'] = upperbound2
+        stats['k1'] = lowerbound1
+        stats['n1'] = upperbound1
+        stats['k2'] = lowerbound2
+        stats['n2'] = upperbound2
 
     # Get DURel statistics, currently done on median edge weights, but was originally done on mean edge weights!
     non_target_nodes = [n for n in G.nodes() if not all([G.nodes()[n][k]==v for (k,v) in attributes.items()])]

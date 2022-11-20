@@ -100,9 +100,7 @@ for lemma in lemmas:
     if lemma == 'full':
         global_judgments = [j for a, js in annotator2judgments.items() for j in js if not np.isnan(j) and not j == non_value]
         global_distribution = Counter(global_judgments)
-        #print(global_distribution)
         global_distribution = np.array([global_distribution[k] for k in sorted(global_distribution.keys())])
-        #print(global_distribution).blah
         global_distribution = global_distribution/np.sum(global_distribution) # normalize
 
     agree_stats = {}

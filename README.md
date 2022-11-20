@@ -42,10 +42,11 @@ Please find the parameters for the current optimized WUG versions in `parameters
 
 For annotating and plotting your own graphs we recommend to use the [DURel Tool](https://www.ims.uni-stuttgart.de/data/durel-tool).
 
-### Additional scripts
+### Additional scripts and data
 
 - `misc/usim2data.sh`:  downloads USim data and converts it to WUG format
 - `misc/make_release.sh`: create data for publication from pipeline output (compare to format of published data sets on [WUGsite](https://www.ims.uni-stuttgart.de/data/wugs))
+- `durel_system/`: contains files relevant for the [DURel Annotation System](https://www.ims.uni-stuttgart.de/data/durel-tool)
 
 ### Input
 
@@ -82,7 +83,7 @@ Find information on the individual fields below:
 - __indexes\_target\_token__: The *character* indexes of the target token in `context` (Python list ranges as used in slicing, e.g. `17:25`)
 - __indexes\_target\_sentence__: The character indexes of the target sentence (containing the target token) in `context` (e.g. `0:30` if context contains only one sentence, or `10:45` if it contains additional surrounding sentences). The part of the context beyond the specified character range will be marked as background in gray.
 
-The `judgments.csv` files must contain one use per line with the following fields specified as header and separated by <TAB>:
+The `judgments.csv` files must contain one use pair judgment line with the following fields specified as header and separated by <TAB>:
 
 	<identifier1>\t<identifier2>\t<annotator>\t<judgment>\t<comment>\t<lemma>\n
 
@@ -103,7 +104,7 @@ Find further research on WUGs in these papers:
 
 - Anna Aksenova, Ekaterina Gavrishina, Elisey Rykov, and Andrey Kutuzov. 2022. [Rudsi: graph-based word sense induction dataset for russian](https://arxiv.org/abs/2209.13750).
 - Frank D. Zamora-Reina, Felipe Bravo-Marquez, Dominik Schlechtweg. 2022. [LSCDiscovery: A shared task on semantic change discovery and detection in Spanish](https://aclanthology.org/2022.lchange-1.16/). In Proceedings of the 3rd International Workshop on Computational Approaches to Historical Language Change.
-- Gioia Baldissin, Dominik Schlechtweg, Sabine Schulte im Walde. 2022. DiaWUG: A Dataset for Diatopic Lexical Semantic Variation in Spanish. In Proceedings of the 13th Language Resources and Evaluation Conference.
+- Gioia Baldissin, Dominik Schlechtweg, Sabine Schulte im Walde. 2022. [DiaWUG: A Dataset for Diatopic Lexical Semantic Variation in Spanish](https://aclanthology.org/2022.lrec-1.278/). In Proceedings of the 13th Language Resources and Evaluation Conference.
 - Dominik Schlechtweg, Enrique Castaneda, Jonas Kuhn, Sabine Schulte im Walde. 2021. [Modeling Sense Structure in Word Usage Graphs with the Weighted Stochastic Block Model](https://aclanthology.org/2021.starsem-1.23/). In Proceedings of *SEM 2021: The Tenth Joint Conference on Lexical and Computational Semantics.
 - Sinan Kurtyigit, Maike Park, Dominik Schlechtweg, Jonas Kuhn, Sabine Schulte im Walde. 2021. [Lexical Semantic Change Discovery](https://aclanthology.org/2021.acl-long.543/). In Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 1: Long Papers).
 - Serge Kotchourko. 2021. [Optimizing Human Annotation of Word Usage Graphs in a Realistic Simulation Environment](https://elib.uni-stuttgart.de/handle/11682/11865). Bachelor thesis.

@@ -83,7 +83,7 @@ Find information on the individual fields below:
 - __indexes\_target\_token__: The *character* indexes of the target token in `context` (Python list ranges as used in slicing, e.g. `17:25`)
 - __indexes\_target\_sentence__: The character indexes of the target sentence (containing the target token) in `context` (e.g. `0:30` if context contains only one sentence, or `10:45` if it contains additional surrounding sentences). The part of the context beyond the specified character range will be marked as background in gray.
 
-The `judgments.csv` files must contain one use pair judgment line with the following fields specified as header and separated by <TAB>:
+The `judgments.csv` files must contain one use pair judgment per line with the following fields specified as header and separated by <TAB>:
 
 	<identifier1>\t<identifier2>\t<annotator>\t<judgment>\t<comment>\t<lemma>\n
 

@@ -19,6 +19,10 @@ Then run one of the following commands for Usage-Usage Graphs (UUGs) and Usage-S
 
 	bash -e scripts/run_uug.sh
 	bash -e scripts/run_usg.sh
+	
+For the alternative pipeline with custom filtering functionalities, instead run:
+
+	bash -e scripts/run_uug2.sh
 
 __Attention__: modifies graphs iteratively, i.e., current run is dependent on previous run. Script deletes previously written data to avoid dependence.
 

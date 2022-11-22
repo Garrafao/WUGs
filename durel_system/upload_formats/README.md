@@ -1,6 +1,6 @@
 # Upload formats for DURel system
 
-In order to create a new project, you need CSV files containing the sentences to be annotated. Each CSV file must contain only the uses (e.g. sentences) of one word. The system will automatically create use pairs for each CSV. These pairs will be shown to the users as part of the annotation process. You are allowed to upload as many CSV files as you want in one single project (Use CTRL to select multiple files).
+The system will automatically create use pairs for each CSV. These pairs will be shown to the users as part of the annotation process. You are allowed to upload as many CSV files as you want in one single project (Use CTRL to select multiple files).
 
 ## Uses
 
@@ -8,7 +8,7 @@ The `uses.csv` files must contain __one use per line__ with the following fields
 
 	<lemma>\t<pos>\t<date>\t<grouping>\t<identifier>\t<description>\t<context>\t<indexes_target_token>\t<indexes_target_sentence>\n
 
-The CSV files should include one empty line at the end (this is the standard in general). You can find examples `uses/`.
+The CSV files should include one empty line at the end (this is the standard in general). Each CSV file must contain only the uses of one word. You can find examples under `test_uug/uses/`.
 
 Find information on the individual fields below:
 
@@ -28,7 +28,7 @@ The `instances.csv` files must contain __one use pair per line__ with the follow
 
 	<identifier1>\t<identifier2>\t<lemma>\n
 
-The CSV files should inlcude one empty line at the end. You can find examples under `instances/`.
+The CSV files should inlcude one empty line at the end. Each CSV file must contain only the instances of one word. You can find examples under `test_uug/instances/`.
 
 Find information on the individual fields below:
 
@@ -42,7 +42,7 @@ The `judgments.csv` files must contain __one use pair judgment per line__ with t
 
 	<identifier1>\t<identifier2>\t<annotator>\t<judgment>\t<comment>\t<lemma>\n
 
-The CSV files should inlcude one empty line at the end. You can find examples under `judgments/`.
+The CSV files should inlcude one empty line at the end. Each CSV file must contain only the judgments of one word. You can find examples under `test_uug/judgments/`.
 
 Find information on the individual fields below:
 

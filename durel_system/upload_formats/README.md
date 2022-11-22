@@ -1,7 +1,5 @@
 # Upload formats for DURel system
 
-The system will automatically create use pairs for each CSV. These pairs will be shown to the users as part of the annotation process. You are allowed to upload as many CSV files as you want in one single project (Use CTRL to select multiple files).
-
 ## Uses
 
 The `uses.csv` files must contain __one use per line__ with the following fields specified as header and separated by <TAB>:

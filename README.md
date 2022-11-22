@@ -106,6 +106,7 @@ Find information on the individual fields below:
 
 Find further research on WUGs in these papers:
 
+- Andrey Kutuzov, Samia Touileb, Petter Mæhlum, Tita Enstad, and Alexandra Wittemann. 2022. [NorDiaChange: Diachronic Semantic Change Dataset for Norwegian](NorDiaChange: Diachronic Semantic Change Dataset for Norwegian). In Proceedings of the Thirteenth Language Resources and Evaluation Conference.
 - Anna Aksenova, Ekaterina Gavrishina, Elisey Rykov, and Andrey Kutuzov. 2022. [Rudsi: graph-based word sense induction dataset for russian](https://arxiv.org/abs/2209.13750).
 - Frank D. Zamora-Reina, Felipe Bravo-Marquez, Dominik Schlechtweg. 2022. [LSCDiscovery: A shared task on semantic change discovery and detection in Spanish](https://aclanthology.org/2022.lchange-1.16/). In Proceedings of the 3rd International Workshop on Computational Approaches to Historical Language Change.
 - Gioia Baldissin, Dominik Schlechtweg, Sabine Schulte im Walde. 2022. [DiaWUG: A Dataset for Diatopic Lexical Semantic Variation in Spanish](https://aclanthology.org/2022.lrec-1.278/). In Proceedings of the 13th Language Resources and Evaluation Conference.

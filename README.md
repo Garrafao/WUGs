@@ -106,8 +106,8 @@ Find information on the individual fields below:
 
 Find further research on WUGs in these papers:
 
-- Andrey Kutuzov, Samia Touileb, Petter Mæhlum, Tita Enstad, and Alexandra Wittemann. 2022. [NorDiaChange: Diachronic Semantic Change Dataset for Norwegian](NorDiaChange: Diachronic Semantic Change Dataset for Norwegian). In Proceedings of the Thirteenth Language Resources and Evaluation Conference.
-- Anna Aksenova, Ekaterina Gavrishina, Elisey Rykov, and Andrey Kutuzov. 2022. [Rudsi: graph-based word sense induction dataset for russian](https://arxiv.org/abs/2209.13750).
+- Andrey Kutuzov, Samia Touileb, Petter Mæhlum, Tita Enstad, and Alexandra Wittemann. 2022. [NorDiaChange: Diachronic Semantic Change Dataset for Norwegian](https://aclanthology.org/2022.lrec-1.274/). In Proceedings of the Thirteenth Language Resources and Evaluation Conference.
+- Anna Aksenova, Ekaterina Gavrishina, Elisei Rykov, and Andrey Kutuzov. 2022. [RuDSI: Graph-based Word Sense Induction Dataset for Russian](https://aclanthology.org/2022.textgraphs-1.9/). In Proceedings of TextGraphs-16: Graph-based Methods for Natural Language Processing.
 - Frank D. Zamora-Reina, Felipe Bravo-Marquez, Dominik Schlechtweg. 2022. [LSCDiscovery: A shared task on semantic change discovery and detection in Spanish](https://aclanthology.org/2022.lchange-1.16/). In Proceedings of the 3rd International Workshop on Computational Approaches to Historical Language Change.
 - Gioia Baldissin, Dominik Schlechtweg, Sabine Schulte im Walde. 2022. [DiaWUG: A Dataset for Diatopic Lexical Semantic Variation in Spanish](https://aclanthology.org/2022.lrec-1.278/). In Proceedings of the 13th Language Resources and Evaluation Conference.
 - Dominik Schlechtweg, Enrique Castaneda, Jonas Kuhn, Sabine Schulte im Walde. 2021. [Modeling Sense Structure in Word Usage Graphs with the Weighted Stochastic Block Model](https://aclanthology.org/2021.starsem-1.23/). In Proceedings of *SEM 2021: The Tenth Joint Conference on Lexical and Computational Semantics.
@@ -119,16 +119,17 @@ BibTex
 --------
 
 ```
-@article{Schlechtweg2021dwug,
-	title = {{DWUG: A large Resource of Diachronic Word Usage Graphs in Four Languages}},
-	author = "Schlechtweg, Dominik and Tahmasebi, Nina and Hengchen, Simon and Dubossarsky, Haim and McGillivray, Barbara",
-	year = {2021},
-	journal   = {CoRR},
-	volume    = {abs/2104.08540},
-	archivePrefix = {arXiv},
-	eprint    = {2104.08540},
-	url = {https://arxiv.org/abs/2104.08540}
+@inproceedings{Schlechtweg2021dwug,
+ title = {{DWUG}: A large Resource of Diachronic Word Usage Graphs in Four Languages},
+ author = {Schlechtweg, Dominik  and Tahmasebi, Nina  and Hengchen, Simon  and Dubossarsky, Haim  and McGillivray, Barbara},
+ booktitle = {Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing},
+ publisher = {Association for Computational Linguistics},
+ address = {Online and Punta Cana, Dominican Republic},
+ pages = {7079--7091},
+ url = {https://aclanthology.org/2021.emnlp-main.567},
+ year = {2021}
 }
+
 ```
 ```
 @inproceedings{Schlechtweg2021wugs,

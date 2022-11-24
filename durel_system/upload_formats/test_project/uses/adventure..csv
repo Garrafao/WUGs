@@ -1,0 +1,4 @@
+lemma	pos	date	grouping	identifier	description	context	indexes_target_token	indexes_target_sentence
+adventure	noun		BNC	sentence1		"Mayakovsky's poem ‘An Amazing Adventure of Vladimir Mayakovsky’ surfaced as he worked. "	30:39	0:86
+adventure	noun		BNC	sentence2		"Hitherto a shameful brothel man, Salim is uplifted by their meetings in his flat: ‘My wish for an adventure with Yvette was a wish to be taken up to the skies.’ "	98:107	0:160
+adventure	noun		BNC	sentence3		"A great experience, an adventure of the heart. "	23:32	0:46

@@ -1,0 +1,4 @@
+lemma	pos	date	grouping	identifier	description	context	indexes_target_token	indexes_target_sentence
+development	noun		BNC	sentence1		"Maurice Adams, ACET General Manager, and Overseas Development Worker, Kate Bristow, have recently returned from Romania. "	50:61	0:120
+development	noun		BNC	sentence2		The Group will work on behalf of service and ex-service personnel whose human rights are being abused and will be involved in the development of human rights awareness in armed services training.	130:141	0:195
+development	noun		BNC	sentence3		Another significant development to emerge from the latest session of the Commission, held in March 1991, was its decision to establish a Working Group on arbitrary detention.	20:31	0:174

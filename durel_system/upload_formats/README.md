@@ -1,4 +1,12 @@
 # Upload formats for DURel system
+## Overview
+In order to create a new project, you have three options:
+1.	You can upload use csv. The system will automatically create use pairs for each CSV. These pairs will be shown to the users as part of the annotation process. 
+
+2.	You can upload use csv and instance csv. In this case, the users upload the pair they want to annotate and then these pre-selected pairs would be shown to the users in the annotation process.
+
+3.	You can upload use csv and judgment csv. In this case, the use pairs are already annotated, the users could use the system for visulization.
+You are allowed to upload as many CSV files as you want in one single project (Use CTRL to select multiple files). Note in the second and third option, the number of use csv should match the number of instance/judgment csv.
 
 ## Uses
 

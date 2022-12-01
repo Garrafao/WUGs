@@ -32,15 +32,16 @@ Find information on the individual fields below:
 
 The `instances.csv` files must contain __one use pair per line__ with the following fields specified as header and separated by <TAB>:
 
-	<identifier1>\t<identifier2>\t<lemma>\n
+	<lemma>\t<identifier2>\t<identifier1>\n
 
 The CSV files should inlcude one empty line at the end. Each CSV file must contain only the instances of one word. You can find examples under `test_uug/instances/`.
 
 Find information on the individual fields below:
 
+- __lemma__: the lemma form of the target word in both uses
 - __identifier1__: identifier of the first use in the use pair (must correspond to identifier in uses.csv)
 - __identifier2__: identifier of the second use in the use pair
-- __lemma__: the lemma form of the target word in both uses
+
 
 ## Judgments
 

@@ -1,6 +1,6 @@
 import sys
 from itertools import combinations, product, chain
-from collections import defaultdict
+from collections import defaultdict, Counter
 import matplotlib.pyplot as plt
 import random
 import networkx as nx
@@ -425,3 +425,20 @@ def cluster_accuracy(y_true, y_pred):
     row_ind, col_ind = linear_sum_assignment(-contingency_matrix)
     #return result
     return contingency_matrix[row_ind, col_ind].sum() / np.sum(contingency_matrix)
+
+
+def extract_majority_label(labels, threshold):
+    """
+    Gets the majority label from a list of labels.
+    :param labels: labels
+    :param threshold: minimum threshold for number of occurrences of majority label
+    :return label: majority label
+    """
+    labels = list(labels)
+    label2count = Counter(labels)
+    majority_labels = [l for l, c in label2count.items() if c >= threshold]
+    if len(majority_labels) > 0:
+        label = np.random.choice(majority_labels)
+    else:
+        label = np.NaN  
+    return label

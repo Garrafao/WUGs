@@ -5,7 +5,7 @@ Scripts to process Word Usage Graphs (WUGs).
 If you use this software for academic research, please [cite](#bibtex) these papers:
 
 - Dominik Schlechtweg, Nina Tahmasebi, Simon Hengchen, Haim Dubossarsky, Barbara McGillivray. 2021. [DWUG: A large Resource of Diachronic Word Usage Graphs in Four Languages](https://aclanthology.org/2021.emnlp-main.567/). In Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing.
-- Dominik Schlechtweg and Sabine Schulte im Walde. submitted. Clustering Word Usage Graphs: A Flexible Framework to Measure Changes in Contextual Word Meaning.
+- Dominik Schlechtweg. 2022. Human and Computational Measurement of Lexical Semantic Change. PhD thesis. University of Stuttgart.
 
 Find WUG data sets on the [WUGsite](https://www.ims.uni-stuttgart.de/data/wugs).
 
@@ -20,7 +20,7 @@ Then run one of the following commands for Usage-Usage Graphs (UUGs) and Usage-S
 	bash -e scripts/run_uug.sh
 	bash -e scripts/run_usg.sh
 	
-For the alternative pipeline with custom filtering functionalities, instead run:
+For the alternative pipeline with custom plotting filtering functionalities, instead run:
 
 	bash -e scripts/run_uug2.sh
 
@@ -132,10 +132,12 @@ BibTex
 
 ```
 ```
-@inproceedings{Schlechtweg2021wugs,
-	title = {{Clustering Word Usage Graphs: A Flexible Framework to Measure Changes in Contextual Word Meaning}},
-	author = {Schlechtweg, Dominik and {Schulte im Walde}, Sabine},
-	year = {submitted}
+@phdthesis{Schlechtweg2022measurement,
+  author  = "Schlechtweg, Dominik",
+  title   = "Human and Computational Measurement of Lexical Semantic Change",
+  school  = "University of Stuttgart",
+  address = "Stuttgart, Germany",
+  year    = 2022
 }
 ```
 

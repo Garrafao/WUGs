@@ -71,6 +71,8 @@ scripts/misc/graph_semeval2graph.py
 scripts/misc/graph_semeval2graph.sh
 scripts/misc/graph2data.py
 scripts/misc/graph2data.sh
+scripts/misc/graph2stats_sense.py
+scripts/misc/graph2stats_sense.sh
 scripts/misc/judgments2header.py
 scripts/misc/judgments2header.sh
 scripts/misc/make_release_old.sh

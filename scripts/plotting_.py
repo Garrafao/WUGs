@@ -310,3 +310,4 @@ def make_edge_label(edge, graph, annotators, edge_label_style='weight', normaliz
         sys.exit('Breaking: No valid edge label style argument provided')                
                
     return label   
+

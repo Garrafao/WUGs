@@ -7,7 +7,7 @@ from itertools import combinations
 import os
 
 
-[_, input_file, output_folder, color, mode, style, edge_label_style, annotators, threshold, is_spring, modus] = sys.argv
+[_, input_file, output_folder, color, mode, style, edge_label_style, annotators, threshold, position, modus] = sys.argv
 
 threshold=float(threshold)
 graph = nx.read_gpickle(input_file)
@@ -30,19 +30,14 @@ if modus=='system':
 if modus=='full':
     dpi = 300
 
-if is_spring=='True':
-    is_spring = True
-if is_spring=='False':
-    is_spring = False
-
 output_folder_full = output_folder + '/full/'    
 if not os.path.exists(output_folder_full):
     os.makedirs(output_folder_full)    
 
 if style=='interactive':
-    plot_graph_interactive(graph, output_folder_full + name, c2n, threshold=threshold, period='full', color=color, mode=mode, edge_label_style = edge_label_style, annotators = annotators, is_spring = is_spring)
+    plot_graph_interactive(graph, output_folder_full + name, c2n, threshold=threshold, period='full', color=color, mode=mode, edge_label_style = edge_label_style, annotators = annotators, position_method = position)
 if style=='static':
-    plot_graph_static(graph, output_folder_full + name, c2n, threshold=threshold, period='full', color=color, mode=mode, edge_label_style = edge_label_style, annotators = annotators, dpi=dpi, is_spring = is_spring, node_size=100)
+    plot_graph_static(graph, output_folder_full + name, c2n, threshold=threshold, period='full', color=color, mode=mode, edge_label_style = edge_label_style, annotators = annotators, dpi=dpi, position_method = position, node_size=100)
     
 mappings_nodes = get_data_maps_nodes(graph)
 node2period = mappings_nodes['node2period']
@@ -55,9 +50,9 @@ if len(periods) > 1:
             os.makedirs(output_folder_period)    
 
         if style=='interactive':
-            plot_graph_interactive(graph, output_folder_period + name, c2n, threshold = threshold, period=period, color=color, mode=mode, edge_label_style = edge_label_style,annotators = annotators, is_spring = is_spring)
+            plot_graph_interactive(graph, output_folder_period + name, c2n, threshold = threshold, period=period, color=color, mode=mode, edge_label_style = edge_label_style,annotators = annotators, position_method = position)
         if style=='static':
-            plot_graph_static(graph, output_folder_period + name, c2n, threshold = threshold, period=period, color=color, mode=mode, edge_label_style = edge_label_style, annotators = annotators, dpi=dpi, is_spring = is_spring, node_size=300) 
+            plot_graph_static(graph, output_folder_period + name, c2n, threshold = threshold, period=period, color=color, mode=mode, edge_label_style = edge_label_style, annotators = annotators, dpi=dpi, position_method = position, node_size=300) 
 
     if style=='interactive':
         output_folder_aligned = output_folder+'/aligned/'    

@@ -10,12 +10,13 @@ min=1
 threshold=2.5
 max=4
 # plotting
-isspring=True
+position=spring
 colors=(colorful)
 periods=(full)
 modes=(full)
 styles=(interactive)
 edgestyles=(weight)
+thresholdplot=2.5
 # change scores
 lowerrangemin=2
 lowerrangemax=2

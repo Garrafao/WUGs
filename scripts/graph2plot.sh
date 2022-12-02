@@ -24,7 +24,7 @@ do
 		do
 		    outdirlmcp=$outdirlmc/$edgestyle
 		    mkdir -p $outdirlmcp
-		    python3 $scriptsdir/graph2plot.py $graph $outdirlmcp $color $mode $style $edgestyle $annotators $threshold $isspring $modus			
+		    python3 $scriptsdir/graph2plot.py $graph $outdirlmcp $color $mode $style $edgestyle $annotators $thresholdplot $position $modus			
 		done		   
 	    done
 	done

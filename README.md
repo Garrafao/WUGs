@@ -20,7 +20,7 @@ Then run one of the following commands for Usage-Usage Graphs (UUGs) and Usage-S
 	bash -e scripts/run_uug.sh
 	bash -e scripts/run_usg.sh
 	
-For the alternative pipeline with custom plotting filtering functionalities, instead run:
+For the alternative pipeline with multiple possible clustering algorithms (Correlation Clustering, Chinese Whispers, Louvain method) and custom plotting functionalities, instead run:
 
 	bash -e scripts/run_uug2.sh
 

@@ -4,6 +4,7 @@ import csv
 from collections import defaultdict, Counter
 from modules import *
 import unicodedata
+import numpy as np
 
 [_, annotation, min_, max_, annotators, excluded, output_file] = sys.argv
         

@@ -15,7 +15,7 @@ colors_global = ['#377eb8', '#ff7f00', '#4daf4a', '#f781bf', '#a65628', '#984ea3
 colors_global = colors_global + nice_colors
 
 
-def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x: x, color='colorful', period='full', mode='full', annotators = [], summary_statistic=np.median, s=2, node_size=10, node_label='cluster', edge_label_style='weight', edge_width=2, k = 0.8, is_spring=False, seed=0, pos={}, noise_color='k'):
+def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x: x, color='colorful', period='full', mode='full', annotators = [], summary_statistic=np.median, s=2, node_size=10, node_label='cluster', edge_label_style='weight', edge_width=2, k = 0.8, position_method='spring', seed=0, pos={}, noise_color='k'):
     """
     Plots interactive graph with cluster structure.  
     :param G: Networkx graph
@@ -33,18 +33,9 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x
 
 
     if pos=={}:
-        G_pos = G.copy()
-        G_pos.remove_edges_from(enan) # Remove nan edges for finding positions        
-        if is_spring:
-            transformation = lambda x: (x**3)
-            G_pos = transform_edge_weights(G_pos, transformation = transformation)
-            pos=nx.spring_layout(G_pos, k=k, seed=seed) # positions for all nodes
-            pos = {node:(p[0]*1500,p[1]*1500) for (node,p) in pos.items()} # strongly spread nodes
-        else:
-            G_pos.remove_edges_from(esmall) # Remove negative edges for finding positions
-            pos = graphviz_layout(G_pos,prog='sfdp')    
-        pos = {node:(p[0]/s,p[1]/s) for (node,p) in pos.items()}   
-
+        G_pos = G.copy()        
+        G_pos.remove_edges_from(enan) # Remove nan edges for finding positions       
+        pos = find_node_positions(G_pos, position_method, k=k, seed=seed, threshold=threshold)
 
     if color == 'black':
         colors = ['black']*200
@@ -170,7 +161,7 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x
     G_int.save_graph(outDir + '.html')
 
     
-def plot_graph_static(G, outDir, c2n, threshold=0.5, normalization=lambda x: x, color='colorful', period='full', mode='full', annotators = [], summary_statistic=np.median, s=2, node_size=80, edge_width=1, k=0.8, is_spring=False, seed=0, is_edge_labels=False, edge_label_style='weight', dpi=300, font_size_nodes=11, font_size_edges=11, node_label_style=None, pos={}, noise_color='k'):
+def plot_graph_static(G, outDir, c2n, threshold=0.5, normalization=lambda x: x, color='colorful', period='full', mode='full', annotators = [], summary_statistic=np.median, s=2, node_size=80, edge_width=1, k=0.8, position_method='spring', seed=0, is_edge_labels=False, edge_label_style='weight', dpi=300, font_size_nodes=11, font_size_edges=11, node_label_style=None, pos={}, noise_color='k'):
     """
     Plots static graph with cluster structure.  
     :param G: Networkx graph
@@ -188,17 +179,9 @@ def plot_graph_static(G, outDir, c2n, threshold=0.5, normalization=lambda x: x, 
 
 
     if pos=={}:
-        G_pos = G.copy()
-        G_pos.remove_edges_from(enan) # Remove nan edges for finding positions        
-        if is_spring:
-            transformation = lambda x: (x**3)
-            G_pos = transform_edge_weights(G_pos, transformation = transformation)
-            pos=nx.spring_layout(G_pos, k=k, seed=seed) # positions for all nodes
-            pos = {node:(p[0]*1500,p[1]*1500) for (node,p) in pos.items()} # strongly spread nodes
-        else:
-            G_pos.remove_edges_from(esmall) # Remove negative edges for finding positions
-            pos = graphviz_layout(G_pos,prog='sfdp')    
-        pos = {node:(p[0]/s,p[1]/s) for (node,p) in pos.items()}
+        G_pos = G.copy()        
+        G_pos.remove_edges_from(enan) # Remove nan edges for finding positions       
+        pos = find_node_positions(G_pos, position_method, k=k, seed=seed, threshold=threshold)
         
 
     if color == 'black':
@@ -311,3 +294,31 @@ def make_edge_label(edge, graph, annotators, edge_label_style='weight', normaliz
                
     return label   
 
+def find_node_positions(G, method, transformation = lambda x: x, s=750, k=0.8, seed=0, threshold=0.5):
+    """
+    Find node positions with different methods.
+    :param method: method for finding positions
+    :param transformation: transformation function for edge weights
+    :param s: constant to scale the final positions
+    :param k: optimal distance between nodes for spring layout
+    :param k: random seed for reproducibility
+    :return n2p: dictionary mapping nodes to positions
+    """
+ 
+    G = G.copy()
+
+    if method=='spring':
+        G = transform_edge_weights(G, transformation = lambda x: (x**3)) # transform edge weights
+        n2p=nx.spring_layout(G, k=k, seed=seed) # positions for all nodes
+        n2p = {node:(p[0]*s,p[1]*s) for (node,p) in n2p.items()} # strongly spread nodes
+    if method=='sfdp':
+        G = transform_edge_weights(G, transformation = lambda x: (x**3)) # transform edge weights
+        esmall=[(u,v) for (u,v,d) in G.edges(data=True) if d['weight'] <threshold]
+        G.remove_edges_from(esmall) # Remove negative edges for finding positions
+        n2p = graphviz_layout(G,prog='sfdp')
+    if method=='spectral':
+        G = transform_edge_weights(G, transformation = lambda x: (x**3)) # transform edge weights
+        n2p=nx.spectral_layout(G)    
+        n2p = {node:(p[0]*s,p[1]*s) for (node,p) in n2p.items()} # strongly spread nodes
+
+    return n2p

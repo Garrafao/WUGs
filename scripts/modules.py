@@ -4,7 +4,8 @@ from itertools import combinations, chain
 import random
 import numpy as np
 from constellation import Constellation
-from cluster_ import get_clusters, get_uncompared_clusters, get_low_prob_clusters, transform_edge_weights, Loss, transform_judgments
+from cluster_ import get_clusters, get_uncompared_clusters, get_low_prob_clusters, transform_edge_weights, transform_judgments
+from correlation import Loss 
 from scipy.stats import spearmanr, pearsonr
 from scipy.spatial.distance import euclidean, cosine
 import krippendorff_ as krippendorff

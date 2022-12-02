@@ -8,9 +8,7 @@ scriptsdir=${0%/*}
 dir=test_uug
 
 # load parameters
-source $scriptsdir/parameters_test.sh
-#source $scriptsdir/parameters_opt.sh
-#source $scriptsdir/parameters_semeval.sh
+source $scriptsdir/parameters_test2.sh
 
 graphtype=uug
 
@@ -30,7 +28,7 @@ source $scriptsdir/use2graph.sh
 source $scriptsdir/sense2graph.sh
 source $scriptsdir/sense2node.sh
 source $scriptsdir/judgments2graph.sh
-source $scriptsdir/graph2cluster.sh
+source $scriptsdir/graph2cluster2.sh
 source $scriptsdir/extract_clusters.sh
 source $scriptsdir/graph2stats.sh
-source $scriptsdir/graph2plot2.sh
+source $scriptsdir/graph2plot.sh

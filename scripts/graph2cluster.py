@@ -1,7 +1,8 @@
 import sys
 import networkx as nx
 from modules import transform_edge_weights, scale_weights, get_node_std, get_data_maps_edges, get_excluded_nodes, get_nan_edges
-from cluster_ import cluster_correlation_search, add_clusters, get_clusters
+from cluster_ import add_clusters, get_clusters
+from correlation import cluster_correlation_search
 import csv
 import numpy as np
  

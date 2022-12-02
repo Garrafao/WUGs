@@ -5,12 +5,15 @@ modus=test
 graphtype=uug
 isanonymize=True
 # clustering
+algorithm=correlation # one of correlation, chinese, louvain
 iters=1
 min=1
-threshold=2.5
+threshold=2.5 # should be 0.0 if not correlation or chinese
 max=4
+degree=None # only needed for chinese whispers, one of "top", "lin", "log"
+ambiguity=None # removes influence of ambiguous edges on clustering, one of "scale_edges", "remove_nodes", "None"
 # plotting
-position=spring
+position=spring # one of "spring", "sfdp", "spectral"
 colors=(colorful)
 periods=(full)
 modes=(full)

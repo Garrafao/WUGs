@@ -9,3 +9,7 @@ pyvis==0.1.9
 scikit_learn==0.24.2
 scipy==1.7.3
 six==1.16.0
+chinese_whispers==0.8.0
+community==1.0.0b1
+graphviz==0.20.1
+pygraphviz==1.10

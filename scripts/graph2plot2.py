@@ -6,7 +6,7 @@ import csv
 from itertools import combinations
 import os
 
-[_, input_file, output_folder, color, mode, style, edge_label_style, annotators, threshold, is_spring, modus] = sys.argv
+[_, input_file, output_folder, color, mode, style, edge_label_style, annotators, threshold, position, modus] = sys.argv
 
 threshold = float(threshold)
 graph = nx.read_gpickle(input_file)
@@ -29,10 +29,6 @@ if modus == 'system':
 if modus == 'full':
     dpi = 300
 
-if is_spring == 'True':
-    is_spring = True
-if is_spring == 'False':
-    is_spring = False
 
 output_folder_full = output_folder + '/full/'
 if not os.path.exists(output_folder_full):
@@ -40,11 +36,11 @@ if not os.path.exists(output_folder_full):
 
 if style == 'interactive':
     plot_graph_interactive(graph, output_folder_full + name, c2n, threshold=threshold, period='full', color=color,
-                           mode=mode, edge_label_style=edge_label_style, annotators=annotators, is_spring=is_spring)
+                           mode=mode, edge_label_style=edge_label_style, annotators=annotators, position_method = position, name=name)
 if style == 'static':
     plot_graph_static(graph, output_folder_full + name, c2n, threshold=threshold, period='full', color=color, mode=mode,
-                      edge_label_style=edge_label_style, annotators=annotators, dpi=dpi, is_spring=is_spring,
-                      node_size=100)
+                      edge_label_style=edge_label_style, annotators=annotators, dpi=dpi, position_method = position,
+                      node_size=100, name=name)
 
 mappings_nodes = get_data_maps_nodes(graph)
 node2period = mappings_nodes['node2period']
@@ -58,12 +54,11 @@ if len(periods) > 1:
 
         if style == 'interactive':
             plot_graph_interactive(graph, output_folder_period + name, c2n, threshold=threshold, period=period,
-                                   color=color, mode=mode, edge_label_style=edge_label_style, annotators=annotators,
-                                   is_spring=is_spring)
+                                   color=color, mode=mode, edge_label_style=edge_label_style, annotators=annotators, position_method = position, name=name)
         if style == 'static':
             plot_graph_static(graph, output_folder_period + name, c2n, threshold=threshold, period=period, color=color,
-                              mode=mode, edge_label_style=edge_label_style, annotators=annotators, dpi=dpi,
-                              is_spring=is_spring, node_size=300)
+                              mode=mode, edge_label_style=edge_label_style, annotators=annotators, dpi=dpi, position_method = position,
+                              node_size=300, name=name)
 
     if style == 'interactive':
         output_folder_aligned = output_folder + '/aligned/'
@@ -76,4 +71,24 @@ if len(periods) > 1:
                 f_out.write(
                     "<html>\n<head>\n</head>\n<frameset cols=\"50\%,\*\">\n<frame src=\"../{0}/{1}\">\n<frame src=\"../{2}/{1}\">\n</frameset>\n</html>\n".format(
                         old, name + '.html', new))
+
+        output_folder_aligned_full = output_folder + '/aligned_full/'
+        if not os.path.exists(output_folder_aligned_full):
+            os.makedirs(output_folder_aligned_full)
+        with open(output_folder_aligned_full + 'Aufkommen' + '.html', 'w',
+                        encoding='utf-8') as f_out:
+            f_out.write(
+                "<html>\n<head>\n</head>\n<frameset cols=\"50\%,\*\">\n<iframe src=\"../full/Aufkommen.html\">\n<frame src=\"../full/Aufkommen.html\">\n<frame src=\"../full/Aufkommen.html\">\n</frameset>\n</html>\n")
+        with open(output_folder_aligned_full + 'Vorwort' + '.html', 'w',
+                        encoding='utf-8') as f_out:
+            f_out.write(
+                "<html>\n<head>\n</head>\n<frameset cols=\"50\%,\*\">\n<iframe src=\"../full/Vorwort.html\">\n<frame src=\"../full/Vorwort.html\">\n<frame src=\"../full/Vorwort.html\">\n</frameset>\n</html>\n")
+        with open(output_folder_aligned_full + 'überspannen' + '.html', 'w',
+                        encoding='utf-8') as f_out:
+            f_out.write(
+                "<html>\n<head>\n</head>\n<frameset cols=\"50\%,\*\">\n<iframe src=\"../full/überspannen.html\">\n<frame src=\"../full/überspannen.html\">\n<frame src=\"../full/überspannen.html\">\n</frameset>\n</html>\n")
+        with open(output_folder_aligned_full + 'Manschette' + '.html', 'w',
+                        encoding='utf-8') as f_out:
+            f_out.write(
+                "<html>\n<head>\n</head>\n<frameset cols=\"50\%,\*\">\n<iframe src=\"../full/Manschette.html\">\n<frame src=\"../full/Manschette.html\">\n<frame src=\"../full/Aufkommen.html\">\n</frameset>\n</html>\n")
 

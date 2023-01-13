@@ -1,17 +1,18 @@
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
     <center>
-        <h1>{{heading}}</h1>
+        <h1 id="heading">{{heading}}</h1>
     </center>
+
 
     <!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
 <script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
 
     <style type="text/css">
-        #mynetwork {
+       #mynetwork {
             width: 65%;
             height: 90%;
 
@@ -208,7 +209,7 @@
             top: 18px;
             right: 18px;
             text-align: center;
-            background-color: #BCDBEA;
+            background-color: #E55B0A;
             border-radius: 50%;
             width: 24px;
             height: 24px;
@@ -238,11 +239,11 @@
             text-align: left;
             background-color: #1E2021;
             padding: 20px;
-            width: 300px;
+            width: 800px;
             position: absolute;
             border-radius: 3px;
             box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-            right: -4px;
+            right: 16px;
             color: #FFF;
             font-size: 13px;
             line-height: 1.4;
@@ -294,12 +295,53 @@
                 opacity: 100%;
             }
         }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-icon {
+            position: absolute;
+            top: 40%;
+            left: 30%;
+            transform: translate(-50%, -50%);
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid red;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            visibility: hidden;
+        }
+
+        #custom_wugs {
+            font-size: smaller;
+        }
+
+        .shifted {
+            margin-left: 3%;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        #fillSD {
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
     </style>
 
 </head>
 
 <body>
-
+     <div id="loader" style="display: none"></div>
 
     <div id="mynetwork"></div>
     {% if nodes|length > 100 and physics_enabled %}
@@ -319,71 +361,90 @@
 
 
         <div class="help-tip">
-            <p>For large graphs, loading time may vary.</p>
+            <p><em>General</em><br /><br />
+           Firefox is the recommended browser for this application. For large graphs, loading time may vary. This application is under development. Feedback is appreciated. The code, from which you can generate your own graphs, can be found here:  <a href="https://github.com/Garrafao/WUGs/" target="_blank" style="color: white">WUGs repository</a><br /><br /><br />
+                <em>Statistics</em><br /><br />
+            The statistics section gets updated as the filters are used. For in-depth stats, refer to the stats dropdowns on the bottom.<br /><br /><br />
+                <em>Edge & node filters</em><br /><br />
+            Edge weights are calculated as the mean of all annotations of the node pair.
+            Nodes with noisy data appear black and have -1 as their label. Both the noisy nodes and edges with wrongly calculated weights can be filtered out.
+            Edge and node filters are interlinked and should show the desired selection.<br /><br /><br />
+                <em>Annotators filter</em><br /><br />
+            The annotators filter resets all other filters and shows the initial graph, but only edges the selected annotators have annotated.</p>
+        </div>
+
+        <div class="infoContainer">
+            <h4>Info: </h4>
+            <div id="clusterInfo"></div>
+            <h4>Statistics:</h4>
+            <div id="statistics"></div>
+            <p id="fillMean">Edge weight mean: </p>
+            <p id="fillSD">Edge weight standard deviation: </p>
+        </div>
+        <div class ="edgeFilterContainer">
+            <h4>Filter Edges: </h4>
+
+            <label for="checkboxNaN">Show NaN edges </label>
+            <input type="checkbox" id="checkboxNaN" onclick="filterNaN()">
+            <br><br>
+            <div class="slideContainer" style="display: block; clear: both">
+                <label for="slider-min" style="display: block">Min weight: <span id="sliderValueDisplayMin" style="display: inline-block">1</span></label>
+                <input type="range" min="1" max="4" value="1" class="slider-load" id="slider-min">
+                <label for="slider" style="display: block">Max weight: <span id="sliderValueDisplay" style="display: inline-block">4</span></label>
+                <input type="range" min="1" max="4" value="4" class="slider-load" id="slider">
+            </div>
         </div>
 
 
-        <div class="slidecontainer">
-            <h4>Select edges to show by weight: </h4>
-            <input type="range" min="0" max="5" value="5" class="slider" id="slider">
-            Max Weight: <span id="sliderValueDisplay">5</span>
-        </div>
-<!--
-        <div id="dateButtons">
-            <h4>Show/hide years: </h4>
-        </div>
 
-        <div class="slidecontainer">
-            <h4>Select a start year: </h4>
-            <input type="range" class="slider" id="dateSlider" list="dateList">
-            <datalist id="dateList"></datalist>
-            Min year: <span id="dateSliderValueDisplay"></span>
-        </div>
 
-        <div class="selectContainer">
-            <h4>Select a time period: </h4>
-            <label for="minPicker">from year: </label>
-            <select class="picker" id="minPicker" onchange="selectMinYear()"></select>
-            <label for="maxPicker">to year: </label>
-            <select class="picker" id="maxPicker" onchange="selectMaxYear()"></select>
-        </div>
--->
-        <div class="formContainer">
-            <h4>Select a time period: </h4>
-            <form onsubmit="pickDates();return false">
-                <label for="minPicker2">from year: </label>
-                <select class="picker" id="minPicker2"></select>
-                <label for="maxPicker2">to year: </label>
-                <select class="picker" id="maxPicker2"></select>
-                <input type="submit">
+        <div class="nodeFilterContainer">
+            <h4>Filter Nodes: </h4>
+
+            <label for="checkboxNoiseLabels">Show noisy nodes </label>
+            <input type="checkbox" id="checkboxNoiseLabels" onclick="filterNoiseLabels()">
+            <br><br>
+            <form onsubmit="dateFilter();return false">
+                <label for="minPicker">From year: </label>
+                <select class="picker" id="minPicker"></select>
+                <label for="maxPicker">to year: </label>
+                <select class="picker" id="maxPicker"></select>
+                <input type="submit" value="Filter">
             </form>
-        </div>
 
-
-        <div class="selectContainer">
-            <h4>Select grouping: </h4>
-
-            <label for="groupPicker">Select grouping:</label>
-            <select class="picker" id="groupPicker" onchange="selectGroup()">
+            <label for="groupPicker">Grouping: </label>
+            <select  class="select-load" id="groupPicker">
                 <option>All</option>
                 <option>1</option>
                 <option>2</option>
             </select>
+            <div class="loading-icon"></div>
         </div>
 
+        <div id="annotatorsContainer"></div>
+
         <div class="detailsContainer">
-            <h4>Show stats:</h4>
-        <details>
-            <summary>Stats</summary>
-            <p>Lorem ipsum dorem es war ein langer Tag, und er wird noch länger. 3 silences, one wrapped in the other</p>
-        </details>
-        <details>
-            <summary>Other stats</summary>
-        </details>
-        <details>
-            <summary>3rd Stats thing</summary>
-        </details>
-    </div>
+            <details id="stats">
+                <summary class="bold">Stats</summary>
+                <table id="stats-table"></table>
+            </details>
+            <details id="statsGroupings">
+                <summary class="bold">Grouping stats</summary>
+                <table id="stats-groupings-table"></table>
+            </details>
+            <details id="statsAgreement">
+                <summary class="bold">Agreement stats</summary>
+                <table id="stats-agreement-table"></table>
+            </details>
+            <details id="statsPlotting">
+                <summary class="bold">Plotting stats</summary>
+                <table id="stats-plotting-table"></table>
+            </details>
+            <details id="statsDataJoint">
+                <summary class="bold">Annotator data</summary>
+            </details>
+        </div>
+
     </div>
 
     <div id="config">
@@ -391,8 +452,13 @@
     </div>
 
     {% endif %}
-    <script type="text/javascript">
+     <script type="text/javascript" src="stats.json"></script>
+     <script type="text/javascript" src="stats_agreement.json"></script>
+     <script type="text/javascript" src="stats_groupings.json"></script>
+     <script type="text/javascript" src="stats_plotting.json"></script>
+     <script type="text/javascript" src="data_joint.json"></script>
 
+    <script type="text/javascript">
         // initialize global variables.
         var edges;
         var nodes;
@@ -539,40 +605,90 @@
         drawGraph();
 
 
+        let nodesInTimePeriod = new Set();
+        let edgesInTimePeriod = new Set();
+        let edgesBelowWeight = new Set();
+        let nodesInGrouping = new Set();
+        let edgesInGrouping = new Set();
+        let edgesToBeShown = new Set();
+        let nodesToBeShown = new Set();
 
+        edges.forEach(function (edge) {
+            edgesBelowWeight.add(edge.id);
+            edgesInGrouping.add(edge.id);
+            edgesInTimePeriod.add(edge.id);
+            edgesToBeShown.add(edge.id);
+        })
+
+        nodes.forEach(function (node) {
+            nodesInTimePeriod.add(node.id);
+            nodesInGrouping.add(node.id);
+            nodesToBeShown.add(node.id);
+        })
+
+
+        function showEdges() {
+            edgesToBeShown.forEach(function (edge) {
+                edge.hidden = false;
+                edges.update(edge);
+            })
+        }
+
+        //Missing the loading icon
         //slider code from pyvis filter example
         // Handler event when slider changes
-        document.getElementById('slider').oninput = function () {
+
+        let slider = document.getElementById('slider');
+        let sliderMin = document.getElementById('slider-min');
+        let sliderDisplay = document.getElementById('sliderValueDisplay');
+        let sliderMinDisplay = document.getElementById('sliderValueDisplayMin');
+
+        sliderDisplay.innerHTML = "4";
+        sliderMinDisplay.innerHTML = "1";
+
+        function weightFilter() {
             // Get the value of the slider
-            var sliderValue = this.value;
+            let sliderValue = slider.value;
+            let sliderMinValue = sliderMin.value;
 
             // Display the selected value next to slider
-            document.getElementById('sliderValueDisplay').innerHTML = sliderValue;
+            sliderDisplay.innerHTML = sliderValue;
+            sliderMinDisplay.innerHTML = sliderMinValue;
 
             // Loop through the edges
             edges.forEach(function (edge) {
                 // Check if the edge should be displayed based on its weight
-                if (edge.weight <= sliderValue) {
-                    // Edge should be displayed
-                    // Unhide edge if it's hidden and update DataSet
-                    if (edge.hidden) {
+                if (edge.weight <= sliderValue && edge.weight >= sliderMinValue) {
+                    if (!nodes.get(edge.to).hidden && !nodes.get(edge.from).hidden) {
+                        edgesBelowWeight.add(edge.id);
                         edge.hidden = false;
                         edges.update(edge);
                     }
+                    // Edge should be displayed
+                    // Unhide edge if it's hidden and update DataSet
+
+                } else if (isNaN(edge.weight)) {
+                    //console.log("its NaN")
                 } else {
+
                     // Edge should not be displayed
                     // Hide edge if not already hidden and update DataSet
                     if (!edge.hidden) {
+                        edgesBelowWeight.delete(edge.id);
                         edge.hidden = true;
                         edges.update(edge);
                     }
                 }
             });
+
+
+            calcMean();
         }
 
 
+
         //code for node date filter
-        var dates = [];
+        let dates = [];
         nodes.forEach(function (node) {
             date = node.date;
             if (!dates.includes(date)) {
@@ -580,165 +696,187 @@
             }
         });
         dates.sort();
-        console.log(dates);
-
-        function dateClick() {
-            btnDate = this.className;
-            console.log("click" + btnDate);
-            nodes.forEach(function (node) {
-                if (Number(node.date) == Number(btnDate) && !node.hidden) {
-                    console.log("hide");
-                    node.hidden = true;
-                    nodes.update(node);
-                } else if (Number(node.date) == Number(btnDate) && node.hidden) {
-                    console.log("show");
-                    node.hidden = false;
-                    nodes.update(node);
-                }
-            });
-        }
-/**
-        dates.forEach(function (date) {
-            var btn = document.createElement("button");
-            btn.setAttribute("class", date);
-            btn.setAttribute("value", date);
-            btn.onclick = dateClick;
-            btn.innerHTML = date;
-
-            document.getElementById("dateButtons").append(btn);
-        });
-**/
-
 
 
         //code for date slider
-        minDate = 10000;
-        maxDate = 0;
-        value1 = 0;
-        value2 = 0;
+        let minDate = 10000;
+        let maxDate = 0;
 
+        let minPicker = document.getElementById('minPicker');
+        let maxPicker = document.getElementById('maxPicker');
 
-        dates.forEach(function (date) {
-            if (Number(date) < minDate) {
-                minDate = Number(date);
-            }
-            if (Number(date) > maxDate) {
-                maxDate = Number(date);
-            }
-            var option = document.createElement('option');
-            option.text = date;
-            option.value = date;
-            /**
-            document.getElementById('dateList').append(option);
-            var option2 = document.createElement('option');
-            option2.text = date;
-            option2.value = date;
-
-            document.getElementById('minPicker').append(option2);
-            var option3 = document.createElement('option');
-            option3.text = date;
-            option3.value = date;
-            document.getElementById('maxPicker').append(option3);
-             */
-            var option4 = document.createElement('option');
-            option4.text = date;
-            option4.value = date;
-
-            document.getElementById('minPicker2').append(option4);
-            var option5 = document.createElement('option');
-            option5.text = date;
-            option5.value = date;
-            document.getElementById('maxPicker2').append(option5);
-        })
-
-        //console.log("datelist: " + document.getElementById('dateList'));
-
-        //console.log("minDate: ");
-        //console.log(minDate);
-        //console.log("maxDate: " + maxDate);
-/**
-        document.getElementById('dateSlider').setAttribute("min", minDate);
-        //document.getElementById('minPicker').setAttribute("min", minDate);
-        //document.getElementById('maxPicker').setAttribute("min", minDate);
-
-        document.getElementById('dateSlider').setAttribute("max", maxDate);
-        //document.getElementById('minPicker').setAttribute("max", maxDate);
-        //document.getElementById('maxPicker').setAttribute("max", maxDate);
-
-        document.getElementById('dateSlider').setAttribute("value", minDate);
-        //document.getElementById('minPicker').setAttribute("value", minDate);
-        document.getElementById('maxPicker').selectedIndex = dates.length - 1;
-        document.getElementById('maxPicker2').selectedIndex = dates.length - 1;
-
-        document.getElementById('dateSliderValueDisplay').innerHTML = minDate;
-        // Handler event when slider changes
-        document.getElementById('dateSlider').oninput = function () {
-            // Get the value of the slider
-            var sliderValue = this.value;
-
-            // Display the selected value next to slider
-            document.getElementById('dateSliderValueDisplay').innerHTML = sliderValue;
-
-            nodes.forEach(function (node) {
-                if (Number(node.date) < sliderValue) {
-                    node.hidden = true;
-                    nodes.update(node);
-                } else if (Number(node.date) >= sliderValue) {
-                    node.hidden = false;
-                    nodes.update(node);
+        if (!minPicker.hasChildNodes()) {
+            dates.forEach(function (date) {
+                if (Number(date) < minDate) {
+                    minDate = Number(date);
                 }
+                if (Number(date) > maxDate) {
+                    maxDate = Number(date);
+                }
+
+
+                let option = document.createElement('option');
+                option.text = date;
+                option.value = date;
+
+                let option2 = document.createElement('option');
+                option2.text = date;
+                option2.value = date;
+
+                minPicker.append(option);
+                maxPicker.append(option2);
+
             })
-
-
-
+        } else {
+            minDate = Number(dates[0]);
+            maxDate = Number(dates[dates.length-1]);
         }
-*/
+        maxPicker.selectedIndex = dates.length - 1;
 
-        function selectMinYear() {
-            //console.log("changed selection");
-            var selectValue = document.getElementById('minPicker').value;
-            var maxValue = document.getElementById('maxPicker').value;
-            //console.log(selectValue);
-            nodes.forEach(function (node) {
-                if (Number(node.date) < Number(selectValue)) {
-                    //console.log("found a smaller date");
-                    node.hidden = true;
-                    nodes.update(node);
-                } else if (Number(node.date) >= Number(selectValue) && Number(node.date) <= Number(maxValue)) {
-                    node.hidden = false;
-                    nodes.update(node);
-                }
-            })
+
+
+        function showSelectLoad() {
+            return new Promise(function (resolve) {
+                loadingIcon.style.visibility = 'visible';
+                resolve();
+            });
         }
 
-        function selectMaxYear() {
-            //console.log("changed selection");
-            var selectValue = document.getElementById('maxPicker').value;
-            var minValue = document.getElementById('minPicker').value;
-            //console.log(selectValue);
-            nodes.forEach(function (node) {
-                if (Number(node.date) > Number(selectValue)) {
-                    //console.log("found a bigger date");
-                    node.hidden = true;
-                    nodes.update(node);
-                } else if (Number(node.date) <= Number(selectValue) && Number(node.date) >= Number(minValue)) {
-                    node.hidden = false;
-                    nodes.update(node);
-                }
-            })
+        function hideSelectLoad() {
+            return new Promise(function (resolve) {
+                loadingIcon.style.visibility = 'hidden';
+                resolve();
+            });
         }
 
 
 
+        const loadingIcon = document.querySelector('.loading-icon');
+        const select = document.querySelector('.select-load');
+
+        select.addEventListener('change', function () {
+            showSelectLoad();
+            setTimeout(selectGroup, 1000);
+
+
+            setTimeout(hideSelectLoad, 1000);
+
+
+        });
+
+        const slider_load = document.querySelector('.slider-load');
+
+         slider_load.addEventListener('change', function() {
+            showSelectLoad();
+            setTimeout(weightFilter,1000);
+
+
+            setTimeout(hideSelectLoad, 1000);
+
+
+        });
+
+        let groupPicker = document.getElementById('groupPicker');
+        groupPicker.selectedIndex = 0;
+        let minValue = minPicker.value;
+        let maxValue = maxPicker.value;
 
         function selectGroup() {
+            return new Promise(function (resolve, reject) {
+                let selectValue = document.getElementById('groupPicker').value;
 
-            var selectValue = document.getElementById('groupPicker').value;
-            console.log("value: " + selectValue);
+                console.log("grouping value: " + selectValue);
 
-            if(selectValue == 1) {
-                nodes.forEach(function(node){
-                    if(node.title.includes("grouping: 1")) {
+                if (selectValue == 1) {
+                    nodes.forEach(function (node) {
+
+
+                        if (node.title.includes("grouping: 1") && Number(node.date) >= Number(minValue) && Number(node.date) <= Number(maxValue) && (Number(node.label) !== -1 || (Number(node.label) == -1 && showNoiseLabels))) {
+                            node.hidden = false;
+                            nodes.update(node);
+                        } else {
+                            node.hidden = true;
+                            nodes.update(node);
+                        }
+                    })
+                } else if (selectValue == 2) {
+                    nodes.forEach(function (node) {
+                        if (node.title.includes("grouping: 2") && Number(node.date) >= Number(minValue) && Number(node.date) <= Number(maxValue) && (Number(node.label) !== -1 || (Number(node.label) == -1 && showNoiseLabels))) {
+                            node.hidden = false;
+                            nodes.update(node);
+                        } else {
+                            node.hidden = true;
+                            nodes.update(node);
+                        }
+                    })
+                } else {
+                    nodes.forEach(function (node) {
+                        if (Number(node.date) >= Number(minValue) && Number(node.date) <= Number(maxValue) && (Number(node.label) !== -1 || (Number(node.label) == -1 && showNoiseLabels))) {
+                            node.hidden = false;
+                            nodes.update(node);
+                        } else {
+                            node.hidden = true;
+                            nodes.update(node);
+                        }
+                    })
+                }
+                loadingIcon.style.visibility = 'hidden';
+
+                edges.forEach(function (edge) {
+                    if (isNaN(edge.weight)) {
+                        if (showNaNEdges && !nodes.get(edge.to).hidden && !nodes.get(edge.from).hidden) {
+
+                            edge.hidden = false;
+                            edges.update(edge);
+                        } else {
+                            edge.hidden = true;
+                            edge.hidden = true;
+                            edges.update(edge);
+                        }
+                    } else if (!nodes.get(edge.to).hidden && !nodes.get(edge.from).hidden && !isNaN(edge.weight)) {
+                        edgesInGrouping.add(edge.id);
+                        edge.hidden = false;
+                        edges.update(edge);
+                    } else {
+                        edgesInGrouping.delete(edge.id);
+                        edge.hidden = true;
+                        edges.update(edge);
+                    }
+
+
+                })
+                loadingIcon.style.visibility = 'hidden';
+                calcMean();
+                updateClusterDistribution();
+                resolve();
+            });
+
+        }
+
+        function dateFilter() {
+            showSelectLoad();
+            setTimeout(pickDates, 1000);
+
+
+            setTimeout(hideSelectLoad, 2000);
+
+
+        }
+
+        function pickDates() {
+            loadingIcon.style.visibility = 'visible';
+
+            let selectValue = document.getElementById('groupPicker').value;
+            minValue = minPicker.value;
+            maxValue = maxPicker.value;
+
+            //console.log("showing dates between " + minValue + " and " + maxValue);
+
+            if (selectValue == 1) {
+                nodes.forEach(function (node) {
+
+
+                    if (node.title.includes("grouping: 1") && Number(node.date) >= Number(minValue) && Number(node.date) <= Number(maxValue) && (Number(node.label) !== -1 || (Number(node.label) == -1 && showNoiseLabels))) {
                         node.hidden = false;
                         nodes.update(node);
                     } else {
@@ -747,8 +885,8 @@
                     }
                 })
             } else if (selectValue == 2) {
-                nodes.forEach(function(node){
-                    if(node.title.includes("grouping: 2")) {
+                nodes.forEach(function (node) {
+                    if (node.title.includes("grouping: 2") && Number(node.date) >= Number(minValue) && Number(node.date) <= Number(maxValue) && (Number(node.label) !== -1 || (Number(node.label) == -1 && showNoiseLabels))) {
                         node.hidden = false;
                         nodes.update(node);
                     } else {
@@ -757,113 +895,496 @@
                     }
                 })
             } else {
-                nodes.forEach(function(node){
-                    node.hidden = false;
-                    nodes.update(node);
+                nodes.forEach(function (node) {
+                    if (Number(node.date) >= Number(minValue) && Number(node.date) <= Number(maxValue) && (Number(node.label) !== -1 || (Number(node.label) == -1 && showNoiseLabels))) {
+                        node.hidden = false;
+                        nodes.update(node);
+                    } else {
+                        node.hidden = true;
+                        nodes.update(node);
+                    }
                 })
             }
-            // var selectValue = document.getElementById('grouPicker').value;
-            // nodes.forEach(function(node){
-            //     if (Number(node.group) == Number(selectValue)) {
-            //         node.hidden = false;
-            //         nodes.update(node);
-            //     } else {
-            //         node.hidden = true;
-            //         nodes.update(node)
-            //     }
-            // })
-        }
+
+            edges.forEach(function (edge) {
 
 
-        function pickDates() {
+                if (isNaN(edge.weight) && !showNaNEdges) {
 
-
-            var minValue = document.getElementById('minPicker2').value;
-            var maxValue = document.getElementById('maxPicker2').value;
-
-            console.log("showing dates between " + minValue + " and " + maxValue);
-
-            nodes.forEach(function (node) {
-
-                var connectedEdges = network.getConnectedEdges(node.id);
-                // console.log(connectedEdges);
-                // console.log(typeof connectedEdges);
-                // console.log(Object.values(connectedEdges)[0]);
-
-                if (Number(node.date) < Number(minValue)) {
-                    //console.log("found a smaller date");
-                    node.hidden = true;
-                    nodes.update(node);
-                    if (!(Object.keys(connectedEdges).length === 0)) {
-                        console.log('there should be connected edges');
-                        for (i=0; i < Object.keys(connectedEdges).length; i++) {
-                            connectedEdge = connectedEdges[i];
-                            console.log(connectedEdge);
-
-                            edge = edges.get(connectedEdge);
-
-
-                            edge.hidden = true;
-                            edges.update(edge);
-                        };
-                    }
-                } else if (Number(node.date) >= Number(minValue) && Number(node.date) <= Number(maxValue)) {
-                    node.hidden = false;
-                    nodes.update(node);
-                    if (!(Object.keys(connectedEdges).length === 0)) {
-                        console.log('there should be connected edges');
-                        for (i=0; i < Object.keys(connectedEdges).length; i++) {
-                            connectedEdge = connectedEdges[i];
-                            console.log(connectedEdge);
-
-                            edge = edges.get(connectedEdge);
-
-
-                            edge.hidden = false;
-                            edges.update(edge);
-                        };
-                    }
-                } else if (Number(node.date) > Number(maxValue)) {
-                    //console.log("found a bigger date");
-                    node.hidden = true;
-                    nodes.update(node);
-                    if (!(Object.keys(connectedEdges).length === 0)) {
-                        console.log('there should be connected edges');
-                        for (i=0; i < Object.keys(connectedEdges).length; i++) {
-                            connectedEdge = connectedEdges[i];
-                            console.log(connectedEdge);
-
-                            edge = edges.get(connectedEdge);
-
-
-                            edge.hidden = true;
-                            edges.update(edge);
-                        };
-                    }
-                } else if (Number(node.date) <= Number(maxValue) && Number(node.date) >= Number(minValue)) {
-                    node.hidden = false;
-                    nodes.update(node);
-                    if (!(Object.keys(connectedEdges).length === 0)) {
-                        console.log('there should be connected edges');
-                        for (i=0; i < Object.keys(connectedEdges).length; i++) {
-                            connectedEdge = connectedEdges[i];
-                            console.log(connectedEdge);
-
-                            edge = edges.get(connectedEdge);
-
-
-                            edge.hidden = false;
-                            edges.update(edge);
-                        };
-                    }
+                } else if (!nodes.get(edge.to).hidden && !nodes.get(edge.from).hidden && isNaN(edge.weight)){
+                    edgesInTimePeriod.add(edge.id);
+                    edge.hidden = false;
+                    edges.update(edge);
+                } else if (!nodes.get(edge.to).hidden && !nodes.get(edge.from).hidden && edge.weight >= sliderMin.value && edge.weight <= slider.value) {
+                    edgesInTimePeriod.add(edge.id);
+                    edge.hidden = false;
+                    edges.update(edge);
+                } else {
+                    edgesInTimePeriod.delete(edge.id);
+                    edge.hidden = true;
+                    edges.update(edge);
                 }
 
 
             })
+            loadingIcon.style.visibility = 'hidden'
+
+
+            calcMean();
+            updateClusterDistribution();
+
+        }
+
+        let showNaNEdges = true;
+
+        function filterNaN() {
+            showSelectLoad();
+            setTimeout(selectNaN, 1000);
+
+
+            setTimeout(hideSelectLoad, 1000);
+
+        };
+
+        const checkboxNaN = document.getElementById("checkboxNaN");
+
+        function selectNaN() {
+            if (checkboxNaN.checked) {
+
+                showNaNEdges = true;
+                edges.forEach(function (edge) {
+                    if (isNaN(edge.weight)) {
+                        edge.hidden = false;
+                        edges.update(edge);
+                        pickDates();
+                    }
+                });
+            } else {
+                showNaNEdges = false;
+                edges.forEach(function (edge) {
+                    if (isNaN(edge.weight)) {
+                        edge.hidden = true;
+                        edges.update(edge);
+                    }
+                });
+            }
 
 
         }
 
+
+        const checkboxNoiseLabels = document.getElementById("checkboxNoiseLabels");
+
+        document.getElementById("checkboxNaN").checked = true;
+        document.getElementById("checkboxNoiseLabels").checked = true;
+
+        let showNoiseLabels = true;
+
+        function filterNoiseLabels() {
+            showSelectLoad();
+            setTimeout(selectNoiseLabels, 1000);
+
+
+            setTimeout(hideSelectLoad, 1000);
+        }
+
+        function selectNoiseLabels() {
+            if (checkboxNoiseLabels.checked) {
+
+                showNoiseLabels = true;
+
+                nodes.forEach(function (node) {
+                    if (Number(node.label) == -1) {
+                        node.hidden = false;
+                        nodes.update(node);
+                    }
+                })
+
+                edges.forEach(function (edge) {
+                    if (!nodes.get(edge.to).hidden && !nodes.get(edge.from).hidden) {
+                        if (isNaN(edge.weight) && !showNaNEdges) {
+                            edge.hidden = true;
+                            edges.update(edge);
+
+                        } else {
+                            edge.hidden = false;
+                            edges.update(edge);
+                        }
+                    }
+                })
+
+            } else {
+
+                showNoiseLabels = false;
+
+                nodes.forEach(function (node) {
+                    if (Number(node.label) == -1) {
+
+                        node.hidden = true;
+
+                        nodes.update(node);
+                    }
+                })
+
+                edges.forEach(function (edge) {
+                    if (nodes.get(edge.to).hidden || nodes.get(edge.from).hidden || (isNaN(edge.weight) && !showNaNEdges)) {
+
+                        edge.hidden = true;
+                        edges.update(edge);
+
+                    }
+                })
+
+            }
+            updateClusterDistribution();
+        }
+
+
+        let fillMean = document.getElementById("fillMean");
+        let fillSD = document.getElementById("fillSD");
+
+
+        function calcMean() {
+            let edgeValues = [];
+            edges.forEach(function (edge) {
+                if (!edge.hidden) {
+                    let label = parseFloat(edge.weight);
+                    if (!isNaN(label)) {
+                        edgeValues.push(label);
+                    }
+                }
+            })
+
+            let mean = edgeValues.reduce((a, b) => a + b, 0) / edgeValues.length;
+            let sd = dev(edgeValues, mean);
+            if (isNaN(mean)) {
+                mean = 0;
+            }
+            if (isNaN(sd)) {
+                sd = 0;
+            }
+            mean = mean.toFixed(5);
+            sd = sd.toFixed(5);
+
+            fillMean.innerHTML = "Edge weight mean: ";
+            fillSD.innerHTML = "Edge weight standard deviation: "
+
+            fillMean.append(mean);
+            fillSD.append(sd);
+
+        }
+
+
+        // Javascript program to calculate the standard deviation of an array
+
+        function dev(arr, mean) {
+
+            // Assigning (value - mean) ^ 2 to every array item
+            arr = arr.map((k) => {
+                return (k - mean) ** 2
+            })
+
+
+            // Calculating the sum of updated array
+            let sum = arr.reduce((acc, curr) => acc + curr, 0);
+
+
+            // Returning the standard deviation
+            return Math.sqrt(sum / arr.length)
+        }
+
+        calcMean();
+
+
+        let heading = document.getElementById("heading").innerHTML;
+        let onlyLemma = heading.replace(/ .*/, '');
+
+
+        let filteredStats = stats.filter(row => row.lemma === onlyLemma);
+        let filteredStatsGroupings = stats_groupings.filter(row => row.lemma === onlyLemma);
+        let filteredStatsAgreement = stats_agreement.filter(row => row.data === onlyLemma);
+        let filteredStatsPlotting = stats_plotting.filter(row => row.lemma === onlyLemma);
+        let filteredStatsDataJoint = data_joint.filter(row => row.lemma === onlyLemma);
+
+
+        let statsTable = document.getElementById("stats-table");
+        let statsGroupingsTable = document.getElementById("stats-groupings-table");
+        let statsAgreementTable = document.getElementById("stats-agreement-table");
+        let statsPlottingTable = document.getElementById("stats-plotting-table");
+        generateTable(filteredStats, "stats");
+        generateTable(filteredStatsGroupings, "statsGroupings");
+        generateTable(filteredStatsAgreement, "statsAgreement");
+        generateTable(filteredStatsPlotting, "statsPlotting");
+        generateDetails(filteredStatsDataJoint, "statsDataJoint");
+
+        function generateTable(jsonData, id) {
+            let div = document.createElement('div');
+
+
+            let keys = Object.keys(jsonData[0]);
+            keys.forEach(function (key) {
+                let details = document.createElement('details');
+                details.classList.add('shifted');
+                let summary = document.createElement('summary');
+                summary.innerText = key;
+                details.appendChild(summary);
+                let content = document.createElement('div');
+                content.innerText = jsonData[0][key];
+                details.appendChild(content);
+                div.appendChild(details);
+
+            })
+
+            document.getElementById(id).append(div);
+        }
+
+        function generateDetails(jsonData, id) {
+            let div = document.createElement('div');
+
+            for (let i = 0; i < jsonData.length; i++) {
+                let surroundingDetails = document.createElement('details');
+                surroundingDetails.classList.add('shifted');
+                let surroundingSummary = document.createElement('summary');
+                surroundingSummary.innerText = i.toString();
+                surroundingDetails.appendChild(surroundingSummary);
+                div.appendChild(surroundingDetails);
+                let keys = Object.keys(jsonData[i]);
+                keys.forEach(function (key) {
+                    let details = document.createElement('details');
+                    details.classList.add('shifted');
+                    let summary = document.createElement('summary');
+                    summary.innerText = key;
+                    details.appendChild(summary);
+                    let content = document.createElement('div');
+                    content.innerText = jsonData[i][key];
+                    details.appendChild(content);
+                    surroundingDetails.appendChild(details);
+
+                })
+            }
+
+            document.getElementById(id).append(div);
+        }
+
+        let nodePosition = filteredStatsPlotting[0].node_position;
+        let clusteringMethod = filteredStats[0].algorithm;
+
+        let cluster_freq_dist = filteredStatsGroupings[0].cluster_freq_dist;
+        let cluster_prob_dist = filteredStatsGroupings[0].cluster_prob_dist;
+
+        let clusterInfo = document.getElementById("clusterInfo");
+        let statisticsDiv = document.getElementById("statistics");
+
+        clusterInfo.innerHTML = `
+            <p>Node position: ${nodePosition}</p>
+            <p>Clustering method: ${clusteringMethod}</p>`;
+
+        statisticsDiv.innerHTML = `
+            <p id="clusterFreqDist">Cluster frequency distribution: ${cluster_freq_dist}</p>
+            <p id="clusterProbDist">Cluster probability distribution: ${cluster_prob_dist}</p>`;
+
+
+        function updateClusterDistribution() {
+            let clusterFreqDist = [];
+            let clusterProbDist = [];
+            let temp = [];
+            let numberOfNodes = 0;
+
+            nodes.forEach(function (node) {
+                if (!node.hidden) {
+                    temp.push(Number(node.label));
+                }
+            })
+
+            temp.sort();
+
+            let biggestLabel = temp[temp.length - 1];
+
+            for (let i = 0; i <= biggestLabel; i++) {
+                clusterFreqDist.push(0);
+                clusterProbDist.push(0);
+            }
+
+            temp.forEach(function (item) {
+                if (!(item == -1)) {
+                    numberOfNodes += 1;
+                    clusterFreqDist[item] += 1;
+                }
+            })
+
+            for (let j = 0; j < clusterFreqDist.length; j++) {
+                if (clusterFreqDist[j] > 0) {
+
+                    clusterProbDist[j] = (clusterFreqDist[j] / numberOfNodes);
+
+                    let parts = clusterProbDist[j].toString().split('.');
+
+                    // Check the length of the decimal part
+                    if (parts[1] && parts[1].length > 5) {
+                        // Round the value to 5 decimal places if the decimal part is longer than 5 digits
+                        clusterProbDist[j] = clusterProbDist[j].toFixed(5);
+                    }
+                }
+            }
+
+            document.getElementById("clusterFreqDist").innerHTML = "Cluster frequency distribution: [" + clusterFreqDist.toString() + "]";
+            document.getElementById("clusterProbDist").innerHTML = "Cluster probability distribution: [" + clusterProbDist.toString() + "]";
+        }
+
+
+        let annotatorsContainer = document.getElementById("annotatorsContainer");
+        let annotators = [];
+
+        function fillAnnotatorsContainer(jsonData) {
+            let div = document.createElement('div');
+            let h4 = document.createElement('h4');
+            h4.innerHTML = "Select Annotators (resets all filters): ";
+
+            for (let i = 0; i < jsonData.length; i++) {
+
+                let annotator = jsonData[i]["annotator"]
+                if (!annotators.includes(annotator)) {
+                    annotators.push(annotator);
+                }
+            }
+
+            annotators.sort();
+
+            for (let j = 0; j < annotators.length; j++) {
+                let label = document.createElement('label');
+                label.innerHTML = annotators[j];
+                label.for = annotators[j];
+                let checkbox = document.createElement('input');
+                checkbox.type = "checkbox";
+                checkbox.checked = true;
+                checkbox.id = annotators[j];
+                div.appendChild(label);
+                div.appendChild(checkbox);
+            }
+
+            let button = document.createElement('button');
+            button.innerHTML = "Show graph";
+            button.onclick = annotatorsFilter;
+            div.appendChild(button);
+            let br = document.createElement('br')
+            let br2 = document.createElement('br')
+            div.appendChild(br);
+            div.appendChild(br2);
+
+            annotatorsContainer.append(div);
+        }
+
+        if(!annotatorsContainer.hasChildNodes()){
+            fillAnnotatorsContainer(filteredStatsDataJoint);
+        }
+
+        function annotatorsFilter() {
+            showSelectLoad();
+            setTimeout(calculateSubGraph, 1000);
+
+
+            setTimeout(hideSelectLoad, 2000);
+
+
+        }
+
+        function calculateSubGraph() {
+            loadingIcon.style.visibility = 'visible';
+            let onlyCheckedAnnotators = [];
+            for (let i = 0; i < annotators.length; i++) {
+                let checkAnnotator = document.getElementById(annotators[i]);
+                if (checkAnnotator.checked) {
+                    onlyCheckedAnnotators.push(annotators[i]);
+                }
+            }
+            let filteredForAnnotators = filteredStatsDataJoint.filter(row => onlyCheckedAnnotators.includes(row.annotator));
+            const edgeSums = {};
+            const edgeCounts = {};
+            for (let j = 0; j < filteredForAnnotators.length; j++) {
+                let item = filteredForAnnotators[j];
+                let identifier1 = item.identifier1;
+                let identifier2 = item.identifier2;
+                let weight = Number(item.judgment);
+
+                if (!(identifier1 in edgeSums)) {
+                    edgeSums[identifier1] = {};
+                }
+                if (!(identifier2 in edgeSums[identifier1])) {
+                    edgeSums[identifier1][identifier2] = 0;
+                }
+                edgeSums[identifier1][identifier2] += weight;
+
+                // Increment the count for the edge, creating a new entry if it doesn't already exist
+                if (!(identifier1 in edgeCounts)) {
+                    edgeCounts[identifier1] = {};
+                }
+                if (!(identifier2 in edgeCounts[identifier1])) {
+                    edgeCounts[identifier1][identifier2] = 0;
+                }
+                edgeCounts[identifier1][identifier2]++;
+
+                // Do the same for the other direction of the edge
+                if (!(identifier2 in edgeSums)) {
+                    edgeSums[identifier2] = {};
+                }
+                if (!(identifier1 in edgeSums[identifier2])) {
+                    edgeSums[identifier2][identifier1] = 0;
+                }
+                edgeSums[identifier2][identifier1] += weight;
+
+                if (!(identifier2 in edgeCounts)) {
+                    edgeCounts[identifier2] = {};
+                }
+                if (!(identifier1 in edgeCounts[identifier2])) {
+                    edgeCounts[identifier2][identifier1] = 0;
+                }
+                edgeCounts[identifier2][identifier1]++;
+            }
+
+            groupPicker.selectedIndex = 0;
+            sliderMin.value = 1;
+            slider.value = 4;
+            sliderDisplay.innerHTML = "4";
+            sliderMinDisplay.innerHTML = "1";
+            checkboxNoiseLabels.checked = true;
+            checkboxNaN.checked = true;
+            maxPicker.selectedIndex = dates.length - 1;
+            minPicker.selectedIndex = 0;
+            minValue = minPicker.value;
+            maxValue = maxPicker.value;
+
+            edges.forEach(function (edge) {
+                // Calculate the mean weight of the edge by dividing the sum of weights by the number of times the edge appears in the new set of weight information
+                let to = nodes.get(edge.to);
+                let to_id = to.id;
+
+                let from = nodes.get(edge.from);
+                let from_id = from.id;
+                try {
+                    edge.weight = parseFloat(edgeSums[to_id][from_id]) / parseFloat(edgeCounts[to_id][from_id]);
+                    if(edge.weight == 0){
+                        edge.weight = NaN;
+                    }
+                    edge.hidden = false;
+
+                    edges.update(edge);
+                } catch (error) {
+
+                    edge.hidden = true;
+                    edges.update(edge);
+                }
+
+
+            })
+            loadingIcon.style.visibility = 'hidden';
+
+            calcMean();
+            updateClusterDistribution();
+        }
+
+
+        sliderMin.value = 1;
+        slider.value = 4;
 
 
     </script>

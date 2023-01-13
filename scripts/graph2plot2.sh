@@ -8,6 +8,11 @@ mkdir -p $outdir
 
 outdirl=$outdir
 #echo $outdirl
+
+
+# Write the keys to the CSV file
+python3 $scriptsdir/write_csv_keys.py
+
 for graph in "${graphs[@]}"
 do
     echo $graph

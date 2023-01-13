@@ -1,6 +1,14 @@
 update-git.sh
 data
 results
+.idea
+venv
+test_uug/annotators.csv
+test_uug/clusters
+test_uug/data_joint
+test_uug/graphs
+test_uug/plots
+test_uug/stats
 test_uug/uses
 todo.txt
 scripts/__pycache__

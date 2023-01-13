@@ -52,7 +52,7 @@ if len(periods) > 1:
         if style=='interactive':
             plot_graph_interactive(graph, output_folder_period + name, c2n, threshold = threshold, period=period, color=color, mode=mode, edge_label_style = edge_label_style,annotators = annotators, position_method = position)
         if style=='static':
-            plot_graph_static(graph, output_folder_period + name, c2n, threshold = threshold, period=period, color=color, mode=mode, edge_label_style = edge_label_style, annotators = annotators, dpi=dpi, position_method = position, node_size=300) 
+            plot_graph_static(graph, output_folder_period + name, c2n, threshold = threshold, period=period, color=color, mode=mode, edge_label_style = edge_label_style, annotators = annotators, dpi=dpi, position_method = position, node_size=100) 
 
     if style=='interactive':
         output_folder_aligned = output_folder+'/aligned/'    

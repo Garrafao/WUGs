@@ -10,7 +10,7 @@ from scipy.stats import spearmanr, pearsonr
 from scipy.spatial.distance import euclidean, cosine
 import krippendorff_ as krippendorff
 from sklearn.metrics import hamming_loss, cohen_kappa_score
-
+import networkx as nx
     
 def add_annotation(G, annotation, is_non_value=lambda x: np.isnan(x)):
     """
@@ -141,6 +141,34 @@ def remove_annotators(G, annotators):
         G[i][j]['comments'] = comments
         
     return G
+
+
+def get_annotator_subgraph(G, annotators, summary_statistic=np.median, non_value=0.0, normalization=lambda x: x):
+    """
+    Get annotator subgraph from graph.
+    :param G: graph
+    :param annotators: list of annotators to get the sub graph for
+    :return subgraph: subgraph with judgments, comments and weights
+    """
+    subgraph = nx.Graph()
+    subgraph.add_nodes_from(G.nodes())
+    
+    for (i,j) in G.edges():
+
+        judgments = G[i][j]['judgments']
+        comments = G[i][j]['comments']
+
+        judgments = {annotator:judgment for (annotator, judgment) in judgments.items() if annotator in annotators}
+        comments = {annotator:comment for (annotator, comment) in comments.items() if annotator in annotators}
+
+        if len(judgments)>0:
+            subgraph.add_edge(i,j)
+            subgraph[i][j]['judgments'] = judgments
+            subgraph[i][j]['comments'] = comments
+
+    subgraph = make_weights(subgraph, annotators, summary_statistic=summary_statistic, non_value=non_value, normalization=normalization)    
+        
+    return subgraph
 
 def make_weights(G, annotators, summary_statistic=np.median, non_value=0.0, normalization=lambda x: x):
     """

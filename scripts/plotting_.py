@@ -210,7 +210,7 @@ def plot_graph_static(G, outDir, c2n, threshold=0.5, normalization=lambda x: x, 
     elif mode == 'compare':
         ewithin=[(u,v) for u,v in G.edges() if G.nodes()[u]['grouping']==G.nodes()[v]['grouping']]
         G.remove_edges_from(ewithin) # Remove edges which are not between time periods
-        #G.remove_nodes_from(list(nx.isolates(G))) # Remove isolates, outcomment to use
+        G.remove_nodes_from(list(nx.isolates(G))) # Remove isolates, outcomment to use
     else:
         pass       
         
@@ -294,7 +294,7 @@ def make_edge_label(edge, graph, annotators, edge_label_style='weight', normaliz
                
     return label   
 
-def find_node_positions(G, method, transformation = lambda x: x, s=750, k=0.8, seed=0, threshold=0.5):
+def find_node_positions(G, method, transformation = lambda x: (x**3), s=750, k=0.8, seed=0, threshold=0.5):
     """
     Find node positions with different methods.
     :param method: method for finding positions
@@ -308,16 +308,16 @@ def find_node_positions(G, method, transformation = lambda x: x, s=750, k=0.8, s
     G = G.copy()
 
     if method=='spring':
-        G = transform_edge_weights(G, transformation = lambda x: (x**3)) # transform edge weights
+        G = transform_edge_weights(G, transformation = transformation) # transform edge weights
         n2p=nx.spring_layout(G, k=k, seed=seed) # positions for all nodes
         n2p = {node:(p[0]*s,p[1]*s) for (node,p) in n2p.items()} # strongly spread nodes
     if method=='sfdp':
-        G = transform_edge_weights(G, transformation = lambda x: (x**3)) # transform edge weights
+        #G = transform_edge_weights(G, transformation = transformation) # transform edge weights
         esmall=[(u,v) for (u,v,d) in G.edges(data=True) if d['weight'] <threshold]
         G.remove_edges_from(esmall) # Remove negative edges for finding positions
         n2p = graphviz_layout(G,prog='sfdp')
     if method=='spectral':
-        G = transform_edge_weights(G, transformation = lambda x: (x**3)) # transform edge weights
+        G = transform_edge_weights(G, transformation = transformation) # transform edge weights
         n2p=nx.spectral_layout(G)    
         n2p = {node:(p[0]*s,p[1]*s) for (node,p) in n2p.items()} # strongly spread nodes
 

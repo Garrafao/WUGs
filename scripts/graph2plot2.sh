@@ -5,6 +5,7 @@ graphdir=$dir/graphs
 graphs=($graphdir/*)
 outdir=$dir/plots
 mkdir -p $outdir
+mkdir -p $dir/stats
 
 outdirl=$outdir
 #echo $outdirl

@@ -12,10 +12,10 @@ threshold=float(threshold)
 graph = nx.read_gpickle(input_file)
 name = graph.graph['lemma']
 
-if is_header=='True':
-    is_header=True
-if is_header=='False':
-    is_header=False
+if is_header == 'True':
+    is_header = True
+if is_header == 'False':
+    is_header = False
 
 
 with open(annotators, encoding='utf-8') as csvfile: 

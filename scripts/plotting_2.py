@@ -7,6 +7,8 @@ import networkx as nx
 from networkx.drawing.nx_agraph import graphviz_layout
 from textwrap import wrap
 import matplotlib
+import json
+import jinja2
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -21,7 +23,7 @@ colors_global = colors_global + nice_colors
 def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x: x, color='colorful', period='full',
                            mode='full', annotators=[], summary_statistic=np.median, s=2, node_size=10,
                            node_label='cluster', edge_label_style='weight', edge_width=2, k=0.8, position_method='spring',
-                           seed=0, pos={}, noise_color='k', name='name'):
+                           seed=0, pos={}, noise_color='k', name='name', cluster_stats='cluster_stats'):
     """
     Plots interactive graph with cluster structure.
     :param G: Networkx graph
@@ -73,8 +75,13 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x
 
     G_int = Network(height='1000px', width='1000px', directed=False, notebook=False, bgcolor='#ffffff',
                     font_color=False, layout=None, heading=name + ' (' + period + ')')
+    # print stats in heading: + 'method: ' + position_method + ', stats: ' + str(cluster_stats)
+
+
 
     G_int.set_template('scripts/misc/test_template.html')
+
+
 
     for n, cluster in c2n.items():
 
@@ -118,7 +125,7 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x
                 if 'judgments_senses' in node_data:
                     meta_text = meta_text + '<br>judgments_senses:<ul style="font-size:8px;padding-left:1.25rem;"><li>' + '</li><li>'.join(
                         [a + ': ' + l for a, l in node_data['judgments_senses'].items()]) + '</li></ul>'
-                text = text + '<p style="font-size:8px;"><br>' + meta_text + '</p>'
+                text = text + '<p style="font-size:8px;"><br>' + meta_text + '<br>' + 'pos: ' + str(node_data['pos']) + '</p>'
                 text = text.replace('<*>', '<span style="color:#808080;">').replace('<**>',
                                                                                     '</span>')  # make protected HTML valid
                 text = text.replace('[newline]', '\n')
@@ -182,7 +189,7 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x
 def plot_graph_static(G, outDir, c2n, threshold=0.5, normalization=lambda x: x, color='colorful', period='full',
                       mode='full', annotators=[], summary_statistic=np.median, s=2, node_size=80, edge_width=1, k=0.8,
                       position_method='spring', seed=0, is_edge_labels=False, edge_label_style='weight', dpi=300,
-                      font_size_nodes=11, font_size_edges=11, node_label_style=None, pos={}, noise_color='k'):
+                      font_size_nodes=11, font_size_edges=11, node_label_style=None, pos={}, noise_color='k', name='name'):
     """
     Plots static graph with cluster structure.
     :param G: Networkx graph

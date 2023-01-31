@@ -1,7 +1,15 @@
 update-git.sh
 data
 results
+.idea
+venv
 test_uug/uses
+test_uug/annotators.csv
+test_uug/clusters
+test_uug/data_joint
+test_uug/graphs
+test_uug/plots
+test_uug/stats
 todo.txt
 scripts/__pycache__
 scripts/.ipynb_checkpoints

@@ -361,15 +361,15 @@
 
 
         <div class="help-tip">
-            <p><em>General</em><br /><br />
+            <p><em>General</em><br />
            Firefox is the recommended browser for this application. For large graphs, loading time may vary. This application is under development. Feedback is appreciated. The code, from which you can generate your own graphs, can be found here:  <a href="https://github.com/Garrafao/WUGs/" target="_blank" style="color: white">WUGs repository</a><br /><br /><br />
-                <em>Statistics</em><br /><br />
+                <em>Statistics</em><br />
             The statistics section gets updated as the filters are used. For in-depth stats, refer to the stats dropdowns on the bottom.<br /><br /><br />
-                <em>Edge & node filters</em><br /><br />
+                <em>Edge & node filters</em><br />
             Edge weights are calculated as the mean of all annotations of the node pair.
             Nodes with noisy data appear black and have -1 as their label. Both the noisy nodes and edges with wrongly calculated weights can be filtered out.
-            Edge and node filters are interlinked and should show the desired selection.<br /><br /><br />
-                <em>Annotators filter</em><br /><br />
+            Edge and node filters are interlinked and should show the desired selection. While one filter is being calculated, the page will prevent you from selecting another filter.<br /><br /><br />
+                <em>Annotators filter</em><br />
             The annotators filter resets all other filters and shows the initial graph, but only edges the selected annotators have annotated.</p>
         </div>
 
@@ -382,7 +382,7 @@
             <p id="fillSD">Edge weight standard deviation: </p>
         </div>
         <div class ="edgeFilterContainer">
-            <h4>Filter Edges: </h4>
+            <h4>Edge filters: </h4>
 
             <label for="checkboxNaN">Show NaN edges </label>
             <input type="checkbox" id="checkboxNaN" onclick="filterNaN()">
@@ -399,15 +399,15 @@
 
 
         <div class="nodeFilterContainer">
-            <h4>Filter Nodes: </h4>
+            <h4>Node filters: </h4>
 
             <label for="checkboxNoiseLabels">Show noisy nodes </label>
             <input type="checkbox" id="checkboxNoiseLabels" onclick="filterNoiseLabels()">
             <br><br>
             <form onsubmit="dateFilter();return false">
-                <label for="minPicker">From year: </label>
+                <label for="minPicker">From date: </label>
                 <select class="picker" id="minPicker"></select>
-                <label for="maxPicker">to year: </label>
+                <label for="maxPicker">to date: </label>
                 <select class="picker" id="maxPicker"></select>
                 <input type="submit" value="Filter">
             </form>
@@ -452,11 +452,11 @@
     </div>
 
     {% endif %}
-     <script type="text/javascript" src="stats.json"></script>
-     <script type="text/javascript" src="stats_agreement.json"></script>
-     <script type="text/javascript" src="stats_groupings.json"></script>
-     <script type="text/javascript" src="stats_plotting.json"></script>
-     <script type="text/javascript" src="data_joint.json"></script>
+     <script type="text/javascript" src="../stats.json"></script>
+     <script type="text/javascript" src="../stats_agreement.json"></script>
+     <script type="text/javascript" src="../stats_groupings.json"></script>
+     <script type="text/javascript" src="../stats_plotting.json"></script>
+     <script type="text/javascript" src="../data_joint.json"></script>
 
     <script type="text/javascript">
         // initialize global variables.
@@ -1107,6 +1107,7 @@
         let filteredStatsDataJoint = data_joint.filter(row => row.lemma === onlyLemma);
 
 
+
         let statsTable = document.getElementById("stats-table");
         let statsGroupingsTable = document.getElementById("stats-groupings-table");
         let statsAgreementTable = document.getElementById("stats-agreement-table");
@@ -1238,7 +1239,8 @@
         function fillAnnotatorsContainer(jsonData) {
             let div = document.createElement('div');
             let h4 = document.createElement('h4');
-            h4.innerHTML = "Select Annotators (resets all filters): ";
+            h4.innerHTML = "Annotator filter (resets all other filters): ";
+            div.appendChild(h4);
 
             for (let i = 0; i < jsonData.length; i++) {
 
@@ -1275,6 +1277,7 @@
         }
 
         if(!annotatorsContainer.hasChildNodes()){
+            console.log(filteredStatsDataJoint);
             fillAnnotatorsContainer(filteredStatsDataJoint);
         }
 
@@ -1297,49 +1300,10 @@
                     onlyCheckedAnnotators.push(annotators[i]);
                 }
             }
+
+
             let filteredForAnnotators = filteredStatsDataJoint.filter(row => onlyCheckedAnnotators.includes(row.annotator));
-            const edgeSums = {};
-            const edgeCounts = {};
-            for (let j = 0; j < filteredForAnnotators.length; j++) {
-                let item = filteredForAnnotators[j];
-                let identifier1 = item.identifier1;
-                let identifier2 = item.identifier2;
-                let weight = Number(item.judgment);
 
-                if (!(identifier1 in edgeSums)) {
-                    edgeSums[identifier1] = {};
-                }
-                if (!(identifier2 in edgeSums[identifier1])) {
-                    edgeSums[identifier1][identifier2] = 0;
-                }
-                edgeSums[identifier1][identifier2] += weight;
-
-                // Increment the count for the edge, creating a new entry if it doesn't already exist
-                if (!(identifier1 in edgeCounts)) {
-                    edgeCounts[identifier1] = {};
-                }
-                if (!(identifier2 in edgeCounts[identifier1])) {
-                    edgeCounts[identifier1][identifier2] = 0;
-                }
-                edgeCounts[identifier1][identifier2]++;
-
-                // Do the same for the other direction of the edge
-                if (!(identifier2 in edgeSums)) {
-                    edgeSums[identifier2] = {};
-                }
-                if (!(identifier1 in edgeSums[identifier2])) {
-                    edgeSums[identifier2][identifier1] = 0;
-                }
-                edgeSums[identifier2][identifier1] += weight;
-
-                if (!(identifier2 in edgeCounts)) {
-                    edgeCounts[identifier2] = {};
-                }
-                if (!(identifier1 in edgeCounts[identifier2])) {
-                    edgeCounts[identifier2][identifier1] = 0;
-                }
-                edgeCounts[identifier2][identifier1]++;
-            }
 
             groupPicker.selectedIndex = 0;
             sliderMin.value = 1;
@@ -1354,25 +1318,61 @@
             maxValue = maxPicker.value;
 
             edges.forEach(function (edge) {
-                // Calculate the mean weight of the edge by dividing the sum of weights by the number of times the edge appears in the new set of weight information
                 let to = nodes.get(edge.to);
                 let to_id = to.id;
 
                 let from = nodes.get(edge.from);
                 let from_id = from.id;
-                try {
-                    edge.weight = parseFloat(edgeSums[to_id][from_id]) / parseFloat(edgeCounts[to_id][from_id]);
-                    if(edge.weight == 0){
-                        edge.weight = NaN;
+
+                let edgeAnnotations = [];
+
+                for (let k = 0; k < filteredForAnnotators.length; k++) {
+                    let item = filteredForAnnotators[k];
+                    let identifier1 = item.identifier1;
+                    let identifier2 = item.identifier2;
+                    let weight = Number(item.judgment);
+
+                    if((identifier1 == to_id && identifier2 == from_id) || (identifier1 == from_id && identifier2 == to_id)){
+
+                        if(0 < weight < 5){
+                            //console.log("there is a corresponding annotation thats not NaN");
+                            edgeAnnotations.push(weight);
+                        }
                     }
+                }
+
+                if (edgeAnnotations.length !== 0){
+                let median;
+                let filteredArray = edgeAnnotations;
+                filteredArray.sort((a, b) => a - b);
+                let middle = Math.floor(filteredArray.length / 2);
+                if (filteredArray.length % 2 === 0) {
+                    median = (filteredArray[middle - 1] + filteredArray[middle]) / 2;
+                } else {
+                    median = filteredArray[middle];
+                }
+
+                    console.log("the median for this edge is: " + median);
+
+                    if (median == 0){
+                        median = NaN;
+                    }
+
                     edge.hidden = false;
+                    edge.weight = median;
+                    edge.label = edge.weight;
 
                     edges.update(edge);
-                } catch (error) {
 
+                    } else {
                     edge.hidden = true;
                     edges.update(edge);
                 }
+
+
+
+
+
 
 
             })

@@ -89,40 +89,42 @@ if len(periods) > 1:
 
 def csv_to_json(csvFilePath, jsonFilePath, jsonName):
     jsonArray = []
+    try:
+        # read csv file
+        with open(csvFilePath, encoding='utf-8') as csvf:
+            # load csv file data using csv library's dictionary reader
+            csvReader = csv.DictReader(csvf, delimiter='\t')
 
-    # read csv file
-    with open(csvFilePath, encoding='utf-8') as csvf:
-        # load csv file data using csv library's dictionary reader
-        csvReader = csv.DictReader(csvf, delimiter='\t')
+            # convert each csv row into python dict
+            for row in csvReader:
+                # add this python dict to json array
+                jsonArray.append(row)
 
-        # convert each csv row into python dict
-        for row in csvReader:
-            # add this python dict to json array
-            jsonArray.append(row)
+            #print(jsonArray)
 
-        #print(jsonArray)
-
-    # convert python jsonArray to JSON String and write to file
-    with open(jsonFilePath, 'w', encoding='utf-8') as jsonf:
-        jsonString = jsonName + json.dumps(jsonArray, indent=4)
-        jsonString = jsonString.replace('\t', '    ')
-        jsonf.write(jsonString)
+        # convert python jsonArray to JSON String and write to file
+        with open(jsonFilePath, 'w', encoding='utf-8') as jsonf:
+            jsonString = jsonName + json.dumps(jsonArray, indent=4)
+            jsonString = jsonString.replace('\t', '    ')
+            jsonf.write(jsonString)
+    except FileNotFoundError:
+        print(f"The file {csvFilePath} cannot be found.")
 
 
 csvFilePath = r'test_uug/stats/stats.csv'
-jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/full/stats.json'
+jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/stats.json'
 csv_to_json(csvFilePath, jsonFilePath, "stats = ")
 
 csvFilePath = r'test_uug/stats/stats_groupings.csv'
-jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/full/stats_groupings.json'
+jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/stats_groupings.json'
 csv_to_json(csvFilePath, jsonFilePath, "stats_groupings = ")
 
 csvFilePath = r'test_uug/stats/stats_agreement.csv'
-jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/full/stats_agreement.json'
+jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/stats_agreement.json'
 csv_to_json(csvFilePath, jsonFilePath, "stats_agreement = ")
 
 csvFilePath = r'test_uug/data_joint/data_joint'
-jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/full/data_joint.json'
+jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/data_joint.json'
 csv_to_json(csvFilePath, jsonFilePath, "data_joint = ")
 
 output_location = 'test_uug/stats'
@@ -136,6 +138,6 @@ with open(output_location + '/stats_plotting.csv', 'a', encoding='utf-8') as f_o
 
 
 csvFilePath = r'test_uug/stats/stats_plotting.csv'
-jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/full/stats_plotting.json'
+jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/stats_plotting.json'
 csv_to_json(csvFilePath, jsonFilePath, "stats_plotting = ")
 

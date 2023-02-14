@@ -28,6 +28,10 @@ __Attention__: modifies graphs iteratively, i.e., current run is dependent on pr
 
 We recommend you to run the scripts within a [virtual environment](https://pypi.org/project/virtualenv/) with Python 3.9.5. Install the required packages running `pip install -r requirements.txt`. The script uses simple test parameters; in order to improve the clustering load `parameters_opt.sh` in `run_uug.sh` or `run_usg.sh`.
 
+When installing, please check whether pygraphviz was installed correctly. There have been recurring errors with pygraphviz installation across operating systems. If an error occurs, you can check this page for solutions: https://pygraphviz.github.io/documentation/stable/install.html#providing-path-to-graphviz
+
+On Linux, installing graphviz through the package manager is recommended.
+
 ### Description
 
 - `data2join.py`:  joins annotated data

@@ -10,7 +10,7 @@ for lang in 'en' 'fi' 'hr'
 do
   datadir=$dir/wugformat/$lang
   mkdir -p $datadir
-  python3 $dir/semeval2wug.py $dir/source/cosimlex_$lang.csv $datadir $lang
+  python3 $dir/cosimlex2wug.py $dir/source/cosimlex_$lang.csv $datadir $lang
 done
 
 rm -r $dir/source

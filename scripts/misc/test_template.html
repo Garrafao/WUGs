@@ -401,7 +401,7 @@
         <div class="nodeFilterContainer">
             <h4>Node filters: </h4>
 
-            <label for="checkboxNoiseLabels">Show noisy nodes </label>
+            <label for="checkboxNoiseLabels">Show noise cluster</label>
             <input type="checkbox" id="checkboxNoiseLabels" onclick="filterNoiseLabels()">
             <br><br>
             <form onsubmit="dateFilter();return false">
@@ -1172,6 +1172,12 @@
 
         let cluster_freq_dist = filteredStatsGroupings[0].cluster_freq_dist;
         let cluster_prob_dist = filteredStatsGroupings[0].cluster_prob_dist;
+        let noise_cluster_count = 0;
+        nodes.forEach(function (node){
+            if (Number(node.label) == -1){
+                noise_cluster_count += 1;
+            }
+        });
 
         let clusterInfo = document.getElementById("clusterInfo");
         let statisticsDiv = document.getElementById("statistics");
@@ -1182,12 +1188,14 @@
 
         statisticsDiv.innerHTML = `
             <p id="clusterFreqDist">Cluster frequency distribution: ${cluster_freq_dist}</p>
-            <p id="clusterProbDist">Cluster probability distribution: ${cluster_prob_dist}</p>`;
+            <p id="clusterProbDist">Cluster probability distribution: ${cluster_prob_dist}</p>
+            <p id="noiseClusterCount">Noise Cluster: [${noise_cluster_count}]</p>`;
 
 
         function updateClusterDistribution() {
             let clusterFreqDist = [];
             let clusterProbDist = [];
+            let noiseClusterCount = 0;
             let temp = [];
             let numberOfNodes = 0;
 
@@ -1195,6 +1203,8 @@
                 if (!node.hidden) {
                     temp.push(Number(node.label));
                 }
+
+
             })
 
             temp.sort();
@@ -1210,6 +1220,8 @@
                 if (!(item == -1)) {
                     numberOfNodes += 1;
                     clusterFreqDist[item] += 1;
+                } else {
+                    noiseClusterCount += 1;
                 }
             })
 
@@ -1230,6 +1242,7 @@
 
             document.getElementById("clusterFreqDist").innerHTML = "Cluster frequency distribution: [" + clusterFreqDist.toString() + "]";
             document.getElementById("clusterProbDist").innerHTML = "Cluster probability distribution: [" + clusterProbDist.toString() + "]";
+            document.getElementById("noiseClusterCount").innerHTML = "Noise cluster: [" + noiseClusterCount.toString() + "]";
         }
 
 
@@ -1277,7 +1290,6 @@
         }
 
         if(!annotatorsContainer.hasChildNodes()){
-            console.log(filteredStatsDataJoint);
             fillAnnotatorsContainer(filteredStatsDataJoint);
         }
 
@@ -1317,7 +1329,14 @@
             minValue = minPicker.value;
             maxValue = maxPicker.value;
 
-            edges.forEach(function (edge) {
+            nodes.forEach(function (node){
+                if(node.hidden){
+                    node.hidden = false;
+                    nodes.update(node);
+                }
+            })
+
+            /*edges.forEach(function (edge) {
                 let to = nodes.get(edge.to);
                 let to_id = to.id;
 
@@ -1376,6 +1395,72 @@
 
 
             })
+            */
+
+
+            // Create a map to store the filteredForAnnotators array
+            let annotationsMap = new Map();
+            filteredForAnnotators.forEach(function (item) {
+                let identifier1 = item.identifier1;
+                let identifier2 = item.identifier2;
+                let weight = Number(item.judgment);
+                if (weight >= 0 && weight < 5) {
+                    // Only store annotations with weight between 0 and 5
+                    let key = [identifier1, identifier2].sort().join('-');
+                    let annotations = annotationsMap.get(key) || [];
+                    annotations.push(weight);
+                    annotationsMap.set(key, annotations);
+                }
+            });
+
+            // Iterate over the edges and get the annotations from the map
+            edges.forEach(function (edge) {
+                let to = nodes.get(edge.to);
+                let to_id = to.id;
+                let from = nodes.get(edge.from);
+                let from_id = from.id;
+                let key = [to_id, from_id].sort().join('-');
+                let edgeAnnotations = annotationsMap.get(key) || [];
+
+
+                    //console.log("edge annos: " + edgeAnnotations);
+
+                if (edgeAnnotations.length !== 0) {
+                    let median;
+                    let filteredArray = edgeAnnotations.filter(a => a > 0);
+                    filteredArray.sort((a, b) => a - b);
+
+                    if (filteredArray.length === 0) {
+                        median = 0;
+                    } else {
+                        let middle = Math.floor(filteredArray.length / 2);
+                        if (filteredArray.length % 2 === 0) {
+                            median = (filteredArray[middle - 1] + filteredArray[middle]) / 2;
+                        } else {
+                            median = filteredArray[middle];
+                        }
+                    }
+
+
+                    //console.log("the median for this edge is: " + median);
+
+                    if (median == 0) {
+                        median = NaN;
+                    }
+
+                    edge.hidden = false;
+                    edge.weight = median;
+                    edge.label = edge.weight;
+
+                } else {
+                    edge.hidden = true;
+                }
+
+                edges.update(edge);
+            });
+
+
+
             loadingIcon.style.visibility = 'hidden';
 
             calcMean();

@@ -15,14 +15,14 @@ for root, subdirectories, files in os.walk(data):
             reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
             data_ = [row for row in reader]
             id2data_ = {row['identifier']:row for row in data_}
-            id2data = id2data | id2data_
+            id2data = {**id2data , **id2data_}
 
 uses_out = []
 for row in uses:
     identifier = row['identifier']    
     if identifier in id2data.keys():
         data_row = {l:d.strip(' ') for l,d in id2data[identifier].items() if ((not l in row) or (l in row and row[l]==' '))}
-        row = row | data_row
+        row = {**row , **data_row}
         uses_out.append(row)
         if 'context_pos' in row and (row['pos']==' ' or row['pos']=='-' or row['pos']==''):
             target = (row['context_lemmatized'].split(' ')[int(row['indexes_target_token_tokenized'])],row['context_pos'].split(' ')[int(row['indexes_target_token_tokenized'])])

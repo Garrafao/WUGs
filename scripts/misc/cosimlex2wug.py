@@ -56,7 +56,7 @@ def annotate_text(text,lemma):
     return {'leamma_pos':nlp(lemma)[0].pos_,'context_lemmatized':context_lemmatized,'context_tokenized':context_tokenized,'indexes_target_token_tokenized':indexes_target_token_tokenized,'indexes_target_sentence':indexes_target_sentence,'context_pos':context_pos}
 
 
-with open(data) as data_file:
+with open(data, encoding = 'utf-8') as data_file:
     data_instances = []
     reader = csv.reader(data_file,delimiter='\t')
     header = next(reader)
@@ -132,13 +132,13 @@ if not os.path.exists(all_output_folder):
     os.makedirs(all_output_folder)
 
 # contents for 'all'
-with open(all_output_folder +'judgments.csv', 'w') as f:
+with open(all_output_folder +'judgments.csv', 'w', encoding = 'utf-8') as f:
     w = csv.DictWriter(f, [lemma2data[lemma] for lemma in lemma2data][0][0].keys(), delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
     w.writeheader()
     for lemma in lemma2data:
         w.writerows(lemma2data[lemma])
 
-with open(all_output_folder +'uses.csv', 'w') as f:
+with open(all_output_folder +'uses.csv', 'w', encoding = 'utf-8') as f:
     w = csv.DictWriter(f, [list(lemma2group2context[lemma].values()) for lemma in lemma2data][0][0]['1'].keys(), delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
     w.writeheader()
     for lemma in lemma2data:
@@ -152,7 +152,7 @@ for lemma in lemma2data:
         os.makedirs(output_folder)
 
     # Export data
-    with open(output_folder +'judgments.csv', 'w') as f:
+    with open(output_folder +'judgments.csv', 'w', encoding = 'utf-8') as f:
         w = csv.DictWriter(f, lemma2data[lemma][0].keys(), delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
         w.writeheader()
         w.writerows(lemma2data[lemma])
@@ -160,7 +160,7 @@ for lemma in lemma2data:
     contexts = list(lemma2group2context[lemma].values())
 
     # Export data
-    with open(output_folder +'uses.csv', 'w') as f:
+    with open(output_folder +'uses.csv', 'w', encoding = 'utf-8') as f:
         w = csv.DictWriter(f, contexts[0]['1'].keys(), delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
         w.writeheader()
         rows = [r['1'] for r in contexts] + [r['2'] for r in contexts]

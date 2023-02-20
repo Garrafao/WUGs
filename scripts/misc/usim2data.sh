@@ -5,7 +5,7 @@ scriptsdir=${0%/*}
 dir=.
 mkdir -p $dir/source
 wget http://www.dianamccarthy.co.uk/downloads/WordMeaningAnno2012/cl-meaningincontext.tgz -nc -P $dir/source/
-unzip $dir/source/cl-meaningincontext.tgz -d $dir/source/
+tar xvzf $dir/source/cl-meaningincontext.tgz -C $dir/source/
 
 datadir=$dir/data
 mkdir -p $datadir

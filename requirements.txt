@@ -10,6 +10,6 @@ scikit_learn==1.2.1
 scipy==1.10.1
 six==1.16.0
 chinese_whispers==0.8.1
-community==1.0.0b1
+python-louvain==0.16
 graphviz==0.20.1
 pygraphviz==1.10

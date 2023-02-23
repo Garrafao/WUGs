@@ -59,3 +59,13 @@ Find information on the individual fields below:
 - __judgment__: annotator judgment on graded scale (e.g. 1 for unrelated, 4 for identical)
 - __comment__: the annotator's comment (if any)
 - __lemma__: the lemma form of the target word in both uses
+
+## Test data
+
+We provide the following test data for developers and users:
+
+- `test_english`: English annotation data, large number of uses and annotations
+- `test_errors`: erroneous data to avoid bugs in the system:
+    - `uses/blockera.csv` contains target word and sentence indices exceeding the number of characters in context
+- `test_project`: English annotation data, very small
+- `test_uug`: German annotation data, mix of words with large and small numbers of uses and annotations, contains Umlauts

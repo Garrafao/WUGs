@@ -8,7 +8,7 @@ import os
 import json
 import pandas as pd
 
-[_, input_file, output_folder, color, mode, style, edge_label_style, annotators, threshold, position, modus] = sys.argv
+[_, input_file, top_folder, output_folder, color, mode, style, edge_label_style, annotators, threshold, position, modus] = sys.argv
 
 threshold = float(threshold)
 graph = nx.read_gpickle(input_file)
@@ -111,33 +111,34 @@ def csv_to_json(csvFilePath, jsonFilePath, jsonName):
         print(f"The file {csvFilePath} cannot be found.")
 
 
-csvFilePath = r'test_uug/stats/stats.csv'
-jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/stats.json'
+csvFilePath = top_folder + r'/stats/stats.csv'
+jsonFilePath = output_folder + r'/stats.json'
 csv_to_json(csvFilePath, jsonFilePath, "stats = ")
 
-csvFilePath = r'test_uug/stats/stats_groupings.csv'
-jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/stats_groupings.json'
+csvFilePath = top_folder + r'/stats/stats_groupings.csv'
+jsonFilePath = output_folder + r'/stats_groupings.json'
 csv_to_json(csvFilePath, jsonFilePath, "stats_groupings = ")
 
-csvFilePath = r'test_uug/stats/stats_agreement.csv'
-jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/stats_agreement.json'
+csvFilePath = top_folder + r'/stats/stats_agreement.csv'
+jsonFilePath = output_folder + r'/stats_agreement.json'
 csv_to_json(csvFilePath, jsonFilePath, "stats_agreement = ")
 
-csvFilePath = r'test_uug/data_joint/data_joint'
-jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/data_joint.json'
+csvFilePath = top_folder + r'/data_joint/data_joint'
+jsonFilePath = output_folder + r'/data_joint.json'
 csv_to_json(csvFilePath, jsonFilePath, "data_joint = ")
 
-output_location = 'test_uug/stats'
+csvFilePath = top_folder + r'/stats/stats_plotting.csv'
+jsonFilePath = output_folder + r'/stats_plotting.json'
+csv_to_json(csvFilePath, jsonFilePath, "stats_plotting = ")
+
+
 
 name = graph.graph['lemma']
 position = position
 
 # Write the variables to the CSV file
-with open(output_location + '/stats_plotting.csv', 'a', encoding='utf-8') as f_out:
+with open(top_folder + '/stats/stats_plotting.csv', 'a', encoding='utf-8') as f_out:
     f_out.write(name + '\t' + position + '\n')
 
 
-csvFilePath = r'test_uug/stats/stats_plotting.csv'
-jsonFilePath = r'test_uug/plots/interactive/full/colorful/weight/stats_plotting.json'
-csv_to_json(csvFilePath, jsonFilePath, "stats_plotting = ")
 

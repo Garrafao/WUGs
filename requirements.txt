@@ -13,3 +13,4 @@ chinese_whispers==0.8.1
 python-louvain==0.16
 graphviz==0.20.1
 pygraphviz==1.10
+pandas==1.5.3

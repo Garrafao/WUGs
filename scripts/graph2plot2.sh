@@ -12,7 +12,7 @@ outdirl=$outdir
 
 
 # Write the keys to the CSV file
-python3 $scriptsdir/write_csv_keys.py
+python3 $scriptsdir/write_csv_keys.py $dir/stats
 
 for graph in "${graphs[@]}"
 do

@@ -23,12 +23,13 @@ elif lang == 'hr':
 def data2context(data_instance,text,grouping):
     date = data_instance['date']
     text = clean_text(text)
-    lemma_in_text = [(m.start(0), m.end(0)) for m in re.finditer(lemma, text)]
+    lemma_in_text = [m.span() for m in re.finditer(lemma, text)]
     if lemma_in_text != []:
         (s,e)=lemma_in_text[0]
     else:
-        (s,e) = ('-','-')
+        (s,e) = ('0','0')
     indexes_target_token = str(s)+':'+str(e)
+    #print(indexes_target_token)
     #print(lemma,indexes_target_token,text,'\n\n\n')
 
     processed = annotate_text(text,lemma)
@@ -38,7 +39,7 @@ def clean_text(t):
     return(t.replace('<strong>','').replace('</strong>',''))
 def annotate_text(text,lemma):
     annotations = nlp(text)
-    indexes_target_sentence = '-'
+    indexes_target_sentence = '0:0'
     #for n,sent in enumerate(annotations.sents):
     #    if lemma in sent.lemma_:
     #        indexes_target_sentence = n

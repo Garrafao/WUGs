@@ -13,7 +13,8 @@ max=4
 degree=None # only needed for chinese whispers, one of "top", "lin", "log"
 ambiguity=None # removes influence of ambiguous edges on clustering, one of "scale_edges", "remove_nodes", "None"
 # plotting
-#position=spring # one of "spring", "sfdp", "spectral"
+templatepath=$scriptsdir/misc/DURel_filter_template.html
+position=spring # one of "spring", "sfdp", "spectral"
 colors=(colorful)
 periods=(full)
 modes=(full)

@@ -22,13 +22,15 @@ elif lang == 'hr':
 
 def data2context(data_instance,text,grouping):
     date = data_instance['date']
+    text = clean_text(text)
     lemma_in_text = [(m.start(0), m.end(0)) for m in re.finditer(lemma, text)]
     if lemma_in_text != []:
         (s,e)=lemma_in_text[0]
     else:
         (s,e) = ('-','-')
     indexes_target_token = str(s)+':'+str(e)
-    text = clean_text(text)
+    #print(lemma,indexes_target_token,text,'\n\n\n')
+
     processed = annotate_text(text,lemma)
     context = {'lemma':lemma, 'pos':processed['leamma_pos'], 'date':date, 'grouping':grouping, 'identifier':identifier+'-text'+grouping, 'description':'-', 'context':text, 'indexes_target_token':indexes_target_token, 'indexes_target_sentence':processed['indexes_target_sentence'], 'context_tokenized':' '.join(processed['context_tokenized']), 'indexes_target_token_tokenized':processed['indexes_target_token_tokenized'], 'indexes_target_sentence_tokenized':'-','context_lemmatized':' '.join(processed['context_lemmatized']),'context_pos':' '.join(processed['context_pos'])}
     return(context)
@@ -37,10 +39,19 @@ def clean_text(t):
 def annotate_text(text,lemma):
     annotations = nlp(text)
     indexes_target_sentence = '-'
+    #for n,sent in enumerate(annotations.sents):
+    #    if lemma in sent.lemma_:
+    #        indexes_target_sentence = n
+    #        break
     for n,sent in enumerate(annotations.sents):
         if lemma in sent.lemma_:
-            indexes_target_sentence = n
-            break
+            #print(str(sent))
+            s = text.find(str(sent))
+            if s != -1:
+                e = s + len(str(sent))
+                indexes_target_sentence = str(s)+':'+str(e)
+                #indexes_target_sentence = n
+                break
 
 
     context_tokenized = [str(token) for token in annotations]
@@ -56,7 +67,7 @@ def annotate_text(text,lemma):
     return {'leamma_pos':nlp(lemma)[0].pos_,'context_lemmatized':context_lemmatized,'context_tokenized':context_tokenized,'indexes_target_token_tokenized':indexes_target_token_tokenized,'indexes_target_sentence':indexes_target_sentence,'context_pos':context_pos}
 
 
-with open(data, encoding = 'utf-8') as data_file:
+with open(data) as data_file:
     data_instances = []
     reader = csv.reader(data_file,delimiter='\t')
     header = next(reader)
@@ -122,7 +133,7 @@ for row in table:
     id2 = row[0]
     comment = ' '
     judgment = str(row[1])
-    print(judgment)
+    #print(judgment)
     annotator = np.nan
     data = {'identifier1':id1+'-text1','identifier2':id2+'-text2','annotator':annotator,'judgment':float(judgment),'comment':comment,'lemma':lemma}
     lemma2data[lemma].append(data)
@@ -132,13 +143,13 @@ if not os.path.exists(all_output_folder):
     os.makedirs(all_output_folder)
 
 # contents for 'all'
-with open(all_output_folder +'judgments.csv', 'w', encoding = 'utf-8') as f:
+with open(all_output_folder +'judgments.csv', 'w') as f:
     w = csv.DictWriter(f, [lemma2data[lemma] for lemma in lemma2data][0][0].keys(), delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
     w.writeheader()
     for lemma in lemma2data:
         w.writerows(lemma2data[lemma])
 
-with open(all_output_folder +'uses.csv', 'w', encoding = 'utf-8') as f:
+with open(all_output_folder +'uses.csv', 'w') as f:
     w = csv.DictWriter(f, [list(lemma2group2context[lemma].values()) for lemma in lemma2data][0][0]['1'].keys(), delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
     w.writeheader()
     for lemma in lemma2data:
@@ -152,7 +163,7 @@ for lemma in lemma2data:
         os.makedirs(output_folder)
 
     # Export data
-    with open(output_folder +'judgments.csv', 'w', encoding = 'utf-8') as f:
+    with open(output_folder +'judgments.csv', 'w') as f:
         w = csv.DictWriter(f, lemma2data[lemma][0].keys(), delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
         w.writeheader()
         w.writerows(lemma2data[lemma])
@@ -160,7 +171,7 @@ for lemma in lemma2data:
     contexts = list(lemma2group2context[lemma].values())
 
     # Export data
-    with open(output_folder +'uses.csv', 'w', encoding = 'utf-8') as f:
+    with open(output_folder +'uses.csv', 'w') as f:
         w = csv.DictWriter(f, contexts[0]['1'].keys(), delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
         w.writeheader()
         rows = [r['1'] for r in contexts] + [r['2'] for r in contexts]

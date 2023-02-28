@@ -67,8 +67,6 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x
         
     G_int = Network(height='1000px', width='1000px', directed=False, notebook=False, bgcolor='#ffffff', font_color=False, layout=None, heading=period)
 
-    #G_int.set_template('test_template.html')
-
     for n, cluster in c2n.items():
 
         for node in cluster:

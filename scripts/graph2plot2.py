@@ -8,7 +8,7 @@ import os
 import json
 import pandas as pd
 
-[_, input_file, top_folder, output_folder, color, mode, style, edge_label_style, annotators, threshold, position, modus] = sys.argv
+[_, input_file, template_path, top_folder, output_folder, color, mode, style, edge_label_style, annotators, threshold, position, modus] = sys.argv
 
 threshold = float(threshold)
 graph = nx.read_gpickle(input_file)
@@ -40,7 +40,7 @@ if not os.path.exists(output_folder_full):
 
 if style == 'interactive':
     plot_graph_interactive(graph, output_folder_full + name, c2n, threshold=threshold, period='full', color=color,
-                           mode=mode, edge_label_style=edge_label_style, annotators=annotators, position_method = position, name=name, cluster_stats=cluster_stats)
+                           mode=mode, edge_label_style=edge_label_style, annotators=annotators, position_method = position, name=name, cluster_stats=cluster_stats, template=template_path)
 if style == 'static':
     plot_graph_static(graph, output_folder_full + name, c2n, threshold=threshold, period='full', color=color, mode=mode,
                       edge_label_style=edge_label_style, annotators=annotators, dpi=dpi, position_method = position,
@@ -58,7 +58,7 @@ if len(periods) > 1:
 
         if style == 'interactive':
             plot_graph_interactive(graph, output_folder_period + name, c2n, threshold=threshold, period=period,
-                                   color=color, mode=mode, edge_label_style=edge_label_style, annotators=annotators, position_method = position, name=name)
+                                   color=color, mode=mode, edge_label_style=edge_label_style, annotators=annotators, position_method = position, name=name, template=template_path)
         if style == 'static':
             plot_graph_static(graph, output_folder_period + name, c2n, threshold=threshold, period=period, color=color,
                               mode=mode, edge_label_style=edge_label_style, annotators=annotators, dpi=dpi, position_method = position,

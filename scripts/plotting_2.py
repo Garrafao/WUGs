@@ -23,7 +23,7 @@ colors_global = colors_global + nice_colors
 def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x: x, color='colorful', period='full',
                            mode='full', annotators=[], summary_statistic=np.median, s=2, node_size=10,
                            node_label='cluster', edge_label_style='weight', edge_width=2, k=0.8, position_method='spring',
-                           seed=0, pos={}, noise_color='k', name='name', cluster_stats='cluster_stats'):
+                           seed=0, pos={}, noise_color='k', name='name', cluster_stats='cluster_stats', template='test_template'):
     """
     Plots interactive graph with cluster structure.
     :param G: Networkx graph
@@ -31,6 +31,7 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x
     :param outDir: output directory
     :param threshold: edges below threshold will be plotted differently
     :param normalization: normalization function
+    :param template: html template
     """
 
     G = G.copy()  # make sure not to modify the source graph
@@ -77,11 +78,7 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x
                     font_color=False, layout=None, heading=name + ' (' + period + ')')
     # print stats in heading: + 'method: ' + position_method + ', stats: ' + str(cluster_stats)
 
-
-
-    G_int.set_template('scripts/misc/test_template.html')
-
-
+    G_int.set_template(template)
 
     for n, cluster in c2n.items():
 

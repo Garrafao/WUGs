@@ -647,6 +647,7 @@
         sliderMinDisplay.innerHTML = "1";
 
         function weightFilter() {
+            console.log("weight filter got called");
             // Get the value of the slider
             let sliderValue = slider.value;
             let sliderMinValue = sliderMin.value;
@@ -764,9 +765,19 @@
 
         });
 
-        const slider_load = document.querySelector('.slider-load');
+        //const slider_load = document.querySelector('.slider-load');
 
-         slider_load.addEventListener('change', function() {
+         slider.addEventListener('change', function() {
+            showSelectLoad();
+            setTimeout(weightFilter,1000);
+
+
+            setTimeout(hideSelectLoad, 1000);
+
+
+        });
+
+         sliderMin.addEventListener('change', function() {
             showSelectLoad();
             setTimeout(weightFilter,1000);
 

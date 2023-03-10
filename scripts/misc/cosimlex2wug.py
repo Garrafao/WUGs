@@ -72,20 +72,28 @@ def annotate_text_word(text,word):
     annotations = nlp(text)
     indexes_target_sentence = '-'
     indexes_target_sentence_tokenized = '-'
-
+    sent_lengths = []
+    indexes_target_sentence_tokenized_s = 0
+    indexes_target_sentence_tokenized_e = 0
     for n,sent in enumerate(annotations.sents):
-        #print(sent.tok)
+
         if word in [t.text for t in sent]:
+            indexes_target_sentence_tokenized_e = indexes_target_sentence_tokenized_s + len([t.text for t in sent])
             #print(str(sent))
-            indexes_target_sentence_tokenized = n
+            index_target_sentence = n
             s = text.find(str(sent))
             if s != -1:
                 e = s + len(str(sent))
                 indexes_target_sentence = str(s)+':'+str(e)
                 break
+        else:
+            indexes_target_sentence_tokenized_s += len([t.text for t in sent])
 
 
     context_tokenized = [str(token) for token in annotations]
+    indexes_target_sentence_tokenized = str(indexes_target_sentence_tokenized_s)+':'+str(indexes_target_sentence_tokenized_e)
+    assert context_tokenized[indexes_target_sentence_tokenized_s:indexes_target_sentence_tokenized_e] == [t.text for t in [sen for sen in annotations.sents][n]]
+    #print(indexes_target_sentence_tokenized)
     context_lemmatized = [str(token.lemma_.lower()) for token in annotations]
     context_pos = [str(token.pos_) for token in annotations]
 
@@ -164,15 +172,7 @@ for data_instance in data_instances:
     #print(identifier1,identifier2,data_instance['sim1'])
 
     table.append([data_instance['id'],identifier1,identifier2,data_instance['sim1']])
-    #2-0-absence-text1 African
-    #1-0-presence-text1 African
 
-    #2-0-absence-text2 Chineese
-    #1-0-presence-text2 Chineese
-
-    #print(identifier1)
-    #identifier2 = identifier+'-text'+'2'
-    #lemma2group2context[lemma][identifier]['1'] = context
     lemma2group2context[lemma+'_'+other_word][identifier]['1'] = context
 
     #tweet2 = data_instance['tweet2']
@@ -180,12 +180,8 @@ for data_instance in data_instances:
     context = data2context(data_instance,text2,'2',data_instance['word_in_context2'])
     identifier1 = context['identifier']
     identifier2 = data_instance['other_id']+'-text2'
-    #print(identifier1,identifier2,data_instance['sim2'])
-    #lemma2group2context[lemma][identifier]['2'] = context
+
     lemma2group2context[lemma+'_'+other_word][identifier]['2'] = context
-    #print(context,'\n')
-    #table.append([data_instance['id'],data_instance['other_lemma'],data_instance['sim1'],data_instance['sim2']])
-    #table.append([data_instance['id'],data_instance['other_lemma'],data_instance['sim1'],data_instance['sim2']])
 
     table.append([data_instance['id'],identifier1,identifier2,data_instance['sim2']])
 

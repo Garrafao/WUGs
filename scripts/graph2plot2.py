@@ -112,23 +112,23 @@ def csv_to_json(csvFilePath, jsonFilePath, jsonName):
 
 
 csvFilePath = top_folder + r'/stats/stats.csv'
-jsonFilePath = output_folder + r'/stats.json'
+jsonFilePath = output_folder + r'/stats.js'
 csv_to_json(csvFilePath, jsonFilePath, "stats = ")
 
 csvFilePath = top_folder + r'/stats/stats_groupings.csv'
-jsonFilePath = output_folder + r'/stats_groupings.json'
+jsonFilePath = output_folder + r'/stats_groupings.js'
 csv_to_json(csvFilePath, jsonFilePath, "stats_groupings = ")
 
 csvFilePath = top_folder + r'/stats/stats_agreement.csv'
-jsonFilePath = output_folder + r'/stats_agreement.json'
+jsonFilePath = output_folder + r'/stats_agreement.js'
 csv_to_json(csvFilePath, jsonFilePath, "stats_agreement = ")
 
 csvFilePath = top_folder + r'/data_joint/data_joint'
-jsonFilePath = output_folder + r'/data_joint.json'
+jsonFilePath = output_folder + r'/data_joint.js'
 csv_to_json(csvFilePath, jsonFilePath, "data_joint = ")
 
 csvFilePath = top_folder + r'/stats/stats_plotting.csv'
-jsonFilePath = output_folder + r'/stats_plotting.json'
+jsonFilePath = output_folder + r'/stats_plotting.js'
 csv_to_json(csvFilePath, jsonFilePath, "stats_plotting = ")
 
 

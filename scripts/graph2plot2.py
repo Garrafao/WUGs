@@ -111,6 +111,14 @@ def csv_to_json(csvFilePath, jsonFilePath, jsonName):
         print(f"The file {csvFilePath} cannot be found.")
 
 
+name = graph.graph['lemma']
+position = position
+
+# Write the variables to the CSV file
+with open(top_folder + '/stats/stats_plotting.csv', 'a', encoding='utf-8') as f_out:
+    f_out.write(name + '\t' + position + '\n')
+
+
 csvFilePath = top_folder + r'/stats/stats.csv'
 jsonFilePath = output_folder + r'/stats.js'
 csv_to_json(csvFilePath, jsonFilePath, "stats = ")
@@ -130,15 +138,3 @@ csv_to_json(csvFilePath, jsonFilePath, "data_joint = ")
 csvFilePath = top_folder + r'/stats/stats_plotting.csv'
 jsonFilePath = output_folder + r'/stats_plotting.js'
 csv_to_json(csvFilePath, jsonFilePath, "stats_plotting = ")
-
-
-
-name = graph.graph['lemma']
-position = position
-
-# Write the variables to the CSV file
-with open(top_folder + '/stats/stats_plotting.csv', 'a', encoding='utf-8') as f_out:
-    f_out.write(name + '\t' + position + '\n')
-
-
-

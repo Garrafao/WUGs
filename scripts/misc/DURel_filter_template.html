@@ -1119,10 +1119,7 @@
 
 
 
-        let statsTable = document.getElementById("stats-table");
-        let statsGroupingsTable = document.getElementById("stats-groupings-table");
-        let statsAgreementTable = document.getElementById("stats-agreement-table");
-        let statsPlottingTable = document.getElementById("stats-plotting-table");
+
         generateTable(filteredStats, "stats");
         generateTable(filteredStatsGroupings, "statsGroupings");
         generateTable(filteredStatsAgreement, "statsAgreement");
@@ -1130,6 +1127,11 @@
         generateDetails(filteredStatsDataJoint, "statsDataJoint");
 
         function generateTable(jsonData, id) {
+            if (!jsonData || jsonData.length === 0) {
+                console.error(`Error: Invalid JSON data in generateTable function for id '${id}'`);
+                return;
+            }
+
             let div = document.createElement('div');
 
 

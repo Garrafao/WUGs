@@ -6,17 +6,62 @@ from collections import defaultdict
 import os
 import json
 import numpy as np
+import spacy
+import re
+
+
+nlp = spacy.load("en_core_web_sm")
+
 
 def data2context(tweet,grouping):
     date = tweet['date']
-    context_tokenized = ' '.join(tweet['tokens'])
-    indexes_target_token_tokenized = tweet['token_idx']
     text = tweet['text']
-    context = {'lemma':lemma, 'pos':'-', 'date':date, 'grouping':grouping, 'identifier':identifier+'-tweet'+grouping, 'description':'-', 'context':text, 'indexes_target_token':'-', 'indexes_target_sentence':'-', 'context_tokenized':context_tokenized, 'indexes_target_token_tokenized':indexes_target_token_tokenized, 'indexes_target_sentence_tokenized':'-'}
+    text_start = tweet['text_start']
+    text_end = tweet['text_end']
+    indexes_target_token = str(text_start)+':'+str(text_end)
+    annotated = annotate_text_word(text,text[text_start:text_end])
+
+    context = {'lemma':lemma, 'pos':nlp(lemma)[0].pos_, 'date':date, 'grouping':grouping, 'identifier':identifier+'-tweet'+grouping, 'description':'-', 'context':text, 'indexes_target_token':indexes_target_token, 'context_tokenized':' '.join(annotated['context_tokenized']), 'indexes_target_token_tokenized':annotated['indexes_target_token_tokenized'],'indexes_target_sentence':annotated['indexes_target_sentence'],'indexes_target_sentence_tokenized':annotated['indexes_target_sentence_tokenized'],'context_lemmatized':' '.join(annotated['context_lemmatized']),'context_pos':' '.join(annotated['context_pos'])}
+
     return(context)
 
-[_, data, annotations, datadir, label] = sys.argv
+def annotate_text_word(text,word):
+    annotations = nlp(text)
+    indexes_target_sentence = '-'
+    indexes_target_sentence_tokenized = '-'
+    indexes_target_sentence_tokenized_s = 0
+    indexes_target_sentence_tokenized_e = 0
+    word=word.replace('\'s','')
+    for n,sent in enumerate(annotations.sents):
+        if word in [t.text for t in sent]:
+            indexes_target_sentence_tokenized_e = indexes_target_sentence_tokenized_s + len([t.text for t in sent])
+            s = text.find(str(sent))
+            if s != -1:
+                e = s + len(str(sent))
+                indexes_target_sentence = str(s)+':'+str(e)
+                break
+        else:
+            indexes_target_sentence_tokenized_s += len([t.text for t in sent])
 
+
+    context_tokenized = [str(token) for token in annotations]
+    indexes_target_sentence_tokenized = str(indexes_target_sentence_tokenized_s)+':'+str(indexes_target_sentence_tokenized_e)
+    #print(n,indexes_target_sentence_tokenized_s,indexes_target_sentence_tokenized_e,word,context_tokenized)
+    assert context_tokenized[indexes_target_sentence_tokenized_s:indexes_target_sentence_tokenized_e] == [t.text for t in [sen for sen in annotations.sents][n]]
+
+    context_lemmatized = [str(token.lemma_.lower()) for token in annotations]
+    context_pos = [str(token.pos_) for token in annotations]
+
+    assert len(context_tokenized) == len (context_lemmatized) and len(context_tokenized) == len(context_pos)
+
+    indexes_target_token_tokenized = context_tokenized.index(word)
+
+
+    return {'context_lemmatized':context_lemmatized,'indexes_target_sentence':indexes_target_sentence,'context_pos':context_pos,'indexes_target_sentence_tokenized':indexes_target_sentence_tokenized,'context_lemmatized':context_lemmatized,'context_tokenized':context_tokenized,'indexes_target_token_tokenized':indexes_target_token_tokenized}
+
+
+[_, data, annotations, datadir, label] = sys.argv
+print('Processing: '+label)
 # parse an JSON file by name
 with open(data) as jsonfile:
     data_instances = [json.loads(line) for line in jsonfile.readlines()]

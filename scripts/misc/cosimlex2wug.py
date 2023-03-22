@@ -19,7 +19,7 @@ elif lang == 'en':
 elif lang == 'hr':
     nlp = spacy.load("hr_core_news_sm")
 
-print('Processing:'+lang)
+#print('Processing:'+lang)
 def data2context(data_instance,text,grouping,word):
     date = data_instance['date']
 
@@ -161,7 +161,7 @@ lemma2group2context = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda
 table = []
 for data_instance in data_instances:
     identifier = data_instance['id']
-    print(identifier)
+    #print(identifier)
     lemma = data_instance['word'] # this should be lematized
     other_word = data_instance['other_word']
     #tweet1 = data_instance['text1']

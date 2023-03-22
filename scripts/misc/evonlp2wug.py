@@ -61,7 +61,7 @@ def annotate_text_word(text,word):
 
 
 [_, data, annotations, datadir, label] = sys.argv
-print('Processing: '+label)
+#print('Processing: '+label)
 # parse an JSON file by name
 with open(data) as jsonfile:
     data_instances = [json.loads(line) for line in jsonfile.readlines()]

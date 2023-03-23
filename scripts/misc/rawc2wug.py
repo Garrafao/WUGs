@@ -125,7 +125,7 @@ df_final = df_final.rename(columns = {"sent":"context", "word":"lemma"})
 
 df_final['description'] = " "
 df_final['date'] = " "
-df_final['grouping'] = " "
+df_final['grouping'] = 1
 
 df_final = df_final[['lemma', 'pos', 'date', 'grouping', 'identifier', 'description', 'context', 'indexes_target_token', 'indexes_target_sentence', 'indexes_target_token_tokenized', 'index' ]]
 

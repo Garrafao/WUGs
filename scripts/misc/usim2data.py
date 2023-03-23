@@ -19,7 +19,7 @@ class MyHTMLParser(HTMLParser):
         self.target_id = None
     
     def handle_starttag(self, tag, attrs):
-        print("Encountered a start tag:", tag, attrs)
+        #print("Encountered a start tag:", tag, attrs)
         if tag == 'lexelt':
             self.lemma = attrs[0][1]
         if tag == 'instance':
@@ -29,7 +29,7 @@ class MyHTMLParser(HTMLParser):
         self.tag = tag
 
     def handle_endtag(self, endtag):
-        print("Encountered an end tag :", endtag)
+        #print("Encountered an end tag :", endtag)
         if endtag == 'instance':
             lemma = self.lemma
             id_ = self.id_
@@ -42,7 +42,7 @@ class MyHTMLParser(HTMLParser):
         self.endtag = endtag
 
     def handle_data(self, data):
-        print("Encountered some data  :", data, self.tag, self.endtag)
+        #print("Encountered some data  :", data, self.tag, self.endtag)
         if (self.tag == 'context' and (self.endtag == 'instance' or self.endtag == 'lexelt' or self.endtag == None)) or (self.tag == 'head' and self.endtag == 'head'):
             self.sentence += data
         if self.tag == 'head' and self.endtag == 'context':

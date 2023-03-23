@@ -34,7 +34,7 @@ def data2context(data_instance,text,grouping,word):
     if (s,e) != ('-','-'):
         assert text[int(s):int(e)]==word
     processed = annotate_text_word(text,word)
-    context = {'lemma':lemma, 'pos':processed['leamma_pos'], 'date':date, 'grouping':grouping, 'identifier':identifier+'-text'+grouping, 'description':'-', 'context':text, 'indexes_target_token':indexes_target_token, 'indexes_target_sentence':processed['indexes_target_sentence'], 'context_tokenized':' '.join(processed['context_tokenized']), 'indexes_target_token_tokenized':processed['indexes_target_token_tokenized'], 'indexes_target_sentence_tokenized':processed['indexes_target_sentence_tokenized'],'context_lemmatized':' '.join(processed['context_lemmatized']),'context_pos':' '.join(processed['context_pos']),'word_in_context':word}
+    context = {'lemma':lemma, 'pos':processed['leamma_pos'], 'date':date, 'grouping':grouping, 'identifier':identifier+'-text'+grouping, 'description':'-', 'context':text, 'indexes_target_token':indexes_target_token, 'indexes_target_sentence':processed['indexes_target_sentence'], 'context_tokenized':' '.join(processed['context_tokenized']), 'indexes_target_token_tokenized':processed['indexes_target_token_tokenized'], 'indexes_target_sentence_tokenized':processed['indexes_target_sentence_tokenized'],'context_lemmatized':' '.join(processed['context_lemmatized']),'context_pos':' '.join(processed['context_pos'])}
     return(context)
 
 
@@ -70,13 +70,13 @@ def annotate_text(text,lemma):
 
 def annotate_text_word(text,word):
     annotations = nlp(text)
+
     indexes_target_sentence = '-'
     indexes_target_sentence_tokenized = '-'
     sent_lengths = []
     indexes_target_sentence_tokenized_s = 0
     indexes_target_sentence_tokenized_e = 0
     for n,sent in enumerate(annotations.sents):
-
         if word in [t.text for t in sent]:
             indexes_target_sentence_tokenized_e = indexes_target_sentence_tokenized_s + len([t.text for t in sent])
             #print(str(sent))

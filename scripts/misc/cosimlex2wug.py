@@ -202,7 +202,7 @@ for row in table:
     comment = '-'
     sim = str(row[3])
     #print(judgment)
-    annotator = np.nan
+    annotator = "gold"
     data = {'identifier1':id1,'identifier2':id2,'annotator':annotator,'judgment':float(sim),'comment':comment,'lemma':key}
     lemma2data[key].append(data)
     #lemma2data[lemma].append(data)

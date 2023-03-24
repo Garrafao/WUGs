@@ -67,8 +67,9 @@ df_final["judgment"] = df["same"].values.tolist()
 
 df_final = df_final[['lemma', 'identifier2', 'identifier1', 'judgment']]
 
-df_final["annotator"] = " "
-df_final["comment"] = df['ambiguity_type']
+df_final["annotator"] = "gold"
+df_final["comment"] = " "
+df_final["description"] = df['ambiguity_type']
 
 df_final = df_final[["identifier1", "identifier2", "annotator", "judgment", "comment", "lemma"]]
 

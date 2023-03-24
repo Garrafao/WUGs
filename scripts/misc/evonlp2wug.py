@@ -89,7 +89,7 @@ for row in table:
     id2 = row[0]
     comment = ' '
     judgment = row[1]
-    annotator = np.nan
+    annotator = "gold"
     data = {'identifier1':id1+'-tweet1','identifier2':id2+'-tweet2','annotator':annotator,'judgment':float(judgment),'comment':comment,'lemma':lemma}
     lemma2data[lemma].append(data)
 

@@ -29,7 +29,7 @@ download = requests.get(URL).content
 df = pd.read_csv(io.StringIO(download.decode('utf-8')),sep = ',')
 #directory = URL.split('/')[4]
 
-directory =os.makedirs( '/content/rawc', exist_ok=True )
+directory =os.makedirs( '/content/raw-c', exist_ok=True )
 
 #directory = URL.split('/')[6]
 

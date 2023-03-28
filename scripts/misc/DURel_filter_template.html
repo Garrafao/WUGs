@@ -452,11 +452,11 @@
     </div>
 
     {% endif %}
-     <script type="text/javascript" src="../stats.js"></script>
+     <!--<script type="text/javascript" src="../stats.js"></script>
      <script type="text/javascript" src="../stats_agreement.js"></script>
      <script type="text/javascript" src="../stats_groupings.js"></script>
      <script type="text/javascript" src="../stats_plotting.js"></script>
-     <script type="text/javascript" src="../data_joint.js"></script>
+     <script type="text/javascript" src="../data_joint.js"></script>-->
 
     <script type="text/javascript">
         // initialize global variables.
@@ -1110,21 +1110,201 @@
         let heading = document.getElementById("heading").innerHTML;
         let onlyLemma = heading.replace(/ .*/, '');
 
+        //NEW
 
-        let filteredStats = stats.filter(row => row.lemma === onlyLemma);
-        let filteredStatsGroupings = stats_groupings.filter(row => row.lemma === onlyLemma);
-        let filteredStatsAgreement = stats_agreement.filter(row => row.data === onlyLemma);
-        let filteredStatsPlotting = stats_plotting.filter(row => row.lemma === onlyLemma);
-        let filteredStatsDataJoint = data_joint.filter(row => row.lemma === onlyLemma);
+        // set up flag variables to track which scripts have been loaded successfully
+        let statsLoaded = false;
+        let statsGroupingsLoaded = false;
+        let statsAgreementLoaded = false;
+        let statsPlottingLoaded = false;
+        let statsDataJointLoaded = false;
+
+        let filteredStats = [];
+        let filteredStatsGroupings = [];
+        let filteredStatsAgreement = [];
+        let filteredStatsPlotting = [];
+        let filteredStatsDataJoint = [];
+
+        let clusteringMethod;
+        let cluster_freq_dist;
+        let cluster_prob_dist;
+        let noise_cluster_count;
+        let clusterInfo;
+        let statisticsDiv;
+        let nodePosition;
+
+
+        // create event listeners for each script to set the corresponding flag when loaded
+        document.addEventListener('statsLoaded', function () {
+            console.log('stats.js is fully loaded!');
+            statsLoaded = true;
+            checkAllScriptsLoaded();
+        });
+
+        document.addEventListener('statsGroupingsLoaded', function () {
+            console.log('stats_groupings.js is fully loaded!');
+            statsGroupingsLoaded = true;
+            checkAllScriptsLoaded();
+        });
+
+        document.addEventListener('statsAgreementLoaded', function () {
+            console.log('stats_agreement.js is fully loaded!');
+            statsAgreementLoaded = true;
+            checkAllScriptsLoaded();
+        });
+
+        document.addEventListener('statsPlottingLoaded', function () {
+            console.log('stats_plotting.js is fully loaded!');
+            statsPlottingLoaded = true;
+            checkAllScriptsLoaded();
+        });
+
+        document.addEventListener('statsDataJointLoaded', function () {
+            console.log('data_joint.js is fully loaded!');
+            statsDataJointLoaded = true;
+            checkAllScriptsLoaded();
+        });
+
+        // load each script with the same function
+        function loadScript(scriptUrl, eventName) {
+            const script = document.createElement('script');
+            script.src = scriptUrl;
+            script.type = 'text/javascript';
+
+            script.addEventListener('load', function () {
+                console.log(scriptUrl + ' loaded successfully');
+                document.dispatchEvent(new Event(eventName));
+            });
+
+            script.addEventListener('error', function () {
+                console.log('Failed to load ' + scriptUrl);
+                checkAllScriptsLoaded();
+            });
+
+            document.body.appendChild(script);
+        }
+
+        // call the loadScript function for each script you want to load
+        loadScript('../stats.js', 'statsLoaded');
+        loadScript('../stats_groupings.js', 'statsGroupingsLoaded');
+        loadScript('../stats_agreement.js', 'statsAgreementLoaded');
+        loadScript('../stats_plotting.js', 'statsPlottingLoaded');
+        loadScript('../data_joint.js', 'statsDataJointLoaded');
+
+        // check if all scripts have been loaded, and execute the code that depends on them if they have
+        function checkAllScriptsLoaded() {
+
+            if (statsLoaded) {
+                try {
+                    filteredStats = stats.filter(row => row.lemma === onlyLemma);
+                } catch (err) {
+                    console.log('stats not found');
+                }
+
+                try {
+                    generateTable(filteredStats, "stats");
+                } catch (err) {
+                    console.log('problem generating table with stats');
+                }
+
+                try {
+                    clusteringMethod = filteredStats[0].algorithm;
+                } catch (err) {
+                    console.log('filteredStats[0] not found');
+                }
 
 
 
+            }
 
-        generateTable(filteredStats, "stats");
-        generateTable(filteredStatsGroupings, "statsGroupings");
-        generateTable(filteredStatsAgreement, "statsAgreement");
-        generateTable(filteredStatsPlotting, "statsPlotting");
-        generateDetails(filteredStatsDataJoint, "statsDataJoint");
+            if (statsGroupingsLoaded) {
+                try {
+                    filteredStatsGroupings = stats_groupings.filter(row => row.lemma === onlyLemma);
+                } catch (err) {
+                    console.log('stats_groupings not found');
+                }
+
+                try {
+                    generateTable(filteredStatsGroupings, "statsGroupings");
+                } catch (err) {
+                    console.log('problem generating table with stats_groupings');
+                }
+
+                cluster_freq_dist = filteredStatsGroupings[0].cluster_freq_dist;
+                cluster_prob_dist = filteredStatsGroupings[0].cluster_prob_dist;
+            }
+
+            if (statsAgreementLoaded) {
+                try {
+                    filteredStatsAgreement = stats_agreement.filter(row => row.data === onlyLemma);
+                } catch (err) {
+                    console.log('stats_agreement not found');
+                }
+
+                try {
+                    generateTable(filteredStatsAgreement, "statsAgreement");
+                } catch (err) {
+                    console.log('problem generating table with stats_agreement');
+                }
+
+
+            }
+
+            if (statsPlottingLoaded) {
+                try {
+                    filteredStatsPlotting = stats_plotting.filter(row => row.lemma === onlyLemma);
+                } catch (err) {
+                    console.log('stats_plotting not found');
+                }
+
+                try {
+                    generateTable(filteredStatsPlotting, "statsPlotting");
+                } catch (err) {
+                    console.log('problem generating table with stats_plotting');
+                }
+
+                nodePosition = filteredStatsPlotting[0].node_position;
+            }
+
+            if (statsDataJointLoaded) {
+                try {
+                    filteredStatsDataJoint = data_joint.filter(row => row.lemma === onlyLemma);
+                } catch (err) {
+                    console.log('stats_data_joint not found');
+                }
+
+                try {
+                    generateDetails(filteredStatsDataJoint, "statsDataJoint");
+                } catch (err) {
+                    console.log('problem generating table with statsDataJoint');
+                }
+
+                if(!annotatorsContainer.hasChildNodes()){
+                    fillAnnotatorsContainer(filteredStatsDataJoint);
+                }
+            }
+
+            noise_cluster_count = 0;
+            nodes.forEach(function (node) {
+                if (Number(node.label) == -1) {
+                    noise_cluster_count += 1;
+                }
+            });
+
+            clusterInfo = document.getElementById("clusterInfo");
+            statisticsDiv = document.getElementById("statistics");
+
+            clusterInfo.innerHTML = `
+            <p>Node position: ${nodePosition}</p>
+            <p>Clustering method: ${clusteringMethod}</p>`;
+
+            statisticsDiv.innerHTML = `
+            <p id="clusterFreqDist">Cluster frequency distribution: ${cluster_freq_dist}</p>
+            <p id="clusterProbDist">Cluster probability distribution: ${cluster_prob_dist}</p>
+            <p id="noiseClusterCount">Noise Cluster: [${noise_cluster_count}]</p>`;
+
+        }
+
 
         function generateTable(jsonData, id) {
             if (!jsonData || jsonData.length === 0) {
@@ -1180,29 +1360,7 @@
             document.getElementById(id).append(div);
         }
 
-        let nodePosition = filteredStatsPlotting[0].node_position;
-        let clusteringMethod = filteredStats[0].algorithm;
 
-        let cluster_freq_dist = filteredStatsGroupings[0].cluster_freq_dist;
-        let cluster_prob_dist = filteredStatsGroupings[0].cluster_prob_dist;
-        let noise_cluster_count = 0;
-        nodes.forEach(function (node){
-            if (Number(node.label) == -1){
-                noise_cluster_count += 1;
-            }
-        });
-
-        let clusterInfo = document.getElementById("clusterInfo");
-        let statisticsDiv = document.getElementById("statistics");
-
-        clusterInfo.innerHTML = `
-            <p>Node position: ${nodePosition}</p>
-            <p>Clustering method: ${clusteringMethod}</p>`;
-
-        statisticsDiv.innerHTML = `
-            <p id="clusterFreqDist">Cluster frequency distribution: ${cluster_freq_dist}</p>
-            <p id="clusterProbDist">Cluster probability distribution: ${cluster_prob_dist}</p>
-            <p id="noiseClusterCount">Noise Cluster: [${noise_cluster_count}]</p>`;
 
 
         function updateClusterDistribution() {
@@ -1302,9 +1460,7 @@
             annotatorsContainer.append(div);
         }
 
-        if(!annotatorsContainer.hasChildNodes()){
-            fillAnnotatorsContainer(filteredStatsDataJoint);
-        }
+
 
         function annotatorsFilter() {
             showSelectLoad();

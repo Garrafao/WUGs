@@ -100,7 +100,8 @@ for lemma in lemmas:
 
     if lemma == 'full':
         global_judgments = [j for a, js in annotator2judgments.items() for j in js if not np.isnan(j) and not j == non_value]
-        global_distribution = Counter(global_judgments)
+        global_distribution = dict(Counter(global_judgments))
+        global_distribution = {v:global_distribution[v] if v in global_distribution else 0.0 for v in value_domain}
         global_distribution = np.array([global_distribution[k] for k in sorted(global_distribution.keys())])
         global_distribution = global_distribution/np.sum(global_distribution) # normalize
 
@@ -112,7 +113,7 @@ for lemma in lemmas:
 
     # Get agreement between annotators
     #print(annotator2judgments)
-    agreements = get_agreements(annotator2judgments, non_value=non_value, value_domain=value_domain, expected=global_distribution, combo2annotator2judgment=combo2annotator2judgment, metrics=['kri', 'spr', 'ham'])
+    agreements = get_agreements(annotator2judgments, non_value=non_value, value_domain=value_domain, expected=global_distribution, combo2annotator2judgment=combo2annotator2judgment, metrics=['kri', 'kri2', 'spr', 'ham'])
     limit = 50
     for metric in agreements:
         for i, s in enumerate(sorted(agreements[metric].keys(), reverse=True)):

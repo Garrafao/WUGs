@@ -24,6 +24,11 @@ For the alternative pipeline with multiple possible clustering algorithms (Corre
 
 	bash -e scripts/run_uug2.sh
 
+There are two scripts for external use with the [DURel annotation tool](https://www.ims.uni-stuttgart.de/data/durel-tool) allowing to specify input directory and other parameters from the command line (find usage examples in `test.sh`:
+
+	bash -e scripts/run_system.sh
+	bash -e scripts/run_system2.sh
+
 __Attention__: modifies graphs iteratively, i.e., current run is dependent on previous run. Script deletes previously written data to avoid dependence.
 
 We recommend you to run the scripts within a [virtual environment](https://pypi.org/project/virtualenv/) with Python 3.10. Install the required packages running `pip install -r requirements.txt`. The script uses simple test parameters; in order to improve the clustering load `parameters_opt.sh` in `run_uug.sh` or `run_usg.sh`.
@@ -141,6 +146,7 @@ BibTex
   title   = "Human and Computational Measurement of Lexical Semantic Change",
   school  = "University of Stuttgart",
   address = "Stuttgart, Germany",
+  url = {http://dx.doi.org/10.18419/opus-12833}
   year    = 2023
 }
 ```

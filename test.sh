@@ -1,6 +1,6 @@
 # test pipeline
-dir=test_uug
 bash -e scripts/run_uug.sh
+dir=test_uug
 rm -rf $dir/data_joint
 rm -rf $dir/graphs
 rm -rf $dir/graphs_full
@@ -10,8 +10,8 @@ rm -rf $dir/stats
 rm -rf $dir/plots
 rm -f $dir/annotators.csv
 rm -rf scripts/__pycache__
-dir=test_usg
 bash -e scripts/run_usg.sh
+dir=test_usg
 rm -rf $dir/data_joint
 rm -rf $dir/graphs
 rm -rf $dir/graphs_full
@@ -28,9 +28,14 @@ bash -e scripts/run_system.sh $dir
 rm -rf $dir/plots
 #exit 0
 
+# test system pipeline for word with non-complete judgment domain (no judgments of 1)
+dir=test_uug1
+bash -e scripts/run_system.sh $dir
+rm -rf $dir/plots
+
 # test pipeline 2
-dir=test_uug
 bash -e scripts/run_uug2.sh
+dir=test_uug
 rm -rf $dir/data_joint
 rm -rf $dir/graphs
 rm -rf $dir/graphs_full

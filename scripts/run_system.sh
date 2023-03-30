@@ -1,4 +1,5 @@
 #!/bin/bash
+# Can be used like this: bash -e scripts/run_system.sh $dir
 # Attention: modifies graphs iteratively, i.e., current run is dependent on previous run. To avoid, run full pipeline and remove graphs from last round.
 
 scriptsdir=${0%/*}

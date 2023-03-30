@@ -68,4 +68,4 @@ We provide the following test data for developers and users:
 - `test_errors`: erroneous data to avoid bugs in the system:
     - `uses/blockera.csv` contains target word and sentence indices exceeding the number of characters in context
 - `test_project`: English annotation data, very small
-- `test_uug`: German annotation data, mix of words with large and small numbers of uses and annotations, contains Umlauts
+- `test_uug`: mix of words with large and small numbers of uses and annotations from different languages, contains Umlauts as well as Russian and Chinese characters

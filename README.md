@@ -5,7 +5,7 @@ Scripts to process Word Usage Graphs (WUGs).
 If you use this software for academic research, please [cite](#bibtex) these papers:
 
 - Dominik Schlechtweg, Nina Tahmasebi, Simon Hengchen, Haim Dubossarsky, Barbara McGillivray. 2021. [DWUG: A large Resource of Diachronic Word Usage Graphs in Four Languages](https://aclanthology.org/2021.emnlp-main.567/). In Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing.
-- Dominik Schlechtweg. 2023. Human and Computational Measurement of Lexical Semantic Change. PhD thesis. University of Stuttgart.
+- Dominik Schlechtweg. 2023. [Human and Computational Measurement of Lexical Semantic Change](http://dx.doi.org/10.18419/opus-12833). PhD thesis. University of Stuttgart.
 
 Find WUG data sets on the [WUGsite](https://www.ims.uni-stuttgart.de/data/wugs).
 

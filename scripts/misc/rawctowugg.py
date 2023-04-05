@@ -14,7 +14,7 @@ import numpy as np
 import os
 import warnings
 
-!pip install fuzzywuzzy
+#!pip install fuzzywuzzy
 import fuzzywuzzy
 
 from fuzzywuzzy import fuzz

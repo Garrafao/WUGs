@@ -35,7 +35,7 @@ def getname(dataset):
   return dataset.split('.')[0]
 
 url1 = "https://raw.githubusercontent.com/seantrott/raw-c/main/data/processed/normed_critical.csv"
-dload = requests.get(URL).content
+dload = requests.get(url1).content
 norm = pd.read_csv(io.StringIO(dload.decode('utf-8')),sep = ',')
 
 df_ = pd.merge(df, norm, how = 'inner', on=['word','same', 'Class', 'ambiguity_type', 'version'])

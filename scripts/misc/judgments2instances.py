@@ -11,12 +11,12 @@ with open(judgments, encoding='utf-8') as csvfile:
 lemma = rows[0]['lemma']       
 pairs = {frozenset((row['identifier1'],row['identifier2'])) for row in rows}
 pairs = [list(pair) for pair in pairs]
-instances = [{'identifier1':pair[0], 'identifier2':pair[1], 'lemma':lemma} for pair in pairs]
+instances = [{'lemma':lemma, 'identifier1':pair[0], 'identifier2':pair[1]} for pair in pairs]
 
 #print(instances)
 
 # Export data
 with open(output_file, 'w') as f:  
-    w = csv.DictWriter(f, ['identifier1', 'identifier2', 'lemma'], delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
+    w = csv.DictWriter(f, ['lemma', 'identifier1', 'identifier2'], delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
     w.writeheader()
     w.writerows(instances)

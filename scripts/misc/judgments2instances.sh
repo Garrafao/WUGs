@@ -1,7 +1,13 @@
 
 echo $(tput bold)$BASH_SOURCE$(tput sgr0)
 
-input=durel_system/upload_formats/test_uug/judgments/Vorwort.csv
-output=durel_system/upload_formats/test_uug/instances/Vorwort.csv
+inputdir=data/testwug_en_2.0.0/data
+outputdir=data/testwug_en_2.0.0/data
+files=($inputdir/*/judgments.csv)
+for file in "${files[@]}"
+do
+    echo $file
+    echo $(basename $(dirname ${file}))
+    python3 scripts/misc/judgments2instances.py $file $outputdir/$(basename $(dirname ${file}))/instances.csv
+done
 
-python3 scripts/misc/judgments2instances.py $input $output

@@ -61,9 +61,6 @@ for row in judgments:
     data.append(data_row)
 
 
-jud = pd.DataFrame(data)
-use = pd.DataFrame(outdata)
-
 
 with open(judgmentsout, 'w') as f:  
         w = csv.DictWriter(f, data[0].keys(), delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')

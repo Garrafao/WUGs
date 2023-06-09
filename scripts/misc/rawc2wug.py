@@ -24,8 +24,8 @@ warnings.filterwarnings("ignore")
 import spacy
 nlp = spacy.load("en_core_web_sm")
 
-directory =os.makedirs( '/content/raw-c', exist_ok=True )
-
+directory =os.makedirs('raw-c', exist_ok=True )
+path = 'raw-c/'
 URL = "https://raw.githubusercontent.com/seantrott/raw-c/main/data/processed/raw-c.csv"
 download = requests.get(URL).content
 df = pd.read_csv(io.StringIO(download.decode('utf-8')),sep = ',')
@@ -119,9 +119,9 @@ for i in list(df_final["lemma"].value_counts().index):
   numpy_df = df_temp.to_numpy()
   header = list(df_temp.columns)
   numpy_df = np.vstack([header, numpy_df])
-  if not os.path.exists('/content/raw-c'+"/"+i):
-      os.mkdir('/content/raw-c'+"/"+i)
-  np.savetxt('/content/raw-c'+"/"+i+"/judgments.csv", numpy_df,fmt='%s', delimiter='\t')
+  if not os.path.exists(path +i):
+      os.mkdir(path +i)
+  np.savetxt(path + i +"/judgments.csv", numpy_df,fmt='%s', delimiter='\t')
 
 df1 = df_final_next_stage[['lemma', 'sent1', 'class1', 'identifier1', 'index1']]
 df1.columns =  ['word', 'sent', 'pos', 'identifier', 'index']
@@ -200,16 +200,8 @@ for i in list(final_df["lemma"].value_counts().index):
   numpy_df = df_temp.to_numpy()
   header = list(df_temp.columns)
   numpy_df = np.vstack([header, numpy_df])
-  if not os.path.exists('/content/raw-c'+"/"+i):
-      os.mkdir('/content/raw-c'+"/"+i)
-  np.savetxt('/content/raw-c'+"/"+i+"/uses.csv", numpy_df,fmt='%s', delimiter='\t')
+  if not os.path.exists(path +i):
+      os.mkdir(path +i)
+  np.savetxt(path +i+ "/uses.csv", numpy_df,fmt='%s', delimiter='\t')
 
-#for i in list(final_df["lemma"].value_counts().index):
-   # df_temp = final_df[final_df["lemma"]==i]
-    #numpy_df = df_temp.to_numpy()
-    #header = list(df_temp.columns)
-    #numpy_df = np.vstack([header, numpy_df])
-    #if not os.path.exists(i):
-        #os.mkdir(i)
-    #np.savetxt(i+"/uses.csv", numpy_df,fmt='%s', delimiter='\t')
 

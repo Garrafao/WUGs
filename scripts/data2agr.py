@@ -6,7 +6,14 @@ from modules import *
 import unicodedata
 import numpy as np
 
-[_, annotation, min_, max_, annotators, excluded, output_file] = sys.argv
+[_, annotation, modus, min_, max_, annotators, excluded, output_file] = sys.argv
+
+if modus=='test':
+    metrics=['kri', 'kri2', 'spr', 'ham']
+if modus=='system':
+    metrics=['kri', 'spr', 'ham']
+if modus=='full':
+    metrics=['kri', 'kri2', 'spr', 'ham']
         
 with open(annotators, encoding='utf-8') as csvfile: 
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
@@ -113,7 +120,7 @@ for lemma in lemmas:
 
     # Get agreement between annotators
     #print(annotator2judgments)
-    agreements = get_agreements(annotator2judgments, non_value=non_value, value_domain=value_domain, expected=global_distribution, combo2annotator2judgment=combo2annotator2judgment, metrics=['kri', 'kri2', 'spr', 'ham'])
+    agreements = get_agreements(annotator2judgments, non_value=non_value, value_domain=value_domain, expected=global_distribution, combo2annotator2judgment=combo2annotator2judgment, metrics=metrics)
     limit = 50
     for metric in agreements:
         for i, s in enumerate(sorted(agreements[metric].keys(), reverse=True)):

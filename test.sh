@@ -47,16 +47,19 @@ rm -f $dir/annotators.csv
 rm -rf scripts/__pycache__
 
 # test system pipeline 2
-dir=test_uug
+dirs=(test_uug test_uug1)
 #algorithms=(correlation chinese louvain)
 #positions=(spring sfdp spectral)
 algorithms=(correlation)
 positions=(spring)
-for algorithm in "${algorithms[@]}"
+for dir in "${dirs[@]}"
 do
-    for position in "${positions[@]}"
+    for algorithm in "${algorithms[@]}"
     do
-	bash -e scripts/run_system2.sh $dir $algorithm $position
+	for position in "${positions[@]}"
+	do
+	    bash -e scripts/run_system2.sh $dir $algorithm $position
+	done
     done
+    rm -rf $dir/plots
 done
-rm -rf $dir/plots

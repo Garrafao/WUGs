@@ -24,3 +24,5 @@ upperrangemin=5
 upperrangemax=5
 lowerprob=0.0
 upperprob=1.0
+# system variables
+echo timestamp && date +%F_%T

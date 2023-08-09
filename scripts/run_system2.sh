@@ -8,7 +8,7 @@ dir=$1
 dir=${dir%/}
 echo $dir
 
-# parameters, can be partly overridden below
+# parameters, will be partly overridden below
 parameterfile=$4
 source $parameterfile
 
@@ -36,8 +36,7 @@ rm -rf $dir/plots # when running multiple times (e.g. testing)
 source $scriptsdir/data2join.sh
 source $scriptsdir/data2annotators.sh
 source $scriptsdir/data2agr.sh
-source $scriptsdir/use2graph.sh
-source $scriptsdir/judgments2graph.sh
+source $scriptsdir/data2graph.sh # aggregates the graph according to input options
 source $scriptsdir/graph2cluster2.sh
 source $scriptsdir/graph2stats.sh
 source $scriptsdir/graph2plot2.sh

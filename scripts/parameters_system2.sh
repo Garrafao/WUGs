@@ -1,9 +1,15 @@
 
 annotators=$dir/annotators.csv
-excluded=$dir/annotators_excluded.csv
 modus=system
 graphtype=uug
 isanonymize=False
+# aggregation
+summarystatistic=mean # one of mean, median
+excluded=None # path to file with excluded annotators (e.g. $dir/annotators_excluded.csv), or None
+isnannodes=True # whether to keep nannodes
+isnanedges=True # whether to keep nanedges
+grouping=full # which grouping to plot, full means to plot all groupings
+edgefilter=None # any special filters on edges, currently one of None, conflicts
 # clustering
 #algorithm=correlation # one of correlation, chinese, louvain
 iters=1

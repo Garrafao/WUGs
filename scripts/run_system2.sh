@@ -8,8 +8,9 @@ dir=$1
 dir=${dir%/}
 echo $dir
 
-# parameters
-source $scriptsdir/parameters_system2.sh
+# parameters, can be partly overridden below
+parameterfile=$4
+source $parameterfile
 
 algorithm=$2
 echo $algorithm

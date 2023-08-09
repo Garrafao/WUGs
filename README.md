@@ -26,8 +26,8 @@ For the alternative pipeline with multiple possible clustering algorithms (Corre
 
 There are two scripts for external use with the [DURel annotation tool](https://www.ims.uni-stuttgart.de/data/durel-tool) allowing to specify input directory and other parameters from the command line (find usage examples in `test.sh`:
 
-	bash -e scripts/run_system.sh
-	bash -e scripts/run_system2.sh
+	bash -e scripts/run_system.sh $dir ...
+	bash -e scripts/run_system2.sh $dir ...
 
 __Attention__: modifies graphs iteratively, i.e., current run is dependent on previous run. Script deletes previously written data to avoid dependence.
 

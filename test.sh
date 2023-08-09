@@ -52,13 +52,17 @@ dirs=(test_uug test_uug1)
 #positions=(spring sfdp spectral)
 algorithms=(correlation)
 positions=(spring)
+parameterfiles=(scripts/parameters_system2.sh)
 for dir in "${dirs[@]}"
 do
     for algorithm in "${algorithms[@]}"
     do
 	for position in "${positions[@]}"
 	do
-	    bash -e scripts/run_system2.sh $dir $algorithm $position
+	    for parameterfile in "${parameterfiles[@]}"
+	    do
+		bash -e scripts/run_system2.sh $dir $algorithm $position $parameterfile
+	    done
 	done
     done
     rm -rf $dir/plots

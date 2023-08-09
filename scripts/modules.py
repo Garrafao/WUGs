@@ -789,6 +789,9 @@ def get_time_stats(G, threshold=0.5, lower_range=(1,3), upper_range=(3,5), lower
         stats['cluster_prob_dist'] = [round(pr, 3) for pr in co.prob]
         stats['cluster_prob_dist1'] = [round(pr, 3) for pr in co.prob1]
         stats['cluster_prob_dist2'] = [round(pr, 3) for pr in co.prob2]
+        stats['cluster_number'] = len(co.prob)
+        stats['cluster_number1'] = len([1 for pr in co.prob1 if pr > 0.0])
+        stats['cluster_number2'] = len([1 for pr in co.prob2 if pr > 0.0])
     
         stats['change_binary'] = co.c_mb
         stats['change_binary_gain'] = co.i_mb

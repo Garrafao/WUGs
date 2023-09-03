@@ -41,10 +41,10 @@ source $scriptsdir/graph2cluster2.sh
 source $scriptsdir/graph2stats.sh
 source $scriptsdir/graph2plot2.sh
 
-rm -rf $dir/data_joint # when running multiple times (e.g. testing)
-rm -rf $dir/graphs_full # when running multiple times (e.g. testing)
-rm -rf $dir/graphs # when running multiple times (e.g. testing)
-rm -rf $dir/stats # when running multiple times (e.g. testing)
-rm $dir/annotators.csv # when running multiple times (e.g. testing)
+#rm -rf $dir/data_joint # when running multiple times (e.g. testing)
+#rm -rf $dir/graphs_full # when running multiple times (e.g. testing)
+#rm -rf $dir/graphs # when running multiple times (e.g. testing)
+#rm -rf $dir/stats # when running multiple times (e.g. testing)
+#rm $dir/annotators.csv # when running multiple times (e.g. testing)
 
  #todo: remove dependency on data2agr and graph2stats, remove multiple unnecessary plots in system version

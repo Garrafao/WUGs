@@ -72,12 +72,7 @@ for word in words:
     with open(args.out_dir/'data'/word/'uses.csv', 'w', encoding='utf-8') as csvfile: 
         writer = csv.DictWriter(csvfile, uses_fields, delimiter='\t',quoting=csv.QUOTE_NONE,quotechar=None,strict=True,extrasaction='ignore')
         writer.writeheader()
-        for row in uses:
-            try: 
-                writer.writerow(row)
-            except Exception as e:
-                from IPython import embed
-                embed(); raise
+        writer.writerows(rows)
 
     # write {word}/data/judgements.csv and {word}/data/uses.csv
     judgment_fields = ['identifier1', 'identifier2', 'annotator', 'judgment', 'lemma']

@@ -62,6 +62,15 @@ do
 	    for parameterfile in "${parameterfiles[@]}"
 	    do
 		bash -e scripts/run_system2.sh $dir $algorithm $position $parameterfile
+		rm -rf $dir/data_joint
+		rm -rf $dir/graphs
+		rm -rf $dir/graphs_full
+		rm -rf $dir/graphs1
+		rm -rf $dir/clusters
+		rm -rf $dir/stats
+		rm -rf $dir/plots
+		rm -f $dir/annotators.csv
+		rm -rf scripts/__pycache__
 	    done
 	done
     done

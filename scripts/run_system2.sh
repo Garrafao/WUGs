@@ -47,4 +47,4 @@ source $scriptsdir/graph2plot2.sh
 #rm -rf $dir/stats # when running multiple times (e.g. testing)
 #rm $dir/annotators.csv # when running multiple times (e.g. testing)
 
- #todo: remove dependency on data2agr and graph2stats, remove multiple unnecessary plots in system version
+#todo: remove dependency on data2agr and graph2stats, remove multiple unnecessary plots in system version

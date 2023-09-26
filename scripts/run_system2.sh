@@ -6,28 +6,32 @@ scriptsdir=${0%/*}
 # folder where the data lives.
 dir=$1
 dir=${dir%/}
-echo $dir
+echo 'dir: $dir'
 
 # parameters, will be partly overridden below
-parameterfile=$4
+parameterfile=$5
 source $parameterfile
 
 algorithm=$2
-echo $algorithm
+echo 'algorithm: $algorithm'
+
+threshold=$3
+echo 'threshold: $threshold'
 
 if [ $algorithm == louvain ]
 then
     threshold=0.0
-    echo $threshold
+    echo 'Adjusting threshold for Louvain method'
+    echo 'threshold: $threshold'
 fi
 if [ $algorithm == chinese ]
 then
     degree=top
-    echo $degree
+    echo 'degree: $degree'
 fi
 
-position=$3
-echo $position
+position=$4
+echo 'position: $position'
 
 rm -rf $dir/data_joint # when running multiple times (e.g. testing)
 rm -rf $dir/graphs # when running multiple times (e.g. testing)

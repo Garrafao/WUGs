@@ -21,5 +21,5 @@ do
 	fi
 	echo $graph
 	python3 $scriptsdir/graph2cluster2.py $graph $threshold $modus $ambiguity $algorithm $degree True $annotators $outdir/$(basename "$graph")
-    done
+   done
 done

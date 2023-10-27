@@ -4,6 +4,11 @@ from modules import transform_edge_weights, scale_weights, get_node_std, get_dat
 from cluster_ import add_clusters, get_clusters
 from correlation import cluster_correlation_search
 from clustering_interface import louvain_clustering, chinese_whispers_clustering
+try: # only import graph_tool if it is installed, otherwise assigned default which will be expected not to be used
+    from clustering_interface_wsbm import wsbm_clustering
+except ImportError as e:
+    print(e, 'Defaulting wsbm_clustering variables. You can continue, but should not use wsbm_clustering.')
+    wsbm_clustering = None
 import csv
 import numpy as np
  

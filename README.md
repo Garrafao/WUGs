@@ -33,9 +33,9 @@ __Attention__: modifies graphs iteratively, i.e., current run is dependent on pr
 
 We recommend you to run the scripts within a [virtual environment](https://pypi.org/project/virtualenv/) with Python 3.10. Install the required packages running `pip install -r requirements.txt`. **Important**: The script uses simple test parameters; in order to improve the clustering load `parameters_opt.sh` in `run_uug.sh` or `run_usg.sh`.
 
-When installing, please check whether pygraphviz was installed correctly. There have been recurring errors with pygraphviz installation across operating systems. If an error occurs, you can check this page for solutions: https://pygraphviz.github.io/documentation/stable/install.html#providing-path-to-graphviz
+When installing, please check whether pygraphviz was installed correctly. There have been recurring errors with pygraphviz installation across operating systems. If an error occurs, you can check [this page](https://pygraphviz.github.io/documentation/stable/install.html#providing-path-to-graphviz) for solutions. On Linux, installing graphviz through the package manager is recommended.
 
-On Linux, installing graphviz through the package manager is recommended.
+For using the [WSBM](https://aclanthology.org/2021.starsem-1.23/) clustering option you need to install the graph-tool package. We recommend to install it via Anaconda as described [here](https://git.skewed.de/count0/graph-tool/-/wikis/installation-instructions#installing-via-conda).
 
 ### Description
 
@@ -115,6 +115,7 @@ Find information on the individual fields below:
 
 Find further research on WUGs in these papers:
 
+- Jing Chen, Emmanuele Chersoni, Dominik Schlechtweg, Jelena Prokic, Chu-Ren Huang. 2023. ChiWUG: A Graph-based Evaluation Dataset for Chinese Lexical Semantic Change Detection. Proceedings of the 4th International Workshop on Computational Approaches to Historical Language Change 2023 (LChange'23).
 - Andrey Kutuzov, Samia Touileb, Petter Mæhlum, Tita Enstad, and Alexandra Wittemann. 2022. [NorDiaChange: Diachronic Semantic Change Dataset for Norwegian](https://aclanthology.org/2022.lrec-1.274/). In Proceedings of the Thirteenth Language Resources and Evaluation Conference.
 - Anna Aksenova, Ekaterina Gavrishina, Elisei Rykov, and Andrey Kutuzov. 2022. [RuDSI: Graph-based Word Sense Induction Dataset for Russian](https://aclanthology.org/2022.textgraphs-1.9/). In Proceedings of TextGraphs-16: Graph-based Methods for Natural Language Processing.
 - Frank D. Zamora-Reina, Felipe Bravo-Marquez, Dominik Schlechtweg. 2022. [LSCDiscovery: A shared task on semantic change discovery and detection in Spanish](https://aclanthology.org/2022.lchange-1.16/). In Proceedings of the 3rd International Workshop on Computational Approaches to Historical Language Change.

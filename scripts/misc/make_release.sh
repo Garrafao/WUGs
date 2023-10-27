@@ -1,8 +1,11 @@
  # Define input folder
 dir=test_uug
 
-# Make release folder and subfolders
+# Remove previous data from release folder
 outdir=$dir/release
+rm -r $outdir
+
+# Make release folder and subfolders
 mkdir -p $outdir
 mkdir -p $outdir/graphs
 mkdir -p $outdir/stats
@@ -50,5 +53,8 @@ cd $dir/
 zip -r $(basename "$dir").zip $(basename "$dir")
 cd ../..
 
-# Publish online, see e.g. here: https://www.ims.uni-stuttgart.de/data/wugs
+# Remove intermediate data
+rm -r $outdir
+rm -r $dir/$(basename "$dir")/
 
+# Publish online, see e.g. here: https://www.ims.uni-stuttgart.de/data/wugs

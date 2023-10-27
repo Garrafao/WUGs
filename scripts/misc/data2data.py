@@ -2,7 +2,7 @@ import sys
 import csv
 
 
-[_, uses, judgments, usesout, judgmentsout] = sys.argv
+[_, uses, judgments, usesout, judgmentsout, annotators] = sys.argv
         
 with open(uses, encoding='utf-8') as csvfile: 
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
@@ -16,11 +16,17 @@ if len(id2identifier.values())!=len(uses):
 with open(judgments, encoding='utf-8') as csvfile: 
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
     judgments = [row for row in reader]
+        
+with open(annotators, encoding='utf-8') as csvfile: 
+    reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
+    annotators = [row for row in reader]
+
+user2annotator = {row['user']:row['annotator'] for row in annotators}
 
 annotation = []
 for row in judgments:
-    annotator = row['annotator']
-    comment = row['comment'] 
+    annotator = user2annotator[row['annotator']]
+    comment = row['comment'] if not row['comment'] == 'comment' else ' '
     data = {'identifier1':id2identifier[row['identifier1']],'identifier2':id2identifier[row['identifier2']],'judgment':float(row['judgment']),'comment':comment,'annotator':annotator,'lemma':row['lemma']}
     annotation.append(data)
     

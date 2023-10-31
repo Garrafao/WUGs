@@ -7,17 +7,23 @@ from clustering_interface import louvain_clustering, chinese_whispers_clustering
 try: # only import graph_tool if it is installed, otherwise assigned default which will be expected not to be used
     from clustering_interface_wsbm import wsbm_clustering
 except ImportError as e:
-    print(e, 'Defaulting wsbm_clustering variables. You can continue, but should not use wsbm_clustering.')
+    print('Warning:', str(e)+'.', 'Defaulting wsbm_clustering variables. You can continue, but should not use wsbm_clustering.')
     wsbm_clustering = None
 import csv
 import numpy as np
  
-[_, input_file, threshold, modus, ambiguity, algorithm, degree, is_clean, annotators, output_file] = sys.argv
+[_, input_file, threshold, non_value, summary_statistic, modus, ambiguity, algorithm, degree, is_clean, annotators, output_file] = sys.argv
 
     
 threshold=float(threshold)
+non_value=float(non_value)
 graph = nx.read_gpickle(input_file)
 
+# Get summary statistic for edge weights        
+if summary_statistic=='median':
+    summary_statistic=np.median
+if summary_statistic=='mean':
+    summary_statistic=np.mean
     
 with open(annotators, encoding='utf-8') as csvfile: 
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
@@ -35,9 +41,9 @@ try: # search previous clustering for initialization
 except KeyError: # no clusters found
     if is_clean: # make noise cluster
         initial = []
-        mappings_edges = get_data_maps_edges(graph, annotators)
+        mappings_edges = get_data_maps_edges(graph, annotators, summary_statistic=summary_statistic)
         node2judgments, node2weights = mappings_edges['node2judgments'], mappings_edges['node2weights']
-        noise = [set(get_excluded_nodes(node2judgments, node2weights, share=0.5))]
+        noise = [set(get_excluded_nodes(node2judgments, node2weights, share=0.5, non_value=non_value))]
     else:
         initial = []
         noise = [{}]
@@ -53,12 +59,12 @@ G_clean = transform_edge_weights(G_clean, transformation = transformation) # shi
 
 # Remove influence of ambiguous nodes and edges
 if ambiguity == 'remove_nodes':    
-    node2stds = get_node_std(G_clean, annotators)
+    node2stds = get_node_std(G_clean, annotators, non_value=non_value)
     nodes_high_stds = [n for n in G_clean.nodes() if np.nanmean(node2stds[n])>0.3]
     noise.append(set(nodes_high_stds))
     G_clean.remove_nodes_from(nodes_high_stds)    
 if ambiguity == 'scale_edges':        
-    G_clean = scale_weights(G_clean, 'std', annotators)    
+    G_clean = scale_weights(G_clean, 'std', annotators, non_value=non_value)    
 if ambiguity == 'None':
     pass
 

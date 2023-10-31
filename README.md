@@ -59,7 +59,6 @@ For annotating and plotting your own graphs we recommend to use the [DURel Tool]
 
 - `misc/usim2data.sh`:  downloads USim data and converts it to WUG format
 - `misc/make_release.sh`: create data for publication from pipeline output (compare to format of published data sets on [WUGsite](https://www.ims.uni-stuttgart.de/data/wugs))
-- `durel_system/`: contains files relevant for the [DURel Annotation System](https://www.ims.uni-stuttgart.de/data/durel-tool)
 
 ### Input
 

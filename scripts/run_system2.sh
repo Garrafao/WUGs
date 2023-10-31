@@ -40,7 +40,7 @@ rm -rf $dir/plots # when running multiple times (e.g. testing)
 
 source $scriptsdir/data2join.sh
 source $scriptsdir/data2annotators.sh
-source $scriptsdir/data2agr.sh
+source $scriptsdir/data2agr2.sh
 source $scriptsdir/data2graph.sh # aggregates the graph according to input options
 source $scriptsdir/graph2cluster2.sh
 source $scriptsdir/graph2stats.sh

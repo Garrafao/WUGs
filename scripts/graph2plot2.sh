@@ -30,7 +30,7 @@ do
 		do
 		    outdirlmcp=$outdirlmc/$edgestyle
 		    mkdir -p $outdirlmcp
-		    python3 $scriptsdir/graph2plot2.py $graph $templatepath $dir $outdirlmcp $color $mode $style $edgestyle $annotators $thresholdplot $position $modus
+		    python3 $scriptsdir/graph2plot2.py $graph $templatepath $dir $outdirlmcp $color $mode $style $edgestyle $annotators $thresholdplot $position $nonvalue $summarystatistic $modus
 		done
 	    done
 	done

@@ -20,6 +20,6 @@ do
 	    fi
 	fi
 	echo $graph
-	python3 $scriptsdir/graph2cluster2.py $graph $threshold $modus $ambiguity $algorithm $degree True $annotators $outdir/$(basename "$graph")
+	python3 $scriptsdir/graph2cluster2.py $graph $threshold $nonvalue $summarystatistic $modus $ambiguity $algorithm $degree True $annotators $outdir/$(basename "$graph")
    done
 done

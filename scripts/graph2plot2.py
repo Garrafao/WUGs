@@ -7,8 +7,9 @@ from itertools import combinations
 import os
 import json
 import pandas as pd
+import numpy as np
 
-[_, input_file, template_path, top_folder, output_folder, color, mode, style, edge_label_style, annotators, threshold, position, modus] = sys.argv
+[_, input_file, template_path, top_folder, output_folder, color, mode, style, edge_label_style, annotators, threshold, position, non_value, summary_statistic, modus] = sys.argv
 
 threshold = float(threshold)
 graph = nx.read_gpickle(input_file)
@@ -32,17 +33,22 @@ if modus == 'system':
     dpi = 5
 if modus == 'full':
     dpi = 300
-
+    
+# Get summary statistic for edge weights        
+if summary_statistic=='median':
+    summary_statistic=np.median
+if summary_statistic=='mean':
+    summary_statistic=np.mean 
 
 output_folder_full = output_folder + '/full/'
 if not os.path.exists(output_folder_full):
     os.makedirs(output_folder_full)
 
 if style == 'interactive':
-    plot_graph_interactive(graph, output_folder_full + name, c2n, threshold=threshold, period='full', color=color,
+    plot_graph_interactive(graph, output_folder_full + name, c2n, threshold=threshold, non_value=non_value, summary_statistic=summary_statistic, period='full', color=color,
                            mode=mode, edge_label_style=edge_label_style, annotators=annotators, position_method = position, name=name, cluster_stats=cluster_stats, template=template_path)
 if style == 'static':
-    plot_graph_static(graph, output_folder_full + name, c2n, threshold=threshold, period='full', color=color, mode=mode,
+    plot_graph_static(graph, output_folder_full + name, c2n, threshold=threshold, non_value=non_value, summary_statistic=summary_statistic, period='full', color=color, mode=mode,
                       edge_label_style=edge_label_style, annotators=annotators, dpi=dpi, position_method = position,
                       node_size=100, name=name, cluster_stats=cluster_stats)
 
@@ -57,10 +63,10 @@ if len(periods) > 1:
             os.makedirs(output_folder_period)
 
         if style == 'interactive':
-            plot_graph_interactive(graph, output_folder_period + name, c2n, threshold=threshold, period=period,
+            plot_graph_interactive(graph, output_folder_period + name, c2n, threshold=threshold, non_value=non_value, summary_statistic=summary_statistic, period=period,
                                    color=color, mode=mode, edge_label_style=edge_label_style, annotators=annotators, position_method = position, name=name, template=template_path)
         if style == 'static':
-            plot_graph_static(graph, output_folder_period + name, c2n, threshold=threshold, period=period, color=color,
+            plot_graph_static(graph, output_folder_period + name, c2n, threshold=threshold, non_value=non_value, summary_statistic=summary_statistic, period=period, color=color,
                               mode=mode, edge_label_style=edge_label_style, annotators=annotators, dpi=dpi, position_method = position,
                               node_size=300, name=name, cluster_stats=cluster_stats)
 

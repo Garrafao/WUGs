@@ -8,12 +8,14 @@ summarystatistic=median # one of mean, median
 excluded=None # path to file with excluded annotators (e.g. $dir/annotators_excluded.csv), or None
 isnannodes=True # whether to keep nannodes
 isnanedges=True # whether to keep nanedges
-grouping=full # which grouping to plot, full means to plot all groupings
+grouping=full # which grouping to keep, full means to keep all groupings
 edgefilter=None # any special filters on edges, currently one of None, conflicts
 #the threshold parameter from below is also used here for the conflict edge filter, we could introduce it as separate parameter here
 # clustering
 #algorithm=correlation # one of correlation, chinese, louvain
 iters=1
+nonvalue=0.0 # must be some float
+scale=ordinal
 min=1
 threshold=2.5
 max=4

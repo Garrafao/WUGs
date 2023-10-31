@@ -7,7 +7,7 @@ from collections import defaultdict
 from modules import *
 from cluster_ import *
 
-[_, judgments, uses, name, annotators, output_file, excluded, summary_statistic, isnannodes, isnanedges, grouping, edgefilter, threshold] = sys.argv
+[_, judgments, uses, name, annotators, output_file, excluded, summary_statistic, isnannodes, isnanedges, grouping, edgefilter, threshold, non_value] = sys.argv
 
 # Open user list to exclude, if existent    
 if excluded=='None':
@@ -34,6 +34,8 @@ if isnanedges=='False':
     isnanedges=False    
     
 threshold=float(threshold)
+
+non_value=float(non_value)
 
 # Initialize graph
 name = unicodedata.normalize('NFC', name)
@@ -83,8 +85,8 @@ judgments = [(identifier2identifier(row['identifier1']),identifier2identifier(ro
 
 
 graph = add_annotation(graph, judgments)
-graph = clean_annotation(graph, annotators=annotators, non_value=0.0) # collapse multiple judgments from same annotator
-graph = make_weights(graph, annotators=annotators, summary_statistic=summary_statistic, non_value=0.0)
+graph = clean_annotation(graph, annotators=annotators, non_value=non_value) # collapse multiple judgments from same annotator
+graph = make_weights(graph, annotators=annotators, summary_statistic=summary_statistic, non_value=non_value)
 
 # Apply graph postprocessing/cleaning
 
@@ -95,7 +97,7 @@ if not grouping == 'full':
         sys.exit('Breaking: grouping filter removing all nodes: %s' % grouping)
 
 if edgefilter == 'conflicts':
-    conflicts = get_annotator_conflicts(graph, annotators, non_value=0.0, threshold=threshold)
+    conflicts = get_annotator_conflicts(graph, annotators, non_value=non_value, threshold=threshold)
     non_conflicts = [(u, v) for (u, v) in graph.edges() if not (u, v) in conflicts]
     graph.remove_edges_from(non_conflicts)  # Remove non-conflicts
     # print(conflicts)
@@ -112,9 +114,9 @@ if not isnanedges:
     nan_edges = get_nan_edges(graph)    
     graph.remove_edges_from(nan_edges)
 if not isnannodes: # Important to apply this at the end because it depends on the remaining nodes in the graph which is modified by the previous steps
-    mappings_edges = get_data_maps_edges(graph, annotators)
+    mappings_edges = get_data_maps_edges(graph, annotators, summary_statistic=summary_statistic)
     node2judgments, node2weights = mappings_edges['node2judgments'], mappings_edges['node2weights']
-    nannodes = get_excluded_nodes(node2judgments, node2weights, share=0.5)
+    nannodes = get_excluded_nodes(node2judgments, node2weights, share=0.5, non_value=non_value)
     graph.remove_nodes_from(nannodes) # Remove noise nodes
 
 

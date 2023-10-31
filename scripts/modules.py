@@ -17,7 +17,7 @@ def add_annotation(G, annotation, is_non_value=lambda x: np.isnan(x)):
     Update graph with annotations.
     :param G: graph
     :param annotation: mappings from edges to annotators to judgments
-    :param is_non_value: function for non-judgment
+    :param is_non_value: function for non-judgment (missing judgment, not even 0)
     :return G: updated graph
 
     """
@@ -664,7 +664,7 @@ def get_agreements(annotator2judgments, non_value=0.0, level_of_measurement='ord
     return stats
 
 
-def get_cluster_stats(G, threshold=0.5, min_val=0.0, max_val=1.0, is_non_value=lambda x: np.isnan(x), loss_function='linear_loss', noise_label = -1):
+def get_cluster_stats(G, threshold=0.5, min_val=0.0, max_val=1.0, loss_function='linear_loss', noise_label = -1):
     """
     Get clusters with conflicting judgments.       
     :param G: graph

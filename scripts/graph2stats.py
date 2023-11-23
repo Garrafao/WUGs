@@ -1,5 +1,6 @@
 import sys
 import networkx as nx
+import pickle
 from modules import *
 from constellation import Constellation
 import csv
@@ -9,7 +10,8 @@ from itertools import combinations
 [_, input_file, is_header, annotators, threshold, min_, max_, lower_range_min, lower_range_max, upper_range_min, upper_range_max, lower_prob, upper_prob, output_file] = sys.argv
 
 threshold=float(threshold)
-graph = nx.read_gpickle(input_file)
+with open(input_file, 'rb') as f:
+    graph = pickle.load(f)
 name = graph.graph['lemma']
 
 if is_header == 'True':
@@ -22,8 +24,8 @@ with open(annotators, encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
     annotators = [row['annotator'] for row in reader]
 
-graph_stats = get_graph_stats(graph, annotators, value_domain=list(range(int(min_), int(max_)+1)), limit=50, metrics=[])
-cluster_stats = get_cluster_stats(graph, threshold=threshold, min_val=int(min_), max_val=int(max_))
+graph_stats = get_graph_stats(graph, annotators, limit=50)
+cluster_stats = get_cluster_stats(graph, threshold=threshold, min_val=float(min_), max_val=float(max_))
 
 general_stats = {'lemma':name}
 stats = general_stats | cluster_stats | graph_stats

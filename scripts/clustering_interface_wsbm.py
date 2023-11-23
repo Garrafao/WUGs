@@ -11,7 +11,7 @@ from graph_tool.inference import minimize_blockmodel_dl
 from graph_tool.inference.blockmodel import BlockState
 
 
-def wsbm_clustering(graph: nx.Graph, distribution: str = 'discrete-binomial') -> list:
+def wsbm_clustering(graph: nx.Graph, distribution: str = 'discrete-binomial', is_weighted: bool = False, weight_data_type: str = 'int', weight_attributes = ['weight']) -> list:
     """ Cluster graph based on Weighted Stochastic Block Model.
 
     Parameters
@@ -33,14 +33,14 @@ def wsbm_clustering(graph: nx.Graph, distribution: str = 'discrete-binomial') ->
         If the graph contains negative weights or non-value weights
     """
 
-    if _negative_weights_exist(graph):
+    if _negative_weights_exist(graph, weight_attributes = weight_attributes):
         raise ValueError("Negative weights are not supported by the WSBM algorithm.")
 
-    if _check_nan_weights_exits(graph):
+    if _check_nan_weights_exits(graph, weight_attributes = weight_attributes):
         raise ValueError("NaN weights are not supported by the WSBM algorithm.")
 
-    gt_graph, _, gt2nx = _nxgraph_to_graphtoolgraph(graph.copy())
-    state: BlockState = _minimize(gt_graph, distribution)
+    gt_graph, _, gt2nx = _nxgraph_to_graphtoolgraph(graph.copy(), is_weighted = is_weighted, weight_data_type = weight_data_type, weight_attributes = weight_attributes)
+    state: BlockState = _minimize(gt_graph, distribution, weight_attributes = weight_attributes)
 
     block2clusterid_map = {}
     for i, (k, _) in enumerate(dict(sorted(Counter(state.get_blocks().get_array()).items(), key=lambda item: item[1], reverse=True)).items()):
@@ -60,7 +60,7 @@ def wsbm_clustering(graph: nx.Graph, distribution: str = 'discrete-binomial') ->
     return classes
 
 
-def _nxgraph_to_graphtoolgraph(graph: nx.Graph):
+def _nxgraph_to_graphtoolgraph(graph: nx.Graph, is_weighted: bool = False, weight_data_type: str = 'int', weight_attributes: list = ['weight']):
     """Convert a networkx graph to a graphtool graph.
 
     Parameters
@@ -80,17 +80,27 @@ def _nxgraph_to_graphtoolgraph(graph: nx.Graph):
     for i, node in enumerate(graph.nodes()):
         nx2gt_vertex_id[node] = i
         gt2nx_vertex_id[i] = node
+        v = graph_tool_graph.add_vertex()
+        assert i == v
 
-    new_weights = []
-    for i, j in graph.edges():
-        current_weight = graph[i][j]['weight']
-        if current_weight != 0 and not np.isnan(current_weight):
+    if is_weighted:
+        for i, j in graph.edges():
             graph_tool_graph.add_edge(nx2gt_vertex_id[i], nx2gt_vertex_id[j])
-            new_weights.append(current_weight)
+  
+        for attribute in weight_attributes:
+            new_weights = []
+            for i, j in graph.edges():
+                current_weight = graph[i][j][attribute]
+                #print(current_weight)
+                new_weights.append(current_weight)
 
-    original_edge_weights = graph_tool_graph.new_edge_property("double")
-    original_edge_weights.a = new_weights
-    graph_tool_graph.ep['weight'] = original_edge_weights
+            original_edge_weights = graph_tool_graph.new_edge_property(weight_data_type)
+            original_edge_weights.a = new_weights
+            graph_tool_graph.ep[attribute] = original_edge_weights
+    else:
+        for i, j in graph.edges():
+            graph_tool_graph.add_edge(nx2gt_vertex_id[i], nx2gt_vertex_id[j])
+        
 
     new_vertex_id = graph_tool_graph.new_vertex_property('string')
     for k, v in nx2gt_vertex_id.items():
@@ -100,7 +110,8 @@ def _nxgraph_to_graphtoolgraph(graph: nx.Graph):
     return graph_tool_graph, nx2gt_vertex_id, gt2nx_vertex_id
 
 
-def _minimize(graph: graph_tool.Graph, distribution: str) -> BlockState:
+
+def _minimize(graph: graph_tool.Graph, distribution: str, weight_attributes: list = ['weight']) -> BlockState:
     """Minimize the graph using the given distribution as described by graph-tool.
 
     Parameters
@@ -117,11 +128,11 @@ def _minimize(graph: graph_tool.Graph, distribution: str) -> BlockState:
     """
 
     return minimize_blockmodel_dl(graph,
-                                  state_args=dict(deg_corr=False, recs=[graph.ep.weight], rec_types=[distribution]),
+                                  state_args=dict(deg_corr=False, recs=[graph.ep[attr] for attr in weight_attributes], rec_types=[distribution for attr in weight_attributes]),
                                   multilevel_mcmc_args=dict(B_min=1, B_max=30, niter=100, entropy_args=dict(adjacency=False, degree_dl=False)))
 
 
-def _negative_weights_exist(graph: nx.Graph):
+def _negative_weights_exist(graph: nx.Graph, weight_attributes: list = ['weight']):
     """Check if there are negative edges in the graph.
 
     Parameters
@@ -134,13 +145,15 @@ def _negative_weights_exist(graph: nx.Graph):
     flag: bool
         True if there are negative edges, False otherwise
     """
-    for i, j in graph.edges():
-        if graph[i][j]['weight'] < 0:
-            return True
-    return False
+    for attr in weight_attributes:
+        for i, j in graph.edges():
+            print(graph[i][j][attr])
+            if graph[i][j][attr] < 0:
+                return True
+        return False
 
 
-def _check_nan_weights_exits(graph: nx.Graph):
+def _check_nan_weights_exits(graph: nx.Graph, weight_attributes: list = ['weight']):
     """Check if there are NaN weights in the graph.
 
     Parameters
@@ -153,7 +166,8 @@ def _check_nan_weights_exits(graph: nx.Graph):
     flag: bool
         True if there are NaN weights, False otherwise
     """
-    for i, j in graph.edges():
-        if np.isnan(graph[i][j]['weight']):
-            return True
-    return False
+    for attr in weight_attributes:
+        for i, j in graph.edges():
+            if np.isnan(graph[i][j][attr]):
+                return True
+        return False

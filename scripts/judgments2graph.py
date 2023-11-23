@@ -1,5 +1,6 @@
 import sys
 import networkx as nx
+import pickle
 import csv
 from collections import defaultdict
 from modules import add_annotation, make_weights, clean_annotation
@@ -8,7 +9,8 @@ from modules import add_annotation, make_weights, clean_annotation
 
 # Try reading graph, if doesn't exist create.
 try:
-    graph = nx.read_gpickle(output_file)
+    with open(output_file, 'rb') as f:
+        graph = pickle.load(f)
 except:
     # Initialize graph
     graph = nx.Graph()
@@ -46,5 +48,6 @@ graph = add_annotation(graph, annotation)
 graph = clean_annotation(graph, annotators=annotators, non_value=0.0)    
 graph = make_weights(graph, annotators=annotators, normalization=normalization, non_value=0.0)
 
-nx.write_gpickle(graph, output_file)
+with open(output_file, 'wb') as f:
+    pickle.dump(graph, f, pickle.HIGHEST_PROTOCOL)
 

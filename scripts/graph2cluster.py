@@ -1,5 +1,6 @@
 import sys
 import networkx as nx
+import pickle
 from modules import transform_edge_weights, scale_weights, get_node_std, get_data_maps_edges, get_excluded_nodes, get_nan_edges
 from cluster_ import add_clusters, get_clusters
 from correlation import cluster_correlation_search
@@ -10,7 +11,8 @@ import numpy as np
 
     
 threshold=float(threshold)
-graph = nx.read_gpickle(input_file)
+with open(input_file, 'rb') as f:
+    graph = pickle.load(f)
 
 with open(annotators, encoding='utf-8') as csvfile: 
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
@@ -69,4 +71,6 @@ print('number of clusters: ', len(clusters))
 node2cluster = {node:i for i, cluster in enumerate(clusters) for node in cluster} | {node:-1 for cluster in noise for node in cluster}
 graph = add_clusters(graph, node2cluster)
 
-nx.write_gpickle(graph, output_file)
+with open(output_file, 'wb') as f:
+    pickle.dump(graph, f, pickle.HIGHEST_PROTOCOL)
+

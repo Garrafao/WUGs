@@ -2,6 +2,7 @@ import sys
 import networkx as nx
 import csv
 import unicodedata
+import pickle
 import numpy as np
 from collections import defaultdict
 from modules import *
@@ -119,6 +120,6 @@ if not isnannodes: # Important to apply this at the end because it depends on th
     nannodes = get_excluded_nodes(node2judgments, node2weights, share=0.5, non_value=non_value)
     graph.remove_nodes_from(nannodes) # Remove noise nodes
 
-
-nx.write_gpickle(graph, output_file)
+with open(output_file, 'wb') as f:
+    pickle.dump(graph, f, pickle.HIGHEST_PROTOCOL)
 

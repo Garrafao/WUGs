@@ -1,5 +1,6 @@
 import sys
 import networkx as nx
+import pickle
 import unicodedata
 import csv
 
@@ -7,7 +8,8 @@ import csv
 
 # Try reading graph, if doesn't exist create.
 try:
-    graph = nx.read_gpickle(output_file)
+    with open(output_file, 'rb') as f:
+        graph = pickle.load(f)
 except:
     # Initialize graph
     name = unicodedata.normalize('NFC', name)
@@ -30,4 +32,5 @@ nx.set_node_attributes(graph, identifier2data)
 #print(graph.nodes()[identifier])
 
 print('number of nodes: ', len(graph.nodes()))
-nx.write_gpickle(graph, output_file)
+with open(output_file, 'wb') as f:
+    pickle.dump(graph, f, pickle.HIGHEST_PROTOCOL)

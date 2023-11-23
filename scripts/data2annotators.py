@@ -21,7 +21,7 @@ else:
 
 # Export data
 with open(output_file, 'w') as f:  
-    w = csv.DictWriter(f, ['user', 'annotator'], delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
+    w = csv.DictWriter(f, ['user', 'annotator'], delimiter='\t', quoting = csv.QUOTE_NONE)
     w.writeheader()
     w.writerows(out_data)
 

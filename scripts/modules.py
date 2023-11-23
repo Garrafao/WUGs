@@ -420,7 +420,7 @@ def get_data_maps_nodes(G, attributes={'type':'usage'}):
     
     return mappings
 
-def get_graph_stats(G, annotators, non_value=0.0, annotation_values=range(5), share=0.5, value_domain=None, expected=None, limit=300, metrics=['kri', 'kri2', 'coh', 'spr', 'ham', 'prs', 'eud']):
+def get_graph_stats(G, annotators, annotation_values=range(5), share=0.5, expected=None, limit=300):
     """
     Get statistics from annotated graph.
     :param G: Networkx graph

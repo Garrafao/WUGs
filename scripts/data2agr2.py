@@ -157,6 +157,6 @@ for lemma in lemmas:
     
 # Export stats
 with open(output_file, 'w') as f:  
-    w = csv.DictWriter(f, stats[0].keys(), delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
+    w = csv.DictWriter(f, stats[0].keys(), delimiter='\t', quoting = csv.QUOTE_NONE)
     w.writeheader()
     w.writerows(stats)

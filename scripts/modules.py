@@ -170,7 +170,7 @@ def get_annotator_subgraph(G, annotators, summary_statistic=np.median, non_value
         
     return subgraph
 
-def make_weights(G, annotators, summary_statistic=np.median, non_value=0.0, normalization=lambda x: x):
+def make_weights(G, annotators, summary_statistic=np.median, non_value=0.0, normalization=lambda x: x, weight_attribute='weight', is_strict=True):
     """
     Update edge weights from annotated judgments.
     :param G: graph
@@ -187,8 +187,11 @@ def make_weights(G, annotators, summary_statistic=np.median, non_value=0.0, norm
         values = [summary_statistic(judgments[annotator]) for annotator in annotators if annotator in judgments] # take median of multiple judgments of same annotator       
         
         if values == []:
-            sys.exit('Breaking: No annotator matching edge: (%s,%s)' % (i,j))
-
+            if is_strict:
+                sys.exit('Breaking: No annotator matching edge: (%s,%s)' % (i,j))
+            else:
+                data = []
+                
         data = [v for v in values if not v == non_value] # exclude non-values
 
         if data!=[]:        
@@ -196,7 +199,7 @@ def make_weights(G, annotators, summary_statistic=np.median, non_value=0.0, norm
         else:
             weight = float('nan')
             
-        G[i][j]['weight'] = weight 
+        G[i][j][weight_attribute] = weight 
         
     return G
 
@@ -258,14 +261,14 @@ def get_node_std(G, annotators, non_value=0.0, normalization=lambda x: ((x-1)/3.
         
     return dict(node2stds)
 
-def get_nan_edges(G):
+def get_nan_edges(G, weight_attribute='weight'):
     """
     Get edges with nan weights.
     :param G: graph
     :return nan_edges: list of nan edges
     """
     
-    nan_edges = [(u,v) for (u,v,d) in G.edges(data=True) if np.isnan(d['weight'])]
+    nan_edges = [(u,v) for (u,v,d) in G.edges(data=True) if np.isnan(d[weight_attribute])]
         
     return nan_edges
 
@@ -292,6 +295,17 @@ def get_weights(G, normalization = lambda x: x):
     edge2weight = {(i,j): normalization(G[i][j]['weight']) for (i,j) in G.edges()}
 
     return edge2weight
+
+def get_annotators(G):
+    """
+    Get all annotators who annotated a graph.
+    :param G: graph
+    :return annotators: list of annotators
+    """
+
+    annotators = list(set([annotator for (i,j) in G.edges() for annotator in G[i][j]['judgments'].keys()]))
+              
+    return annotators
         
 def get_annotator_conflicts(G, annotators, non_value=0.0, threshold=0.5, normalization=lambda x: x, summary_statistic=np.median):
     """

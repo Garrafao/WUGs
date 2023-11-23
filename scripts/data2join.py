@@ -43,7 +43,7 @@ for row in judgments:
     
 # Export data
 with open(output_file, 'a') as f:  
-    w = csv.DictWriter(f, ['identifier1', 'identifier2', 'judgment', 'comment', 'annotator', 'lemma'], delimiter='\t', quoting = csv.QUOTE_NONE)
+    w = csv.DictWriter(f, ['identifier1', 'identifier2', 'judgment', 'comment', 'annotator', 'lemma'], delimiter='\t', quoting = csv.QUOTE_NONE, escapechar='\\')
     if is_header:
         w.writeheader()
     w.writerows(annotation)

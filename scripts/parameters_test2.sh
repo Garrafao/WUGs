@@ -20,6 +20,7 @@ min=1
 threshold=2.5 # should be 0.0 if not correlation or chinese
 max=4
 degree=None # only needed for chinese whispers, one of "top", "lin", "log"
+ismultiple=False # only needed for wsbm, whether each edge has multiple weights (one per annotator)
 ambiguity=None # removes influence of ambiguous edges on clustering, one of "scale_edges", "remove_nodes", "None"
 # plotting
 templatepath=$scriptsdir/misc/DURel_filter_template_springboot.html

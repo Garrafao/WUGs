@@ -126,7 +126,9 @@ def _minimize(graph: graph_tool.Graph, distribution: str, weight_attributes: lis
     state: BlockState
         The minimized graph as BlockState object.
     """
-
+    for attr in weight_attributes:
+        print(graph.ep[attr].get_array())
+        
     return minimize_blockmodel_dl(graph,
                                   state_args=dict(deg_corr=False, recs=[graph.ep[attr] for attr in weight_attributes], rec_types=[distribution for attr in weight_attributes]),
                                   multilevel_mcmc_args=dict(B_min=1, B_max=30, niter=100, entropy_args=dict(adjacency=False, degree_dl=False)))
@@ -147,7 +149,6 @@ def _negative_weights_exist(graph: nx.Graph, weight_attributes: list = ['weight'
     """
     for attr in weight_attributes:
         for i, j in graph.edges():
-            print(graph[i][j][attr])
             if graph[i][j][attr] < 0:
                 return True
         return False

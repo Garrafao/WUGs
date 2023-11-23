@@ -1,7 +1,7 @@
 import sys
 import networkx as nx
 import pickle
-from modules import transform_edge_weights, scale_weights, get_node_std, get_data_maps_edges, get_excluded_nodes, get_nan_edges
+from modules import transform_edge_weights, make_weights, scale_weights, get_annotators, get_node_std, get_data_maps_edges, get_excluded_nodes, get_nan_edges
 from cluster_ import add_clusters, get_clusters
 from correlation import cluster_correlation_search
 from clustering_interface import louvain_clustering, chinese_whispers_clustering
@@ -13,7 +13,7 @@ except ImportError as e:
 import csv
 import numpy as np
  
-[_, input_file, threshold, non_value, summary_statistic, modus, ambiguity, algorithm, degree, iters, is_clean, annotators, output_file] = sys.argv
+[_, input_file, threshold, non_value, summary_statistic, modus, ambiguity, algorithm, degree, is_multiple, iters, is_clean, annotators, output_file] = sys.argv
 
     
 threshold=float(threshold)
@@ -30,7 +30,14 @@ if summary_statistic=='mean':
 with open(annotators, encoding='utf-8') as csvfile: 
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
     annotators = [row['annotator'] for row in reader]
-
+    
+if is_multiple=='True':
+    is_multiple=True
+if is_multiple=='False':
+    is_multiple=False
+if is_multiple and not algorithm in ['wsbm']:
+    sys.exit('Breaking: Multiple edge weights not supported for this clustering algorithm')
+    
 iters=int(iters)    
 if iters > 1 and not algorithm in ['correlation']:
     sys.exit('Breaking: Multiple clustering iterations not supported for this clustering algorithm')
@@ -101,9 +108,22 @@ if algorithm=='chinese':
     cluster_stats = {}
     cluster_stats = cluster_stats | {'algorithm':algorithm, 'threshold':threshold, 'ambiguity':ambiguity, 'degree':degree}
 if algorithm=='wsbm':
-    clusters = wsbm_clustering(G_clean, is_weighted=True)
+    if is_multiple:
+        annotators_graph = get_annotators(G_clean)
+        enan = []
+        # make weights for each annotator
+        for annotator in annotators_graph:
+            G_clean = make_weights(G_clean, [annotator], non_value=non_value, weight_attribute=annotator, is_strict=False)
+            enan = enan + get_nan_edges(G_clean, weight_attribute=annotator)
+        enan = list(set(enan))
+        G_clean.remove_edges_from(enan) # Remove nan edges where some annotator didn't have a judgment
+        print('Removed {0} nan edges leaving a graph with {1} edges.'.format(len(enan),len(G_clean.edges())))
+        weight_attributes = annotators_graph
+    else:
+        weight_attributes = ['weight']
+    clusters = wsbm_clustering(G_clean, is_weighted=True, weight_attributes = weight_attributes, weight_data_type = 'float')
     cluster_stats = {}
-    cluster_stats = cluster_stats | {'algorithm':algorithm, 'threshold':threshold, 'ambiguity':ambiguity}
+    cluster_stats = cluster_stats | {'algorithm':algorithm, 'is_multiple':is_multiple, 'threshold':threshold, 'ambiguity':ambiguity}
 if algorithm=='louvain':
     clusters = louvain_clustering(G_clean)
     cluster_stats = {}
@@ -117,4 +137,3 @@ graph = add_clusters(graph, node2cluster)
 
 with open(output_file, 'wb') as f:
     pickle.dump(graph, f, pickle.HIGHEST_PROTOCOL)
-

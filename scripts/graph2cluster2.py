@@ -13,7 +13,7 @@ except ImportError as e:
 import csv
 import numpy as np
  
-[_, input_file, threshold, non_value, summary_statistic, modus, ambiguity, algorithm, degree, is_clean, annotators, output_file] = sys.argv
+[_, input_file, threshold, non_value, summary_statistic, modus, ambiguity, algorithm, degree, iters, is_clean, annotators, output_file] = sys.argv
 
     
 threshold=float(threshold)
@@ -31,6 +31,10 @@ with open(annotators, encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
     annotators = [row['annotator'] for row in reader]
 
+iters=int(iters)    
+if iters > 1 and not algorithm in ['correlation']:
+    sys.exit('Breaking: Multiple clustering iterations not supported for this clustering algorithm')
+    
 if is_clean=='True':
     is_clean=True
 if is_clean=='False':
@@ -85,7 +89,12 @@ if modus=='full':
 
     
 if algorithm=='correlation':
-    clusters, cluster_stats = cluster_correlation_search(G_clean, s = s, max_attempts = max_attempts, max_iters = max_iters, initial = initial) # rather good performance: 2000, 50000
+    runtimes = []
+    for i in range(iters):
+        clusters, cluster_stats = cluster_correlation_search(G_clean, s = s, max_attempts = max_attempts, max_iters = max_iters, initial = initial) # rather good performance: 2000, 50000
+        initial = clusters
+        runtimes.append(cluster_stats['runtime'])
+    cluster_stats['runtime'] = np.sum(runtimes)    
     cluster_stats = cluster_stats | {'algorithm':algorithm, 'threshold':threshold, 'ambiguity':ambiguity}
 if algorithm=='chinese':
     clusters = chinese_whispers_clustering(G_clean, weighting = degree)

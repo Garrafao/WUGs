@@ -14,13 +14,14 @@ import numpy as np
 threshold = float(threshold)
 graph = nx.read_gpickle(input_file)
 name = graph.graph['lemma']
-cluster_stats = graph.graph['cluster_stats']
 
 try:
     clusters, c2n, n2c = get_clusters(graph, is_include_noise=True)
+    cluster_stats = graph.graph['cluster_stats']
 except KeyError:
     print('no clusters found')
     clusters, c2n, n2c = [{n for n in graph.nodes()}], {0: list(graph.nodes())}, {n: 0 for n in graph.nodes()}
+    cluster_stats = {}
 
 with open(annotators, encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile, delimiter='\t', quoting=csv.QUOTE_NONE, strict=True)
@@ -50,7 +51,7 @@ if style == 'interactive':
 if style == 'static':
     plot_graph_static(graph, output_folder_full + name, c2n, threshold=threshold, non_value=non_value, summary_statistic=summary_statistic, period='full', color=color, mode=mode,
                       edge_label_style=edge_label_style, annotators=annotators, dpi=dpi, position_method = position,
-                      node_size=100, name=name, cluster_stats=cluster_stats)
+                      node_size=100, name=name)
 
 mappings_nodes = get_data_maps_nodes(graph)
 node2period = mappings_nodes['node2period']
@@ -68,7 +69,7 @@ if len(periods) > 1:
         if style == 'static':
             plot_graph_static(graph, output_folder_period + name, c2n, threshold=threshold, non_value=non_value, summary_statistic=summary_statistic, period=period, color=color,
                               mode=mode, edge_label_style=edge_label_style, annotators=annotators, dpi=dpi, position_method = position,
-                              node_size=300, name=name, cluster_stats=cluster_stats)
+                              node_size=300, name=name)
 
     if style == 'interactive':
         output_folder_aligned = output_folder + '/aligned_1_2/'

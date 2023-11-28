@@ -258,6 +258,9 @@ def get_node_std(G, annotators, non_value=0.0, normalization=lambda x: ((x-1)/3.
         std = combo2std[(i,j)]
         node2stds[i].append(std)
         node2stds[j].append(std)
+    for i in nx.isolates(G):
+        assert not i in node2stds
+        node2stds[i] = []
         
     return dict(node2stds)
 

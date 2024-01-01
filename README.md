@@ -114,7 +114,7 @@ Find information on the individual fields below:
 
 Find further research on WUGs in these papers:
 
-- Jing Chen, Emmanuele Chersoni, Dominik Schlechtweg, Jelena Prokic, Chu-Ren Huang. 2023. ChiWUG: A Graph-based Evaluation Dataset for Chinese Lexical Semantic Change Detection. Proceedings of the 4th International Workshop on Computational Approaches to Historical Language Change 2023 (LChange'23).
+- Jing Chen, Emmanuele Chersoni, Dominik Schlechtweg, Jelena Prokic, Chu-Ren Huang. 2023. [ChiWUG: A Graph-based Evaluation Dataset for Chinese Lexical Semantic Change Detection](https://aclanthology.org/2023.lchange-1.10/). Proceedings of the 4th International Workshop on Computational Approaches to Historical Language Change 2023 (LChange'23).
 - Andrey Kutuzov, Samia Touileb, Petter Mæhlum, Tita Enstad, and Alexandra Wittemann. 2022. [NorDiaChange: Diachronic Semantic Change Dataset for Norwegian](https://aclanthology.org/2022.lrec-1.274/). In Proceedings of the Thirteenth Language Resources and Evaluation Conference.
 - Anna Aksenova, Ekaterina Gavrishina, Elisei Rykov, and Andrey Kutuzov. 2022. [RuDSI: Graph-based Word Sense Induction Dataset for Russian](https://aclanthology.org/2022.textgraphs-1.9/). In Proceedings of TextGraphs-16: Graph-based Methods for Natural Language Processing.
 - Frank D. Zamora-Reina, Felipe Bravo-Marquez, Dominik Schlechtweg. 2022. [LSCDiscovery: A shared task on semantic change discovery and detection in Spanish](https://aclanthology.org/2022.lchange-1.16/). In Proceedings of the 3rd International Workshop on Computational Approaches to Historical Language Change.

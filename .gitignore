@@ -45,7 +45,6 @@ scripts/run_internal.sh
 scripts/run_paper.sh
 scripts/run_semeval.sh
 scripts/misc/__pycache__
-scripts/misc/.ipynb_checkpoints
 scripts/misc/cluster2plot.py
 scripts/misc/cluster2plot.sh
 scripts/misc/context2context.py

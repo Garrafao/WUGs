@@ -7,7 +7,7 @@ import csv
 from itertools import combinations
 
 
-[_, input_file, is_header, annotators, threshold, min_, max_, lower_range_min, lower_range_max, upper_range_min, upper_range_max, lower_prob, upper_prob, output_file] = sys.argv
+[_, input_file, is_header, annotators, threshold, min_, max_, lower_range_min, lower_range_max, upper_range_min, upper_range_max, lower_prob, upper_prob, output_dir] = sys.argv
 
 threshold=float(threshold)
 with open(input_file, 'rb') as f:
@@ -31,7 +31,7 @@ general_stats = {'lemma':name}
 stats = general_stats | cluster_stats | graph_stats
 
 # Export stats
-with open(output_file + 'stats.csv', 'a', encoding='utf-8') as f_out:
+with open(output_dir + 'stats.csv', 'a', encoding='utf-8') as f_out:
     if is_header:
         f_out.write('\t'.join([key for key in stats])+'\n')
     f_out.write('\t'.join([str(stats[key]) for key in stats])+'\n')
@@ -39,7 +39,7 @@ with open(output_file + 'stats.csv', 'a', encoding='utf-8') as f_out:
 # Export cleaning stats if they exist
 try:
     stats_cleaning = graph.graph['cleaning_stats']
-    with open(output_file + 'stats_cleaning.csv', 'a', encoding='utf-8') as f_out:
+    with open(output_dir + 'stats_cleaning.csv', 'a', encoding='utf-8') as f_out:
         if is_header:
             f_out.write('\t'.join([key for key in stats_cleaning])+'\n')
         f_out.write('\t'.join([str(stats_cleaning[key]) for key in stats_cleaning])+'\n')
@@ -56,7 +56,7 @@ for (old, new) in combos:
     stats = general_stats | period_stats | time_stats
 
     # Export stats
-    with open(output_file + 'stats_groupings' + '.csv', 'a', encoding='utf-8') as f_out:
+    with open(output_dir + 'stats_groupings' + '.csv', 'a', encoding='utf-8') as f_out:
         if is_header:
             f_out.write('\t'.join([key for key in stats])+'\n')
             is_header = False

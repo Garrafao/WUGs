@@ -310,13 +310,13 @@ def get_annotators(G):
               
     return annotators
         
-def get_annotator_conflicts(G, annotators, non_value=0.0, threshold=0.5, normalization=lambda x: x, summary_statistic=np.median):
+def get_annotator_conflicts(G, annotators, non_value=0.0, deviation_min=1, normalization=lambda x: x, summary_statistic=np.median):
     """
     Get edges with conflicting judgments.
     :param G: graph
     :param annotators: list of annotators
     :param non_value: value for non-judgment
-    :param threshold: threshold
+    :param deviation_min: deviation_min
     :param normalization: normalization function
     :return conflicts: list of edges with conflicts
     """
@@ -332,7 +332,7 @@ def get_annotator_conflicts(G, annotators, non_value=0.0, threshold=0.5, normali
         
         data = [v for v in values if not v == non_value] # exclude non-values
         combos = combinations(data, 2)
-        has_conflict = (abs(x-y)>1 for (x,y) in combos)
+        has_conflict = (abs(x-y)>=deviation_min for (x,y) in combos)
         #print(data, any(has_conflict))
         if any(has_conflict):
             conflicts.append((i,j))
@@ -431,7 +431,7 @@ def get_data_maps_nodes(G, attributes={'type':'usage'}):
         node_data = G.nodes()[node]
         #print(node_data)
         if all([node_data[k]==v for (k,v) in attributes.items()]):
-            node2period[node] = G.nodes()[node]['grouping']
+            node2period[node] = node_data['grouping']
                                
     mappings['node2period'] = node2period
     

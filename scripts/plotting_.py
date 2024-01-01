@@ -55,7 +55,7 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, normalization=lambda x
     elif mode == 'neg':
         G.remove_edges_from(elarge) # Remove positive edges
     elif mode == 'conflicts':
-        conflicts = get_annotator_conflicts(G, annotators, non_value=0.0, threshold=threshold, normalization=normalization)
+        conflicts = get_annotator_conflicts(G, annotators, non_value=0.0, normalization=normalization)
         non_conflicts = [(u,v) for (u,v) in G.edges() if not (u,v) in conflicts]
         G.remove_edges_from(non_conflicts) # Remove non-conflicts
         #print(conflicts)
@@ -201,7 +201,7 @@ def plot_graph_static(G, outDir, c2n, threshold=0.5, normalization=lambda x: x, 
     elif mode == 'neg':
         G.remove_edges_from(elarge) # Remove positive edges
     elif mode == 'conflicts':
-        conflicts = get_annotator_conflicts(G, annotators, non_value=0.0, threshold=threshold, normalization=normalization)
+        conflicts = get_annotator_conflicts(G, annotators, non_value=0.0, normalization=normalization)
         non_conflicts = [(u,v) for (u,v) in G.edges() if not (u,v) in conflicts]
         G.remove_edges_from(non_conflicts) # Remove non-conflicts
         #print(conflicts)

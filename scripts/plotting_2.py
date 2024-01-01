@@ -20,7 +20,7 @@ colors_global = ['#377eb8', '#ff7f00', '#4daf4a', '#f781bf', '#a65628', '#984ea3
 colors_global = colors_global + nice_colors
 
 
-def plot_graph_interactive(G, outDir, c2n, threshold=0.5, non_value=0.0, normalization=lambda x: x, color='colorful', period='full',
+def plot_graph_interactive(G, outDir, c2n, threshold=0.5, non_value=0.0, normalization=lambda x: x, deviation_min=1, color='colorful', period='full',
                            mode='full', annotators=[], summary_statistic=np.median, s=2, node_size=10,
                            node_label='cluster', edge_label_style='weight', edge_width=2, k=0.8, position_method='spring',
                            seed=0, pos={}, noise_color='k', name='name', cluster_stats='cluster_stats', template='test_template'):
@@ -63,7 +63,7 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, non_value=0.0, normali
     elif mode == 'neg':
         G.remove_edges_from(elarge)  # Remove positive edges
     elif mode == 'conflicts':
-        conflicts = get_annotator_conflicts(G, annotators, non_value=non_value, threshold=threshold,
+        conflicts = get_annotator_conflicts(G, annotators, non_value=non_value, deviation_min=deviation_min,
                                             normalization=normalization)
         non_conflicts = [(u, v) for (u, v) in G.edges() if not (u, v) in conflicts]
         G.remove_edges_from(non_conflicts)  # Remove non-conflicts
@@ -110,7 +110,7 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, non_value=0.0, normali
                 grouping = node_data['grouping']
                 indexes_target = node_data['indexes_target_token'].split(';')
                 # print(indexes_target)
-                for pair in indexes_target:
+                for pair in indexes_target: # to do: this will fail in case of multiple target word sequences
                     id1, id2 = pair.split(':')
                     id1, id2 = int(id1) - index_start, int(id2) - index_start
                     sentence = sentence[:id1] + '<b>' + sentence[id1:id2] + '</b>' + sentence[id2:]
@@ -183,7 +183,7 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, non_value=0.0, normali
     G_int.save_graph(outDir + '.html')
 
 
-def plot_graph_static(G, outDir, c2n, threshold=0.5, non_value=0.0, normalization=lambda x: x, color='colorful', period='full',
+def plot_graph_static(G, outDir, c2n, threshold=0.5, non_value=0.0, normalization=lambda x: x, deviation_min=1, color='colorful', period='full',
                       mode='full', annotators=[], summary_statistic=np.median, s=2, node_size=80, edge_width=1, k=0.8,
                       position_method='spring', seed=0, is_edge_labels=False, edge_label_style='weight', dpi=300,
                       font_size_nodes=11, font_size_edges=11, node_label_style=None, pos={}, noise_color='k', name='name'):
@@ -227,7 +227,7 @@ def plot_graph_static(G, outDir, c2n, threshold=0.5, non_value=0.0, normalizatio
     elif mode == 'neg':
         G.remove_edges_from(elarge)  # Remove positive edges
     elif mode == 'conflicts':
-        conflicts = get_annotator_conflicts(G, annotators, non_value=non_value, threshold=threshold,
+        conflicts = get_annotator_conflicts(G, annotators, non_value=non_value, deviation_min=deviation_min,
                                             normalization=normalization)
         non_conflicts = [(u, v) for (u, v) in G.edges() if not (u, v) in conflicts]
         G.remove_edges_from(non_conflicts)  # Remove non-conflicts

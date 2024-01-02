@@ -13,7 +13,7 @@ except ImportError as e:
 import csv
 import numpy as np
  
-[_, input_file, threshold, non_value, summary_statistic, modus, ambiguity, algorithm, degree, is_multiple, iters, is_clean, annotators, output_file] = sys.argv
+[_, input_file, threshold, non_value, summary_statistic, modus, ambiguity, algorithm, degree, is_multiple, distribution, degcorr, adjacency, degreedl, iters, is_clean, annotators, output_file] = sys.argv
 
     
 threshold=float(threshold)
@@ -37,6 +37,21 @@ if is_multiple=='False':
     is_multiple=False
 if is_multiple and not algorithm in ['wsbm']:
     sys.exit('Breaking: Multiple edge weights not supported for this clustering algorithm')
+
+if degcorr=='True':
+    degcorr=True
+if degcorr=='False':
+    degcorr=False
+
+if adjacency=='True':
+    adjacency=True
+if adjacency=='False':
+    adjacency=False
+
+if degreedl=='True':
+    degreedl=True
+if degreedl=='False':
+    degreedl=False
     
 iters=int(iters)    
 if iters > 1 and not algorithm in ['correlation']:
@@ -121,9 +136,11 @@ if algorithm=='wsbm':
         weight_attributes = annotators_graph
     else:
         weight_attributes = ['weight']
-    clusters = wsbm_clustering(G_clean, is_weighted=True, weight_attributes = weight_attributes, weight_data_type = 'float')
+    B_min, B_max = 1, 30 # minimum and maximum number of blocks
+    niter = 100 # number of sweeps to perform
+    clusters = wsbm_clustering(G_clean, is_weighted=True, weight_attributes = weight_attributes, weight_data_type = 'float', distribution = distribution, B_min = B_min, B_max = B_max, niter = niter, deg_corr = degcorr, adjacency = adjacency, degree_dl = degreedl) # attention: weight_data_type = 'int' will cast median judgments like 3.5 to 3
     cluster_stats = {}
-    cluster_stats = cluster_stats | {'algorithm':algorithm, 'is_multiple':is_multiple, 'threshold':threshold, 'ambiguity':ambiguity}
+    cluster_stats = cluster_stats | {'algorithm':algorithm, 'is_multiple':is_multiple, 'distribution':distribution, 'B_min':B_min, 'B_max':B_max, 'niter':niter, 'deg_corr':degcorr, 'adjacency':adjacency, 'degree_dl':degreedl, 'threshold':threshold, 'ambiguity':ambiguity}
 if algorithm=='louvain':
     clusters = louvain_clustering(G_clean)
     cluster_stats = {}

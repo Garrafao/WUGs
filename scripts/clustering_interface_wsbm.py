@@ -11,7 +11,7 @@ from graph_tool.inference import minimize_blockmodel_dl
 from graph_tool.inference.blockmodel import BlockState
 
 
-def wsbm_clustering(graph: nx.Graph, distribution: str = 'discrete-binomial', is_weighted: bool = False, weight_data_type: str = 'int', weight_attributes = ['weight']) -> list:
+def wsbm_clustering(graph: nx.Graph, distribution: str = 'discrete-binomial', is_weighted: bool = False, weight_data_type: str = 'int', weight_attributes = ['weight'], B_min: int = 1, B_max: int = 30, niter: int = 100, deg_corr: bool = False, adjacency: bool = False, degree_dl: bool = False) -> list:
     """ Cluster graph based on Weighted Stochastic Block Model.
 
     Parameters
@@ -40,7 +40,7 @@ def wsbm_clustering(graph: nx.Graph, distribution: str = 'discrete-binomial', is
         raise ValueError("NaN weights are not supported by the WSBM algorithm.")
 
     gt_graph, _, gt2nx = _nxgraph_to_graphtoolgraph(graph.copy(), is_weighted = is_weighted, weight_data_type = weight_data_type, weight_attributes = weight_attributes)
-    state: BlockState = _minimize(gt_graph, distribution, weight_attributes = weight_attributes)
+    state: BlockState = _minimize_weighted(gt_graph, distribution, weight_attributes = weight_attributes, B_min=B_min, B_max=B_max, niter=niter, deg_corr=deg_corr, adjacency=adjacency, degree_dl=degree_dl)
 
     block2clusterid_map = {}
     for i, (k, _) in enumerate(dict(sorted(Counter(state.get_blocks().get_array()).items(), key=lambda item: item[1], reverse=True)).items()):
@@ -111,7 +111,7 @@ def _nxgraph_to_graphtoolgraph(graph: nx.Graph, is_weighted: bool = False, weigh
 
 
 
-def _minimize(graph: graph_tool.Graph, distribution: str, weight_attributes: list = ['weight']) -> BlockState:
+def _minimize_weighted(graph: graph_tool.Graph, distribution: str, weight_attributes: list = ['weight'], B_min: int = 1, B_max: int = 30, niter: int = 100, deg_corr: bool = False, adjacency: bool = False, degree_dl: bool = False) -> BlockState:
     """Minimize the graph using the given distribution as described by graph-tool.
 
     Parameters
@@ -130,8 +130,8 @@ def _minimize(graph: graph_tool.Graph, distribution: str, weight_attributes: lis
         print(graph.ep[attr].get_array())
         
     return minimize_blockmodel_dl(graph,
-                                  state_args=dict(deg_corr=False, recs=[graph.ep[attr] for attr in weight_attributes], rec_types=[distribution for attr in weight_attributes]),
-                                  multilevel_mcmc_args=dict(B_min=1, B_max=30, niter=100, entropy_args=dict(adjacency=False, degree_dl=False)))
+                                  state_args=dict(deg_corr=deg_corr, recs=[graph.ep[attr] for attr in weight_attributes], rec_types=[distribution for attr in weight_attributes]),
+                                  multilevel_mcmc_args=dict(B_min=B_min, B_max=B_max, niter=niter, entropy_args=dict(adjacency=adjacency, degree_dl=degree_dl)))
 
 
 def _negative_weights_exist(graph: nx.Graph, weight_attributes: list = ['weight']):

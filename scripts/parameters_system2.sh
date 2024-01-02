@@ -21,6 +21,10 @@ threshold=2.5
 max=4
 degree=None # only needed for chinese whispers, one of "top", "lin", "log"
 ismultiple=False # only needed for wsbm, whether each edge has multiple weights (one per annotator)
+distribution=discrete-binomial # only needed for wsbm, distribution for edge weights, one of "real-exponential", "real-normal", "discrete-geometric", "discrete-binomial", "discrete-poisson"
+degcorr=False # only needed for wsbm, degree correction
+adjacency=False # only needed for wsbm, if True, the adjacency term of the description length will be included
+degreedl=False # only needed for wsbm, if True, and dl == True the degree sequence description length will be included (for degree-corrected models)
 ambiguity=None # removes influence of ambiguous edges on clustering, one of "scale_edges", "remove_nodes", "None"
 # plotting
 templatepath=$scriptsdir/misc/DURel_filter_template_springboot.html

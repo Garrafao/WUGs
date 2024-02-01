@@ -12,6 +12,13 @@ test_uug/data_joint
 test_uug/graphs
 test_uug/plots
 test_uug/stats
+test_uug1/uses
+test_uug1/annotators.csv
+test_uug1/clusters
+test_uug1/data_joint
+test_uug1/graphs
+test_uug1/plots
+test_uug1/stats
 todo.txt
 scripts/__pycache__
 scripts/.ipynb_checkpoints

@@ -33,7 +33,7 @@ __Attention__: modifies graphs iteratively, i.e., current run is dependent on pr
 
 We recommend you to run the scripts within a Python Anaconda environment. You have two options:
 1. Run `bash -e install_packages.sh`. This will create the conda environment and install all required packages (including graph-tool). This was tested on Linux.
-2. Create and activate the conda environment yourself, and then install the required packages with `conda env update --file packages.yaml`. This skips the installation of graph-tool, which may be necessary on some systems. You can still run the whole pipeline with the exception of clustering with the [WSBM](https://aclanthology.org/2021.starsem-1.23/). Find more info [here](https://git.skewed.de/count0/graph-tool/-/wikis/installation-instructions#installing-via-conda).
+2. Create and activate the conda environment yourself, and then install the required packages with `conda env update --file packages.yml`. This skips the installation of graph-tool, which may be necessary on some systems. You can still run the whole pipeline with the exception of clustering with the [WSBM](https://aclanthology.org/2021.starsem-1.23/). Find more info [here](https://git.skewed.de/count0/graph-tool/-/wikis/installation-instructions#installing-via-conda).
 
 You can test if your installation is working by running
 

@@ -1,3 +1,5 @@
+.conda
+lib
 update-git.sh
 data
 results

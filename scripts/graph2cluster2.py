@@ -65,7 +65,7 @@ if is_clean=='False':
 try: # search previous clustering for initialization
     initial, _, _ = get_clusters(graph)
     noise, _, _ = get_clusters(graph, is_include_noise = True, is_include_main = False)
-    print('Initializing with previous clustering.')
+    print('Initializing with previous clustering.') # has currently only effect for correlation clustering
 except KeyError: # no clusters found
     if is_clean: # make noise cluster
         initial = []

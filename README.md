@@ -29,13 +29,18 @@ There are two scripts for external use with the [DURel annotation tool](https://
 	bash -e scripts/run_system.sh $dir ...
 	bash -e scripts/run_system2.sh $dir ...
 
-__Attention__: modifies graphs iteratively, i.e., current run is dependent on previous run. Script deletes previously written data to avoid dependence.
+__Attention__: modifies graphs iteratively, i.e., current run is dependent on previous run. Script deletes previously written data to avoid dependence. **Important**: The script uses simple test parameters; in order to improve the clustering load `parameters_opt.sh` in `run_uug.sh` or `run_usg.sh`.
 
-We recommend you to run the scripts within a [virtual environment](https://pypi.org/project/virtualenv/) with Python 3.10. Install the required packages running `pip install -r requirements.txt`. **Important**: The script uses simple test parameters; in order to improve the clustering load `parameters_opt.sh` in `run_uug.sh` or `run_usg.sh`.
+We recommend you to run the scripts within a Python Anaconda environment. You have two options:
+1. Run `bash -e install_packages.sh`. This will create the conda environment and install all required packages (including graph-tool). This was tested on Linux.
+2. Create and activate the conda environment yourself, and then install the required packages with `conda env update --file packages.yaml`. This skips the installation of graph-tool, which may be necessary on some systems. You can still run the whole pipeline with the exception of clustering with the [WSBM](https://aclanthology.org/2021.starsem-1.23/). Find more info [here](https://git.skewed.de/count0/graph-tool/-/wikis/installation-instructions#installing-via-conda).
 
-When installing, please check whether pygraphviz was installed correctly. There have been recurring errors with pygraphviz installation across operating systems. If an error occurs, you can check [this page](https://pygraphviz.github.io/documentation/stable/install.html#providing-path-to-graphviz) for solutions. On Linux, installing graphviz through the package manager is recommended.
+You can test if your installation is working by running
 
-For using the [WSBM](https://aclanthology.org/2021.starsem-1.23/) clustering option you need to install the graph-tool package. We recommend to install it via Anaconda as described [here](https://git.skewed.de/count0/graph-tool/-/wikis/installation-instructions#installing-via-conda).
+	bash -e test.sh
+
+After installation, please check whether pygraphviz was installed correctly. There have been recurring errors with pygraphviz installation across operating systems. If an error occurs, you can check [this page](https://pygraphviz.github.io/documentation/stable/install.html#providing-path-to-graphviz) for solutions. On Linux, installing graphviz through the package manager is recommended.
+
 
 ### Description
 

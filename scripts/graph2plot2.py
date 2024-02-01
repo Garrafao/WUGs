@@ -1,19 +1,20 @@
 import sys
 import networkx as nx
+import pickle
 from modules import get_clusters, get_data_maps_nodes
 from plotting_2 import plot_graph_interactive, plot_graph_static
 import csv
 from itertools import combinations
 import os
 import json
-import pandas as pd
 import numpy as np
 
 [_, input_file, template_path, top_folder, output_folder, color, mode, style, edge_label_style, annotators, threshold, position, non_value, summary_statistic, deviation_min, modus] = sys.argv
 
 threshold = float(threshold)
 deviation_min=int(deviation_min)
-graph = nx.read_gpickle(input_file)
+with open(input_file, 'rb') as f:
+    graph = pickle.load(f)
 name = graph.graph['lemma']
 
 try:
@@ -81,7 +82,7 @@ if len(periods) > 1:
             with open(output_folder_aligned + name + '_{0}_{1}'.format(old, new) + '.html', 'w',
                       encoding='utf-8') as f_out:
                 f_out.write(
-                    "<html>\n<head>\n</head>\n<frameset cols=\"50\%,\*\">\n<frame src=\"../{0}/{1}\">\n<frame src=\"../{2}/{1}\">\n</frameset>\n</html>\n".format(
+                    r'<html>\n<head>\n</head>\n<frameset cols=\"50\%,\*\">\n<frame src=\"../{0}/{1}\">\n<frame src=\"../{2}/{1}\">\n</frameset>\n</html>\n'.format(
                         old, name + '.html', new))
 
         output_folder_aligned_full = output_folder + '/aligned_full/'
@@ -92,7 +93,7 @@ if len(periods) > 1:
             with open(output_folder_aligned_full + name + '_{0}_{1}'.format(old, new) + '.html', 'w',
                       encoding='utf-8') as f_out:
                 f_out.write(
-                    "<html>\n<head>\n</head>\n<frameset cols=\"50\%,\*\">\n<frame src=\"../{0}/{1}\">\n<frame src=\"../{2}/{1}\">\n</frameset>\n</html>\n".format(
+                    r'<html>\n<head>\n</head>\n<frameset cols=\"50\%,\*\">\n<frame src=\"../{0}/{1}\">\n<frame src=\"../{2}/{1}\">\n</frameset>\n</html>\n'.format(
                         old, name + '.html', new))
 
 def csv_to_json(csvFilePath, jsonFilePath, jsonName):

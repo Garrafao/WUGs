@@ -1,11 +1,12 @@
 import sys
 import networkx as nx
+import pickle
 import csv
 
 [_, senses, judgments, output_file] = sys.argv
 
-graph = nx.read_gpickle(output_file)
-    
+with open(output_file, 'rb') as f:
+    graph = pickle.load(f)    
 
 with open(senses, encoding='utf-8') as csvfile: 
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
@@ -35,4 +36,5 @@ nx.set_node_attributes(graph, identifier2data)
 #print(graph.nodes()[identifier])
 
 #print('number of nodes: ', len(graph.nodes()))
-nx.write_gpickle(graph, output_file)
+with open(output_file, 'wb') as f:
+    pickle.dump(graph, f, pickle.HIGHEST_PROTOCOL)

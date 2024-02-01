@@ -1,12 +1,14 @@
 import sys
 import networkx as nx
+import pickle
 import csv
 
 [_, senses, output_file] = sys.argv
 
 # Try reading graph, if doesn't exist create.
 try:
-    graph = nx.read_gpickle(output_file)
+    with open(output_file, 'rb') as f:
+        graph = pickle.load(f)
 except:
     # Initialize graph
     graph = nx.Graph()
@@ -20,4 +22,5 @@ for row in senses:
     text = row['description_sense']
     graph.add_node(row['identifier_sense'],description=text,type='sense')
 
-nx.write_gpickle(graph, output_file)
+with open(output_file, 'wb') as f:
+    pickle.dump(graph, f, pickle.HIGHEST_PROTOCOL)

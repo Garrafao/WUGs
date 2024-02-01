@@ -1,4 +1,4 @@
-# __Test_UUG__: Test data set for Diachronic Word Usage Graphs
+# __Test_UUG1__: Test data set for Diachronic Word Usage Graphs
 
 - - -
 Siehe unten für die deutsche Version.
@@ -30,7 +30,7 @@ Dominik Schlechtweg, Nina Tahmasebi, Simon Hengchen, Haim Dubossarsky, Barbara M
 
 - - -
 
-# __Test_UUG__: Testdatensatz für Diachrone Wortverwendungsgraphen
+# __Test_UUG1__: Testdatensatz für Diachrone Wortverwendungsgraphen
 
 ### Typ
 

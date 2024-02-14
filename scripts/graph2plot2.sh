@@ -19,21 +19,21 @@ do
     echo $graph
     for style in "${styles[@]}"
     do
-	outdirls=$outdirl/$style
-	for mode in "${modes[@]}"
-	do
-	    outdirlm=$outdirls/$mode
-	    for color in "${colors[@]}"
-	    do
-		outdirlmc=$outdirlm/$color
-		for edgestyle in "${edgestyles[@]}"
+		outdirls=$outdirl/$style
+		for mode in "${modes[@]}"
 		do
-		    outdirlmcp=$outdirlmc/$edgestyle
-		    mkdir -p $outdirlmcp
-		    python3 $scriptsdir/graph2plot2.py $graph $templatepath $dir $outdirlmcp $color $mode $style $edgestyle $annotators $thresholdplot $position $nonvalue $summarystatistic $deviationmin $modus
+			outdirlm=$outdirls/$mode
+			for color in "${colors[@]}"
+			do
+				outdirlmc=$outdirlm/$color
+				for edgestyle in "${edgestyles[@]}"
+				do
+					outdirlmcp=$outdirlmc/$edgestyle
+					mkdir -p $outdirlmcp
+					python3 $scriptsdir/graph2plot2.py $graph $templatepath $dir $outdirlmcp $color $mode $style $edgestyle $annotators $thresholdplot $position $nonvalue $summarystatistic $deviationmin $modus
+				done
+			done
 		done
-	    done
-	done
     done
 done
 

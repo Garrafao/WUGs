@@ -10,6 +10,7 @@ conda install requests
 conda install pandas
 conda install networkx
 conda install matplotlib
+conda install pygraphviz 
 
 # Additional packages not available with conda
 conda install pip

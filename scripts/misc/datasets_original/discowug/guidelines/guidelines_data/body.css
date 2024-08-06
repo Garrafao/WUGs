@@ -1,0 +1,178 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+    /*background: #f1f1f1;*/
+    font-family: 'Roboto', sans-serif;
+
+      /*background: #42426b;
+      background-image: -webkit-linear-gradient(135deg, #8067B7, #EC87C0);
+      background-image: linear-gradient(-45deg, #8067B7, #EC87C0);*/
+
+
+      background-repeat: no-repeat;
+
+      background-color: #bdd4e7;
+      background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
+
+}
+
+.light-shadow {
+    -moz-box-shadow: 0 0 10px #999!important;
+        -webkit-box-shadow: 0 0 10px #999!important;
+        box-shadow: 0 0 10px #999!important;
+}
+
+
+.figure {
+    margin: 25px 0px;
+    border-bottom: 1px solid grey;
+}
+
+.caption {
+    text-align:center!important;
+    font-weight: bold;
+}
+
+.articles {
+    width:80%;
+    max-width: 1000px;
+    min-width: 800px;
+    margin: auto;
+
+}
+
+
+.fifty-left {
+    float: left;
+    width:49%;
+}
+
+.fifty-right {
+    float: right;
+    width:49%;
+}
+
+.card {
+  font-size: 9pt;
+  border-radius: 15px;
+  background-color: white;
+  padding: 35px 70px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+    -moz-box-shadow: 0 0 10px #404040;
+    -webkit-box-shadow: 0 0 10px #404040;
+    box-shadow: 0 0 10px #404040;
+}
+
+
+body .card h1 {
+    text-align:center;
+    padding: 20px 0px ;
+}
+
+body .card h2 {
+    padding: 15px 0px ;
+    color: #74778a;
+}
+
+body .card p {
+    margin: 10px 0px;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+body .card button {
+  float:right;
+  width: 100%;
+  margin-top: 1.2em;
+  padding: 1em;
+  max-width: 220px;
+  font-size: 8pt;
+
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: .15em;
+
+  border: none;
+  outline: none;
+  border-radius: 5em;
+  box-shadow: 0 15px 20px -10px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s;
+  cursor: pointer;
+
+
+  color: #edf0f1;
+     background: rgba(143, 113, 89, 0.8) ;
+}
+
+body .card button:hover {
+   box-shadow: 0 3px 5px -5px rgba(0, 0, 0, 0.3);
+   background: rgba(143, 113, 89, 1) ;;
+   color: white;
+   font-weight: bold;
+}
+
+body .card ol {
+padding: 0px 0px 0px 50px;
+}
+
+.container {
+position: relative;
+}
+
+.center {
+display: block;
+margin: auto;
+}
+
+body .card img {
+margin-top:40px;
+margin-bottom:40px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+}
+
+.biglogo {
+    width: 300px;
+}
+
+body .card a {
+text-decoration: none;
+    color: #0088a9;
+}
+
+
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+	background-color: ghostwhite;
+	margin: 15% 0 auto 0; /* 15% from the top and centered */
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.bulletless {
+list-style-type: none;
+}
+
+.cant-decide {
+
+  margin-top: 10px;
+}
+

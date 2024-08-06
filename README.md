@@ -119,9 +119,11 @@ Find information on the individual fields below:
 
 Find further research on WUGs in these papers:
 
+- Dominik Schlechtweg, Shafqat Mumtaz Virk, Pauline Sander, Emma Sköldberg, Lukas Theuer Linke, Tuo Zhang, Nina Tahmasebi, Jonas Kuhn, Sabine Schulte im Walde. 2024. [The DURel Annotation Tool: Human and Computational Measurement of Semantic Proximity, Sense Clusters and Semantic Change](https://aclanthology.org/2024.eacl-demo.15/). In Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations.
+- Mariia Fedorova, Andrey Kutuzov, Nikolay Arefyev, Dominik Schlechtweg. 2024. [Enriching Word Usage Graphs with Cluster Definitions](https://arxiv.org/abs/2403.18024v1). Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation.
 - Jing Chen, Emmanuele Chersoni, Dominik Schlechtweg, Jelena Prokic, Chu-Ren Huang. 2023. [ChiWUG: A Graph-based Evaluation Dataset for Chinese Lexical Semantic Change Detection](https://aclanthology.org/2023.lchange-1.10/). Proceedings of the 4th International Workshop on Computational Approaches to Historical Language Change 2023 (LChange'23).
-- Andrey Kutuzov, Samia Touileb, Petter Mæhlum, Tita Enstad, and Alexandra Wittemann. 2022. [NorDiaChange: Diachronic Semantic Change Dataset for Norwegian](https://aclanthology.org/2022.lrec-1.274/). In Proceedings of the Thirteenth Language Resources and Evaluation Conference.
-- Anna Aksenova, Ekaterina Gavrishina, Elisei Rykov, and Andrey Kutuzov. 2022. [RuDSI: Graph-based Word Sense Induction Dataset for Russian](https://aclanthology.org/2022.textgraphs-1.9/). In Proceedings of TextGraphs-16: Graph-based Methods for Natural Language Processing.
+- Andrey Kutuzov, Samia Touileb, Petter Mæhlum, Tita Enstad, Alexandra Wittemann. 2022. [NorDiaChange: Diachronic Semantic Change Dataset for Norwegian](https://aclanthology.org/2022.lrec-1.274/). In Proceedings of the Thirteenth Language Resources and Evaluation Conference.
+- Anna Aksenova, Ekaterina Gavrishina, Elisei Rykov, Andrey Kutuzov. 2022. [RuDSI: Graph-based Word Sense Induction Dataset for Russian](https://aclanthology.org/2022.textgraphs-1.9/). In Proceedings of TextGraphs-16: Graph-based Methods for Natural Language Processing.
 - Frank D. Zamora-Reina, Felipe Bravo-Marquez, Dominik Schlechtweg. 2022. [LSCDiscovery: A shared task on semantic change discovery and detection in Spanish](https://aclanthology.org/2022.lchange-1.16/). In Proceedings of the 3rd International Workshop on Computational Approaches to Historical Language Change.
 - Gioia Baldissin, Dominik Schlechtweg, Sabine Schulte im Walde. 2022. [DiaWUG: A Dataset for Diatopic Lexical Semantic Variation in Spanish](https://aclanthology.org/2022.lrec-1.278/). In Proceedings of the 13th Language Resources and Evaluation Conference.
 - Dominik Schlechtweg, Enrique Castaneda, Jonas Kuhn, Sabine Schulte im Walde. 2021. [Modeling Sense Structure in Word Usage Graphs with the Weighted Stochastic Block Model](https://aclanthology.org/2021.starsem-1.23/). In Proceedings of *SEM 2021: The Tenth Joint Conference on Lexical and Computational Semantics.
@@ -156,3 +158,6 @@ BibTex
 }
 ```
 
+### License
+
+Creative Commons Attribution No Derivatives 4.0 International.

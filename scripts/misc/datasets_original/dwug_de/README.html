@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>README.html</title>
+
+</head>
+
+<body>
+
+<h1><strong>DWUG DE</strong>: Diachronic Word Usage Graphs for German</h1>
+
+<hr />
+
+<p>Siehe unten für die deutsche Version.</p>
+
+<hr />
+
+<h3>Type</h3>
+
+<p>Dataset</p>
+
+<h3>Authors</h3>
+
+<p>Dominik Schlechtweg, Barbara McGillivray, Simon Hengchen, Haim Dubossarsky, Nina Tahmasebi</p>
+
+<h3>Description</h3>
+
+<p>This data collection contains diachronic Word Usage Graphs (WUGs) for German. Find a description of the data format, code to process the data and further datasets on the <a href="https://www.ims.uni-stuttgart.de/data/wugs">WUGsite</a>.</p>
+
+<p>We provide additional data under <code>misc/</code>:</p>
+
+<ul>
+<li><strong>dwug_de_sense</strong>: a subset of DWUG DE was annotated with classical word sense definitions (<em>DWUG DE Sense</em>, see <code>misc/dwug_de_sense/data/*/judgments_senses.csv</code>). This folder provides clusterings, change scores and inferred binary semantic proximity labels for this subset. The clusters, statistics and proximity labels under <code>maj_2</code> and <code>maj_3</code> were derived from the sense annotation by removing instances where not at least 2/3 annotators agree on the label. Note that the binary proximity labels under <code>misc/dwug_de_sense/data/*/maj_[2/3]/judgments.csv</code> ('0' for different sense, '1' for same sense) were derived from the sense annotation, and not directly judged by humans (in contrast to other WUG data sets). Note that consequently also the scores EARLIER, LATER and COMPARE are not calculated directly from human judgments (as for other WUG data sets), but from the inferred binary proximity labels. Please find the code deriving the clusters, change scores and proximity labels in the <a href="https://github.com/Garrafao/WUGs">WUG repository</a>. The data set is described in more detail in Schlechtweg (2022).</li>
+</ul>
+
+<p>See previous versions for additional testsets.</p>
+
+<p>Please find more information on the provided data in the paper referenced below.</p>
+
+<p>Version: 2.3.0, 15.12.2022. Contains additional clusterings, change scores and binary semantic proximity labels derived from DWUG DE Sense. <em>Important</em>: Version 2.0.0 extends previous versions with one more annotation round and new clusterings.</p>
+
+<h3>Reference</h3>
+
+<p>Dominik Schlechtweg, Nina Tahmasebi, Simon Hengchen, Haim Dubossarsky, Barbara McGillivray. 2021. <a href="https://aclanthology.org/2021.emnlp-main.567/">DWUG: A large Resource of Diachronic Word Usage Graphs in Four Languages</a>. Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing.</p>
+
+<p>Dominik Schlechtweg. 2022. Human and Computational Measurement of Lexical Semantic Change. PhD thesis. University of Stuttgart.</p>
+
+<hr />
+
+<h1><strong>DWUG DE</strong>: Diachrone Wortverwendungsgraphen fürs Deutsche</h1>
+
+<h3>Typ</h3>
+
+<p>Datensatz</p>
+
+<h3>Autoren</h3>
+
+<p>Dominik Schlechtweg, Barbara McGillivray, Simon Hengchen, Haim Dubossarsky, Nina Tahmasebi</p>
+
+<h3>Beschreibung</h3>
+
+<p>Diese Datensammlung enthält diachrone Wortverwendungsgraphen (WUGs) fürs Deutsche. Eine Beschreibung des Datenformats, Code zur Verarbeitung der Daten und weitere Datensätze finden Sie auf der <a href="https://www.ims.uni-stuttgart.de/data/wugs">WUGseite</a>.</p>
+
+<p>Wir stellen zusätzliche Daten unter <code>misc/</code> zur Verfügung:</p>
+
+<ul>
+<li><strong>dwug_de_sense</strong>: Eine Teilmenge von DWUG DE wurde mit klassischen Wortbedeutungsdefinitionen annotiert (<em>DWUG DE Sense</em>, siehe <code>misc/dwug_de_sense/data/*/judgments_senses.csv</code>). Dieser Ordner enthält Clusterings, Bedeutungswandelwerte und abgeleitete binäre 'semantic proximity labels' für diese Teilmenge. Die Cluster, Statistiken und Proximity-Labels unter <code>maj_2</code> und <code>maj_3</code> wurden aus der klassischen Bedeutungsannotation abgeleitet, indem Instanzen entfernt wurden, bei denen nicht mindestens 2/3 Annotatoren übereinstimmen. Beachten Sie, dass die binären Proximity-Labels unter <code>misc/dwug_de_sense/data/*/maj_[2/3]/judgments.csv</code> ('0' für verschiedene Bedeutungen, '1' für dieselbe Bedeutung) aus klassischen Bedeutungsannotation abgeleitet und damit nicht direkt von Menschen annotiert wurden (im Gegensatz zu anderen WUG-Datensätzen). Beachten Sie weiter, dass die Werte EARLIER, LATER und COMPARE somit nicht direkt aus menschlichen Annotationen berechnet wurden (wie bei anderen WUG-Datensätzen), sondern aus den abgeleiteten binären Labels. Den Code, der die Cluster, Wandelwerte und Proximity Labels berechnet, finden Sie im <a href="https://github.com/Garrafao/WUGs">WUG-Repository</a>. Der Datensatz wird in Schlechtweg (2022) näher beschrieben.</li>
+</ul>
+
+<p>Zusätzliche Testdaten finden Sie in früheren Versionen.</p>
+
+<p>Weitere Informationen zu den bereitgestellten Daten entnehmen Sie bitte dem unten angegebenen Papier.</p>
+
+<p>Version: 2.3.0, 15.12.2022. Enthält zusätzliche Clusterings, Bedeutungswandelwerte und Proximity-Labels für DWUG DE Sense. <em>Wichtig</em>: Version 2.0.0 erweitert frühere Versionen um eine weitere Annotationsrunde und neue Clusterings.</p>
+
+<h3>Referenz</h3>
+
+<p>Dominik Schlechtweg, Nina Tahmasebi, Simon Hengchen, Haim Dubossarsky, Barbara McGillivray. 2021. <a href="https://aclanthology.org/2021.emnlp-main.567/">DWUG: A large Resource of Diachronic Word Usage Graphs in Four Languages</a>. Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing.</p>
+
+<p>Dominik Schlechtweg. 2022. Human and Computational Measurement of Lexical Semantic Change. PhD thesis. University of Stuttgart.</p>
+
+<hr />
+
+</body>
+</html>

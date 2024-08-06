@@ -437,6 +437,16 @@ def get_data_maps_nodes(G, attributes={'type':'usage'}):
     
     return mappings
 
+def check_graph(G):
+    """
+    Check graph for unexpected properties.
+    :param G: graph
+    """
+    
+    for node in G.nodes():
+        #print(node)
+        assert 'type' in G.nodes()[node]
+
 def get_graph_stats(G, annotators, annotation_values=range(5), share=0.5, expected=None, limit=300):
     """
     Get statistics from annotated graph.

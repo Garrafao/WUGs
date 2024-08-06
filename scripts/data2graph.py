@@ -80,9 +80,13 @@ with open(annotators, encoding='utf-8') as csvfile:
     annotators = list(user2annotator.values())
 
 # Get judgments with mapped identifiers and annotators    
-judgments = [(identifier2identifier(row['identifier1']),identifier2identifier(row['identifier2']),float(row['judgment']),row['comment'],user2annotator[row['annotator']]) for row in judgments if not row['annotator'] in excluded]
+judgments = [(identifier2identifier(row['identifier1']),identifier2identifier(row['identifier2']),float(row['judgment']),row['comment'],user2annotator[row['annotator']]) for row in judgments if not row['annotator'] in excluded] 
+#judgments = [(row['identifier1'],row['identifier2'],float(row['judgment']),row['comment'],user2annotator[row['annotator']]) for row in judgments if not row['annotator'] in excluded]
 
-
+# Make sure judgments don't have more identifiers than uses
+identifiers1 = [row[0] for row in judgments]
+identifiers2 = [row[1] for row in judgments]
+assert set(identifier2data.keys()) >= (set(identifiers1) | set(identifiers2))
 
 
 graph = add_annotation(graph, judgments)
@@ -119,6 +123,8 @@ if not isnannodes: # Important to apply this at the end because it depends on th
     node2judgments, node2weights = mappings_edges['node2judgments'], mappings_edges['node2weights']
     nannodes = get_excluded_nodes(node2judgments, node2weights, share=0.5, non_value=non_value)
     graph.remove_nodes_from(nannodes) # Remove noise nodes
+
+#check_graph(graph)     
 
 with open(output_file, 'wb') as f:
     pickle.dump(graph, f, pickle.HIGHEST_PROTOCOL)

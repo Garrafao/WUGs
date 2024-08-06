@@ -16,7 +16,7 @@ for row in stats:
         
 # Export data
 with open(output_file, 'w') as f:  
-    w = csv.DictWriter(f, data_out[0].keys(), delimiter='\t', quoting = csv.QUOTE_NONE, quotechar='')
+    w = csv.DictWriter(f, data_out[0].keys(), delimiter='\t', quoting = csv.QUOTE_NONE)
     w.writeheader()
     w.writerows(data_out)
 

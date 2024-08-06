@@ -6,8 +6,9 @@ import numpy as np
 from modules import get_edge_std, get_node_std, get_data_maps_edges, get_excluded_nodes, get_nan_edges
 from cluster_ import add_clusters, get_clusters, make_meta_graph, get_low_prob_clusters
 from random import shuffle
+from itertools import combinations, product
  
-[_, input_file, non_value, annotators, is_remove_nan, is_remove_noise, collapse, seed, std_edges, std_nodes, degree_remove, cluster_size_remove, cluster_connect_remove, output_file] = sys.argv
+[_, input_file, non_value, annotators, is_remove_nan, is_remove_noise, collapse, seed, std_edges, std_nodes, degree_remove, cluster_size_min, cluster_connect_min, output_file] = sys.argv
 
     
 non_value=float(non_value)
@@ -35,7 +36,7 @@ if is_remove_noise:
     noise, _, _ = get_clusters(G_clean_out, is_include_noise = True, is_include_main = False)
     nodes_noise = [node for cluster in noise for node in cluster]
     print('Removing {0} nodes in noise cluster.'.format(len(nodes_noise)))
-    G_clean_out.remove_nodes_from(nodes_noise) # Remove noise nodes before ambiguity measures    
+    G_clean_out.remove_nodes_from(nodes_noise) # Remove noise nodes   
     G_clean_out.graph['cleaning_stats'] = G_clean_out.graph['cleaning_stats'] | {'is_remove_noise':is_remove_noise}
 
 # collapse similar clusters
@@ -44,7 +45,6 @@ if collapse != 'None':
     #print(threshold_collapse).blah
     seed=int(seed)
     np.random.seed(seed)
-    graph = nx.read_gpickle(input_file)
     noise, _, _ = get_clusters(G_clean_out, is_include_noise = True, is_include_main = False)
     G_clean = G_clean_out.copy()    
     G_clean.remove_nodes_from([node for cluster in noise for node in cluster])
@@ -95,33 +95,52 @@ print('Removing {0} nodes with standard deviation above {1}.'.format(len(nodes_h
 G_clean_out.remove_nodes_from(nodes_high_stds)    
 G_clean_out.graph['cleaning_stats'] = G_clean_out.graph['cleaning_stats'] | {'std_nodes':std_nodes}
 
+# remove nodes in low-frequency clusters
+cluster_size_min=int(cluster_size_min)    
+clusters, _, _ = get_clusters(G_clean_out)
+cluster_ids_remove = get_low_prob_clusters(clusters, threshold=cluster_size_min)
+nodes_remove = [node for cluster_id in cluster_ids_remove for node in clusters[cluster_id]]
+G_clean_out.remove_nodes_from(nodes_remove) 
+print('Removing {0} nodes from clusters with size less than {1}.'.format(len(nodes_remove),cluster_size_min))
+G_clean_out.graph['cleaning_stats'] = G_clean_out.graph['cleaning_stats'] | {'cluster_size_remove':cluster_size_min}
+
+# remove nodes in poorly connected clusters
+cluster_connect_min=float(cluster_connect_min)    
+if cluster_connect_min>0.0:
+    clusters, _, _ = get_clusters(G_clean_out, is_include_noise = False, is_include_main = True)
+    combo2edges = {}
+    #combo2sizes = {}
+    for (c1,c2) in combinations(range(len(clusters)), 2):
+        cluster1, cluster2 = clusters[c1], clusters[c2]
+        combo2edges[(c1,c2)] = []
+        size = 0
+        for (i,j) in product(cluster1,cluster2):
+            size += 1
+            if j in G_clean_out.neighbors(i):
+                combo2edges[(c1,c2)].append((i,j))
+        #combo2sizes[(c1,c2)] = size
+    cluster2connectedness_values = {}    
+    for c in range(len(clusters)):
+        connectedness_values = []
+        for (c1,c2), edges in combo2edges.items():
+            if c1==c or c2==c:
+                value = 1 if len(edges)>0 else 0
+                connectedness_values.append(value)
+        cluster2connectedness_values[c] = connectedness_values
+    print(cluster2connectedness_values)
+    assert len(cluster2connectedness_values.keys()) == len(clusters)
+    clusters_remove = [c for c, values in cluster2connectedness_values.items() if np.mean(values)<cluster_connect_min]
+    nodes_remove = [node for c in clusters_remove for node in clusters[c]]
+    G_clean_out.remove_nodes_from(nodes_remove) 
+G_clean_out.graph['cleaning_stats'] = G_clean_out.graph['cleaning_stats'] | {'cluster_size_remove':cluster_connect_min}
+print('Removing {0} nodes from clusters with average connectedness less than {1}.'.format(len(nodes_remove),cluster_connect_min))
+
 # remove nodes with low degree
 degree_remove=int(degree_remove)    
 nodes_degrees = [node for (node, d) in G_clean_out.degree() if d<degree_remove]
 G_clean_out.remove_nodes_from(nodes_degrees) 
 print('Removing {0} nodes with degree less than {1}.'.format(len(nodes_degrees),degree_remove))
 G_clean_out.graph['cleaning_stats'] = G_clean_out.graph['cleaning_stats'] | {'degree_remove':degree_remove}
-
-# remove nodes in low-frequency clusters
-cluster_size_remove=int(cluster_size_remove)    
-clusters_remove = get_low_prob_clusters(G_clean_out, threshold=cluster_size_remove)
-nodes_remove = [node for cluster in clusters_remove for node in cluster]
-G_clean_out.remove_nodes_from(nodes_remove) 
-print('Removing {0} nodes with size less than {1}.'.format(len(nodes_remove),cluster_size_remove))
-G_clean_out.graph['cleaning_stats'] = G_clean_out.graph['cleaning_stats'] | {'cluster_size_remove':cluster_size_remove}
-
-# remove nodes in poorly connected clusters
-cluster_connect_remove=int(cluster_connect_remove)    
-clusters, _, _ = get_clusters(G_clean_out, is_include_noise = False, is_include_main = True)
-combo2edges = {}
-for (c1,c2) in combinations(range(len(clusters)), 2):
-    cluster1, cluster2 = clusters[c1], clusters[c2]
-    combo2edges[(c1,c2)] = []
-    for (i,j) in product(cluster1,cluster2):                                
-        if j in G.neighbors(i):
-            combo2edges.append((i,j))
-combo_remove = {c for c in range(len(clusters)) for (c1,c2), edges in combo2edges.items()}
-combo_remove = [(c1,c2) for (c1,c2), edges in combo2edges.items() if len(edges) < cluster_connect_remove]
     
 print('Output graph: ', G_clean_out)
 

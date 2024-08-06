@@ -3,7 +3,7 @@ dir=test_uug
 
 # Remove previous data from release folder
 outdir=$dir/release
-rm -r $outdir
+rm -rf $outdir
 
 # Make release folder and subfolders
 mkdir -p $outdir

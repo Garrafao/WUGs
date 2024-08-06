@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body{ min-height:100vh; margin:0; }
+
+footer {
+    min-width: 1100px;
+    font-family: "Montserrat", sans-serif;
+    font-size:9px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #24252A;
+    justify-content: center ;
+}
+
+
+footer ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    /*border: 3px solid #73AD21;*/
+}
+
+footer ul li {
+    padding: 0px 20px;
+    vertical-align: middle;
+    display: table-cell; /* this allows the control of the vertical alignment */
+    /*border: 3px solid #73AD21;*/
+}
+
+footer a {
+    color: #edf0f1;
+    text-decoration:none;
+}
+
+footer a:hover {
+    color: #0088a9;
+}
+
+.cpr_notice {
+    color: #43454f;
+    font-size:9pt;
+    padding: 20px 0px 0px 0px;
+    text-align: center;
+}
+
+
+/* So that the footer stays at the bottom */
+body{
+  display:flex;
+  flex-direction:column;
+}
+
+footer{
+  margin-top:auto;
+}

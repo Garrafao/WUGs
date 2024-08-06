@@ -1,4 +1,5 @@
 # test pipeline
+
 bash -e scripts/run_uug.sh
 dir=test_uug
 rm -rf $dir/data_joint

@@ -1,7 +1,7 @@
 import sys
 import networkx as nx
 import pickle
-from modules import transform_edge_weights, make_weights, scale_weights, get_annotators, get_node_std, get_data_maps_edges, get_excluded_nodes, get_nan_edges
+from modules import transform_edge_weights, make_weights, scale_weights, get_annotators, get_node_std, get_data_maps_edges, get_excluded_nodes, get_nan_edges, check_graph
 from cluster_ import add_clusters, get_clusters
 from correlation import cluster_correlation_search
 from clustering_interface import louvain_clustering, chinese_whispers_clustering
@@ -20,6 +20,8 @@ threshold=float(threshold)
 non_value=float(non_value)
 with open(input_file, 'rb') as f:
     graph = pickle.load(f)
+
+#check_graph(graph)    
 
 # Get summary statistic for edge weights        
 if summary_statistic=='median':

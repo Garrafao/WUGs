@@ -82,7 +82,7 @@ if len(periods) > 1:
             with open(output_folder_aligned + name + '_{0}_{1}'.format(old, new) + '.html', 'w',
                       encoding='utf-8') as f_out:
                 f_out.write(
-                    r'<html>\n<head>\n</head>\n<frameset cols=\"50\%,\*\">\n<frame src=\"../{0}/{1}\">\n<frame src=\"../{2}/{1}\">\n</frameset>\n</html>\n'.format(
+                    '<html>\n<head>\n</head>\n<frameset cols=\"50%,*\">\n<frame src=\"../{0}/{1}\">\n<frame src=\"../{2}/{1}\">\n</frameset>\n</html>\n'.format(
                         old, name + '.html', new))
 
         output_folder_aligned_full = output_folder + '/aligned_full/'
@@ -93,7 +93,7 @@ if len(periods) > 1:
             with open(output_folder_aligned_full + name + '_{0}_{1}'.format(old, new) + '.html', 'w',
                       encoding='utf-8') as f_out:
                 f_out.write(
-                    r'<html>\n<head>\n</head>\n<frameset cols=\"50\%,\*\">\n<frame src=\"../{0}/{1}\">\n<frame src=\"../{2}/{1}\">\n</frameset>\n</html>\n'.format(
+                    '<html>\n<head>\n</head>\n<frameset cols=\"50%,*\">\n<frame src=\"../{0}/{1}\">\n<frame src=\"../{2}/{1}\">\n</frameset>\n</html>\n'.format(
                         old, name + '.html', new))
 
 def csv_to_json(csvFilePath, jsonFilePath, jsonName):

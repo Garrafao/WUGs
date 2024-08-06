@@ -1,0 +1,124 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1>2</h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1000px;
+            height: 1000px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "#377eb8", "date": "1968", "id": "helfen-c2-i27", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eGemeinsam mit Studenten aus der DDR \u003cb\u003ehelfen\u003c/b\u003e zwei junge\u003cbr\u003eStudenten aus Nepal in der Kooperation Kotelow bei der Ernte.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i27\u003cbr\u003etype: usage\u003c/p\u003e", "x": 968.84, "y": 563.23}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i39", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e1956 den Kampf gegen die Konterrevolution, weit \u00fcber die\u003cbr\u003eGrenzen des Landes bekannt wurde in jenen Tagen der Name des 37.\u003cbr\u003eBudapester Revolution\u00e4ren Regiments, dessen K\u00e4mpfer h\u00e4rtesten\u003cbr\u003ePr\u00fcfungen standhielten und als treue Waffenbr\u00fcder der Sowjetarmee die\u003cbr\u003eKonterrevolution zerschlagen \u003cb\u003ehalfen\u003c/b\u003e.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i39\u003cbr\u003etype: usage\u003c/p\u003e", "x": 563.52, "y": 491.69}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i38", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eSelbstverst\u00e4ndlich f\u00fcr eine Jugend, die; voller \u003cb\u003eElan\u003c/b\u003e und\u003cbr\u003eBegeisterung hilft, den Sozialismus aufzubauen.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i38\u003cbr\u003etype: usage\u003c/p\u003e", "x": 456.62, "y": 358.62}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i63", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eIn ihrer traditionellen Thronrede zur Er\u00f6ffnung der neuen\u003cbr\u003eSitzungsperiode des Parlaments hat die britische K\u00f6nigin Elizabeth II.\u003cbr\u003eam Dienstag in London ausgewogene Ma\u00dfnahmen der R\u00fcstungskontrolle und\u003cbr\u003eein weltweites Verbot von Chemiewaffen bef\u00fcrwortet Der bevorstehende\u003cbr\u003eBesuch von Michail Gorbatschow im Dezember in Gro\u00dfbritannien solle die\u003cbr\u003eBeziehungen zwischen beiden L\u00e4ndern verbessern \u003cb\u003ehelfen\u003c/b\u003e.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i63\u003cbr\u003etype: usage\u003c/p\u003e", "x": 686.38, "y": 680.83}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i14", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eWir rufen die FDJler der Zulieferbetriebe unserer Werft auf:\u003cbr\u003e\u003cb\u003eHelft\u003c/b\u003e aktiv mit. da\u00df die Lieferungen termingerecht und in\u003cbr\u003eh\u00f6chster Qualit\u00e4t erf\u00fcllt werden.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i14\u003cbr\u003etype: usage\u003c/p\u003e", "x": 57.845, "y": 544.45}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i68", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eMan \u003cb\u003ehilft\u003c/b\u003e nicht etwa mit, durch Verwendung von\u003cbr\u003eNormteilen die Erfindung billiger zu gestalten, nein, man mutet alle\u003cbr\u003ediese Untersuchungen und Ausgaben mir als dem Erfinder zu.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i68\u003cbr\u003etype: usage\u003c/p\u003e", "x": 432.04, "y": 779.01}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i40", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eDieser Tage konstituierte sich In Berlin die MEGA--STIFTUNG\u003cbr\u003eBerlin e. V Sie versteht sich als eigenst\u00e4ndige, parteienunabh\u00e4ngige\u003cbr\u003eVereinigung, die \u003cb\u003ehelfen\u003c/b\u003e will, das wissenschaftliche Werk von\u003cbr\u003eKarl Marx und Friedrich Engels als International unbestrittenen Teil\u003cbr\u003eeurop\u00e4ischen humanistischen Kulturerbes zu bewahren, zu edieren und\u003cbr\u003ekritisch zu erschlie\u00dfen.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i40\u003cbr\u003etype: usage\u003c/p\u003e", "x": 422.46, "y": 665.91}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i43", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eDie Aktivistin \u00fcbt mit \u003cb\u003eihren\u003c/b\u003e Kollegen t\u00e4tige Solidarit\u00e4t\u003cbr\u003emit dem k\u00e4mpfenden Vietnam und hilft mit bei der Betreuung von\u003cbr\u003eWaisenkindern.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i43\u003cbr\u003etype: usage\u003c/p\u003e", "x": 633.23, "y": 611.12}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i34", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eAnstelle der Aufwendungen f\u00fcr nukleare Waffen sei es ein\u003cbr\u003eErfordernis der Vernunft und der Menschlichkeit, den Hungernden und\u003cbr\u003eBed\u00fcrftigen in der Welt zu \u003cb\u003ehelfen\u003c/b\u003e.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i34\u003cbr\u003etype: usage\u003c/p\u003e", "x": 1041.8, "y": 487.79}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i41", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eWir haben aus der ganzen Republik alle Spezialisten\u003cbr\u003ezusammengeholt, die uns bei der Identifizierung der Opfer\u003cbr\u003e\u003cb\u003ehelfen\u003c/b\u003e k\u00f6nnen, und ich m\u00f6chte sagen, es wird auch hier alles,\u003cbr\u003ewas in unseren Kr\u00e4ften steht, getan, um m\u00f6glichst die Identifizierung\u003cbr\u003edurchf\u00fchren zu k\u00f6nnen.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i41\u003cbr\u003etype: usage\u003c/p\u003e", "x": 1043.1, "y": 353.72}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i25", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u201eDie differenzierte analytische Arbeitsweise \u003cb\u003ehilft\u003c/b\u003e mir\u003cbr\u003edabei.\"\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i25\u003cbr\u003etype: usage\u003c/p\u003e", "x": 803.83, "y": 323.03}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i5", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eDie MTS sind verpflichtet, auch dem Einzelbauer tatkr\u00e4ftig zu\u003cbr\u003e\u003cb\u003ehelfen\u003c/b\u003e.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i5\u003cbr\u003etype: usage\u003c/p\u003e", "x": 676.91, "y": 890.24}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i64", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eSeine Zulieferungen haben wesentlichen Einflu\u00df auf das Erf\u00fcllen\u003cbr\u003ebedeutender Exportproqramme, die lebenswichtiqe Importe aus der\u003cbr\u003eSowjetunion sichern \u003cb\u003ehelfen\u003c/b\u003e.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i64\u003cbr\u003etype: usage\u003c/p\u003e", "x": 717.62, "y": 258.07}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i7", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eF\u00fcr die Dauer der Weltfestspiele werden sachsische\u003cbr\u003eIndustriearbeiter und -arbelterinnen zus\u00e4tzlich oder in ihrem Urlaub\u003cbr\u003ebei der Ernte \u003cb\u003ehelfen\u003c/b\u003e und dazu beitragen, da\u00df Jugendliche der\u003cbr\u003eLandwirtschaft an den Weltfestspielen in Berlin teilnehmen\u003cbr\u003ek\u00f6nnen.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i7\u003cbr\u003etype: usage\u003c/p\u003e", "x": 518.34, "y": 557.61}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i90", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eIn der Zeit, als eine gro\u00dfe Gruppe Magdeiburger Monteure in\u003cbr\u003eCharzysk die Anlagen aus dem Th\u00e4lmann-Werk aufzubauen \u003cb\u003ehalfen\u003c/b\u003e,\u003cbr\u003ewar sie im baschkirischen Ort Bjelorezk an \u00e4hnlichen Magdeburger\u003cbr\u003eMaschinen ausgebildet worden.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i90\u003cbr\u003etype: usage\u003c/p\u003e", "x": 459.4, "y": 529.02}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i42", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eGrunert and Eisenhat, treffen nach dem 1. Mai In Furstenberc\u003cbr\u003ezusammen, um an dem Aufbau des Eisenh\u00fcttenkombinats Ost (EKO) zu\u003cbr\u003e\u003cb\u003ehelfen\u003c/b\u003e.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i42\u003cbr\u003etype: usage\u003c/p\u003e", "x": 681.55, "y": 497.69}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i73", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eIch dachte, da\u00df du uns dabei ein bi\u00dfchen \u003cb\u003ehelfen\u003c/b\u003e\u003cbr\u003ek\u00f6nntest.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i73\u003cbr\u003etype: usage\u003c/p\u003e", "x": 350.47, "y": 692.73}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i45", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eDer Weltfriedensrat bef\u00fcrwortet diese Resolution und\u003cbr\u003e\u003cb\u003ehilft\u003c/b\u003e, eine breite Solidarit\u00e4tsbewegung f\u00fcr die betroffenen\u003cbr\u003earabischen V\u00f6lker zu organisieren.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i45\u003cbr\u003etype: usage\u003c/p\u003e", "x": 584.16, "y": 586.0}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i91", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eDie 16 Mitglieder des Kollektivs Stufenschal terkonstruktion\u003cbr\u003e\u003cb\u003ehelfen\u003c/b\u003e durch bessere Arbeit Zeit sparen.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i91\u003cbr\u003etype: usage\u003c/p\u003e", "x": 616.28, "y": 290.78}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i33", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e,u \u003cb\u003ehilft\u003c/b\u003e nur aus, erkl\u00e4rte man mir..Wer hat ihn denn\u003cbr\u003edaf\u00fcr gewonnen? fragte ich.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i33\u003cbr\u003etype: usage\u003c/p\u003e", "x": 785.02, "y": 865.2}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i74", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003ewesen in der Mongolischen Volksrepublik und in Kuba erweitern\u003cbr\u003e\u003cb\u003ehelfen\u003c/b\u003e.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i74\u003cbr\u003etype: usage\u003c/p\u003e", "x": 1024.0, "y": 728.99}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i50", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eDer Artikel wird uns \u003cb\u003ehelfen\u003c/b\u003e, die Sortimentsbildung von\u003cbr\u003ekulturvollen Souvenirs als ein wichtiges handelspolitisches Problem zu\u003cbr\u003ebehandeln und In Kooperation mit den Leitungsorganen der Industrie zu\u003cbr\u003el\u00f6sen.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i50\u003cbr\u003etype: usage\u003c/p\u003e", "x": 201.57, "y": 254.25}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i55", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003enen zuweilen noch die qualitative Seite der Planerf\u00fcllung\u003cbr\u003everdeckt, wollen \u00a6 wir 1964 unser modernes Pr\u00fcfverfahren noch weiter\u003cbr\u003edurchsetzen \u003cb\u003ehelfen\u003c/b\u003e.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i55\u003cbr\u003etype: usage\u003c/p\u003e", "x": 798.66, "y": 395.44}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i75", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003eFred \u003cb\u003ehalf\u003c/b\u003e Heinz auch beim Herstell n der wenigen\u003cbr\u003eDekorationen.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i75\u003cbr\u003etype: usage\u003c/p\u003e", "x": 127.81, "y": 425.87}, {"color": "#377eb8", "date": "1968", "id": "helfen-c2-i78", "label": "0", "physics": false, "shape": "circle", "size": 10, "title": "\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003edie Innen-und Au\u00dfenpolitik eines Landes nicht trennen lie\u00dfen;\u003cbr\u003eWer wollte auch im \u0027\u003c Ernst daran glauben, da\u00df man Innenpolitisch\u003cbr\u003eOpposition betreiben k\u00f6nne, wenn man vorher der aggressiven\u003cbr\u003eAu\u00dfenpolitik des Staates zustimmt und die Militaristen in den Sattel\u003cbr\u003e\u003cb\u003eheben\u003c/b\u003e half? 1933 war das ganz \u00e4hnlich.\u003cspan style=\"color:#808080;\"\u003e\u003c/span\u003e\u003cp style=\"font-size:8px;\"\u003e\u003cbr\u003edate: 1968\u003cbr\u003egrouping: 2\u003cbr\u003eidentifier: helfen-c2-i78\u003cbr\u003etype: usage\u003c/p\u003e", "x": 1134.8, "y": 584.92}]);
+        edges = new vis.DataSet([{"color": "black", "from": "helfen-c2-i27", "label": 4, "to": "helfen-c2-i64", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i27", "label": 4, "to": "helfen-c2-i43", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i27", "label": 3.5, "to": "helfen-c2-i41", "weight": 3.5, "width": 4}, {"color": "black", "from": "helfen-c2-i27", "label": 4, "to": "helfen-c2-i74", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i39", "label": 4, "to": "helfen-c2-i90", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i39", "label": 3, "to": "helfen-c2-i73", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i39", "label": 3, "to": "helfen-c2-i64", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i38", "label": 4, "to": "helfen-c2-i90", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i38", "label": 4, "to": "helfen-c2-i7", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i38", "label": 4, "to": "helfen-c2-i50", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i38", "label": 4, "to": "helfen-c2-i40", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i38", "label": 3, "to": "helfen-c2-i91", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i38", "label": 4, "to": "helfen-c2-i43", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i38", "label": 4, "to": "helfen-c2-i63", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i63", "label": 4, "to": "helfen-c2-i74", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i63", "label": 3, "to": "helfen-c2-i45", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i63", "label": 4, "to": "helfen-c2-i25", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i14", "label": 4, "to": "helfen-c2-i73", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i68", "label": 3, "to": "helfen-c2-i90", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i68", "label": 3, "to": "helfen-c2-i7", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i68", "label": 3, "to": "helfen-c2-i42", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i34", "label": 3, "to": "helfen-c2-i25", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i34", "label": 3, "to": "helfen-c2-i78", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i34", "label": 4, "to": "helfen-c2-i41", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i41", "label": 4, "to": "helfen-c2-i78", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i41", "label": 3, "to": "helfen-c2-i91", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i25", "label": 4, "to": "helfen-c2-i78", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i5", "label": 4, "to": "helfen-c2-i7", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i5", "label": 3, "to": "helfen-c2-i74", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i5", "label": 4, "to": "helfen-c2-i45", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i5", "label": 3, "to": "helfen-c2-i33", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i7", "label": 4, "to": "helfen-c2-i90", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i7", "label": 3, "to": "helfen-c2-i91", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i90", "label": 4, "to": "helfen-c2-i73", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i90", "label": 4, "to": "helfen-c2-i42", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i42", "label": 4, "to": "helfen-c2-i55", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i42", "label": 3, "to": "helfen-c2-i45", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i73", "label": 4, "to": "helfen-c2-i75", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i91", "label": 4, "to": "helfen-c2-i55", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i91", "label": 4, "to": "helfen-c2-i50", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i33", "label": 3, "to": "helfen-c2-i78", "weight": 3.0, "width": 4}, {"color": "black", "from": "helfen-c2-i74", "label": 4, "to": "helfen-c2-i78", "weight": 4.0, "width": 4}, {"color": "black", "from": "helfen-c2-i50", "label": 3, "to": "helfen-c2-i75", "weight": 3.0, "width": 4}, {"color": "lightgray", "from": "helfen-c2-i42", "label": 2, "to": "helfen-c2-i50", "weight": 2.0, "width": 2}, {"color": "lightgray", "from": "helfen-c2-i38", "label": NaN, "to": "helfen-c2-i74", "weight": NaN, "width": 1.0}, {"color": "lightgray", "from": "helfen-c2-i43", "label": NaN, "to": "helfen-c2-i75", "weight": NaN, "width": 1.0}, {"color": "lightgray", "from": "helfen-c2-i73", "label": NaN, "to": "helfen-c2-i33", "weight": NaN, "width": 1.0}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "nodes",
+            "edges"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": false
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": false,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

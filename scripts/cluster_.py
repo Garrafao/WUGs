@@ -120,12 +120,12 @@ def get_low_prob_clusters(clusters, threshold=2):
     Get low-probability clusters.
     :param clusters: clusters
     :param threshold: minimum size for high-probability clusters
-    :return clearclusters_low_prob: list of cluster indices below threshold
+    :return cluster_ids_low_prob: list of cluster indices below threshold
     """
                
-    clusters_low_prob = [c for c, cluster in enumerate(clusters) if len(cluster) < threshold]
+    cluster_ids_low_prob = [c for c, cluster in enumerate(clusters) if len(cluster) < threshold]
        
-    return clusters_low_prob
+    return cluster_ids_low_prob
 
 
 def make_meta_graph(graph, test_statistic=np.nanmedian):

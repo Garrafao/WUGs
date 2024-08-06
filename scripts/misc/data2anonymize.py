@@ -34,8 +34,20 @@ print(sample)
 # Export data
 if not os.path.isdir(judgmentsout + '/' + lemma):
     os.makedirs(judgmentsout + '/' + lemma)
-with open(judgmentsout + '/' + lemma + '/judgments.csv', 'w', encoding='utf-8') as f:  
-    w = csv.DictWriter(f, judgments_out[0].keys(), delimiter='\t', quoting = csv.QUOTE_NONE)
-    w.writeheader()
-    w.writerows(judgments_out)
+#with open(judgmentsout + '/' + lemma + '/judgments.csv', 'w', encoding='utf-8') as f:  
+#    w = csv.DictWriter(f, judgments_out[0].keys(), delimiter='\t', quoting = csv.QUOTE_NONE)
+#    w.writeheader()
+#    w.writerows(judgments_out)
+       
+# Export data
+with open(judgmentsout + '/' + lemma + '/judgments.csv', 'w') as f:  
+    # write header
+    header = '\t'.join(judgments_out[0].keys())
+    f.write(header)
+    f.write('\n')
+    for row in judgments_out:
+        line = '\t'.join(row.values())
+        f.write(line)
+        f.write('\n')
+    
  

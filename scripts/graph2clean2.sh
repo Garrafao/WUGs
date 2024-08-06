@@ -9,5 +9,5 @@ mkdir -p $outdir
 for graph in "${graphs[@]}"
 do
     echo $graph
-    python3 $scriptsdir/graph2clean2.py $graph $nonvalue $annotators $isremovenan $isremovenoise $collapse 0 $stdedges $stdnodes $degreeremove $outdir/$(basename "$graph")
+    python3 $scriptsdir/graph2clean2.py $graph $nonvalue $annotators $isremovenan $isremovenoise $collapse 0 $stdedges $stdnodes $degreeremove $clustersizemin $clusterconnectmin $outdir/$(basename "$graph")
 done

@@ -19,7 +19,7 @@ name = graph.graph['lemma']
 
 try:
     clusters, c2n, n2c = get_clusters(graph, is_include_noise=True)
-    cluster_stats = graph.graph['cluster_stats']
+    cluster_stats = graph.graph['cluster_stats'] if 'cluster_stats' in graph.graph else {}
 except KeyError:
     print('no clusters found')
     clusters, c2n, n2c = [{n for n in graph.nodes()}], {0: list(graph.nodes())}, {n: 0 for n in graph.nodes()}

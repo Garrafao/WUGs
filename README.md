@@ -119,6 +119,7 @@ Find information on the individual fields below:
 
 Find further research on WUGs in these papers:
 
+- Bill Noble, Francesco Periti, Nina Tahmasebi. 2024. [Improving Word Usage Graphs with Edge Induction](https://aclanthology.org/2024.lchange-1.9/). In Proceedings of the 5th Workshop on Computational Approaches to Historical Language Change.
 - Dominik Schlechtweg, Shafqat Mumtaz Virk, Pauline Sander, Emma Sköldberg, Lukas Theuer Linke, Tuo Zhang, Nina Tahmasebi, Jonas Kuhn, Sabine Schulte im Walde. 2024. [The DURel Annotation Tool: Human and Computational Measurement of Semantic Proximity, Sense Clusters and Semantic Change](https://aclanthology.org/2024.eacl-demo.15/). In Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations.
 - Mariia Fedorova, Andrey Kutuzov, Nikolay Arefyev, Dominik Schlechtweg. 2024. [Enriching Word Usage Graphs with Cluster Definitions](https://arxiv.org/abs/2403.18024v1). Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation.
 - Jing Chen, Emmanuele Chersoni, Dominik Schlechtweg, Jelena Prokic, Chu-Ren Huang. 2023. [ChiWUG: A Graph-based Evaluation Dataset for Chinese Lexical Semantic Change Detection](https://aclanthology.org/2023.lchange-1.10/). Proceedings of the 4th International Workshop on Computational Approaches to Historical Language Change 2023 (LChange'23).

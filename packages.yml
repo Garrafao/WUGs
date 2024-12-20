@@ -1,15 +1,12 @@
 name: wug
 channels:
   - defaults
-  - conda-forge
 dependencies:
-  - conda-forge::graph-tool
   - networkx
   - scikit-learn
   - requests
   - pandas
   - pyvis
-  - conda-forge::pygraphviz
   - pip:
       - chinese-whispers==0.8.2.post2
       - python-louvain==0.16

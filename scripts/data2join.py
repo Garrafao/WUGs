@@ -38,7 +38,7 @@ for row in judgments:
     annotator = row['annotator']
     comment = row['comment'] if row['comment']!='' else '-'
     comment = ' ' if (row['comment']=='-' or row['comment']=='') else row['comment']
-    data = {'identifier1':id2identifier[row['identifier1']],'identifier2':id2identifier[row['identifier2']],'judgment':float(row['judgment']),'comment':comment,'annotator':annotator,'lemma':row['lemma']}
+    data = {'identifier1':row['identifier1'],'identifier2':row['identifier2'],'judgment':float(row['judgment']),'comment':comment,'annotator':annotator,'lemma':row['lemma']}
     annotation.append(data)
     
 # Export data

@@ -1,0 +1,95 @@
+<html xmlns="http://www.w3.org/1999/html"
+      xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"></script>
+    <title>id="heading">{{heading}}</title>
+
+    <style type="text/css">
+        #mynetwork {
+            width: 65%;
+            height: 90%;
+            margin-right: 2%;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+    </style>
+
+</head>
+
+<body>
+<div th:fragment="graph">
+    <div id="mynetwork"></div>
+    {% if nodes|length > 100 and physics_enabled %}
+    <div id="loadingBar">
+        <div class="outerBorder">
+            <div id="text">0%</div>
+            <div id="border">
+                <div id="bar"></div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+</div>
+
+<script type="text/javascript">
+    // initialize global variables.
+    let edges;
+    let nodes;
+    let network;
+    let container;
+    let options, data;
+
+
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet({{nodes | tojson}});
+        edges = new vis.DataSet({{edges | tojson}});
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {{options | safe}};
+
+        network = new vis.Network(container, data, options);
+
+
+        {%if nodes | length > 100 and physics_enabled %}
+        network.on("stabilizationProgress", function (params) {
+            document.getElementById('loadingBar').removeAttribute("style");
+            var maxWidth = 496;
+            var minWidth = 20;
+            var widthFactor = params.iterations / params.total;
+            var width = Math.max(minWidth, maxWidth * widthFactor);
+
+            document.getElementById('bar').style.width = width + 'px';
+            document.getElementById('text').innerHTML = Math.round(widthFactor * 100) + '%';
+        });
+        network.once("stabilizationIterationsDone", function () {
+            document.getElementById('text').innerHTML = '100%';
+            document.getElementById('bar').style.width = '496px';
+            document.getElementById('loadingBar').style.opacity = 0;
+            // really clean the dom element
+            setTimeout(function () {
+                document.getElementById('loadingBar').style.display = 'none';
+            }, 500);
+        });
+        {% endif %}
+
+        return network;
+
+    }
+
+    drawGraph();
+
+
+</script>
+</body>
+
+</html>

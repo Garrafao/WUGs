@@ -27,7 +27,7 @@ adjacency=False # only needed for wsbm, if True, the adjacency term of the descr
 degreedl=False # only needed for wsbm, if True, and dl == True the degree sequence description length will be included (for degree-corrected models)
 ambiguity=None # removes influence of ambiguous edges on clustering, one of "scale_edges", "remove_nodes", "None"
 # plotting
-templatepath=$scriptsdir/misc/DURel_filter_template_springboot.html
+templatepath=$scriptsdir/misc/DURel_template_setup_dec2024.html
 position=spring # one of "spring", "sfdp", "spectral"
 colors=(colorful)
 periods=(full)

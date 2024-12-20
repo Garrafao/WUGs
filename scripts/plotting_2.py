@@ -87,13 +87,20 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, non_value=0.0, normali
                 continue
             x, y = pos[node]
             node_data = G.nodes()[node]
+            #print(node_data)
+            date = ''
+            label = ''
+            text = ''
             # print(node_data)
             type_ = ''
             try:
                 type_ = node_data['type']
             except KeyError as e:
                 print('KeyError in', e)
-                sentence = node_data['context']
+                try:
+                    sentence = node_data['context']
+                except KeyError as e2:
+                    sentence = ''
                 text = '<br>'.join(wrap(sentence, 70)) if sentence != '' else ''
                 print(text)
             if type_ == 'usage':

@@ -11,6 +11,7 @@ from scipy.spatial.distance import euclidean, cosine
 import krippendorff_ as krippendorff
 from sklearn.metrics import hamming_loss, cohen_kappa_score
 import networkx as nx
+from datetime import datetime
     
 def add_annotation(G, annotation, is_non_value=lambda x: np.isnan(x)):
     """
@@ -143,15 +144,16 @@ def remove_annotators(G, annotators):
     return G
 
 
-def get_annotator_subgraph(G, annotators, summary_statistic=np.median, non_value=0.0, normalization=lambda x: x):
+def get_annotator_subgraph(G, annotators, name,
+                           summary_statistic=np.median, non_value=0.0, normalization=lambda x: x):
     """
     Get annotator subgraph from graph.
     :param G: graph
     :param annotators: list of annotators to get the sub graph for
     :return subgraph: subgraph with judgments, comments and weights
     """
-    subgraph = nx.Graph()
-    subgraph.add_nodes_from(G.nodes())
+    subgraph = nx.Graph(lemma=name, annotators=annotators, summary_statistic=summary_statistic, non_value=non_value)
+    subgraph.add_nodes_from((node, data) for node, data in G.nodes(data=True))
     
     for (i,j) in G.edges():
 
@@ -869,3 +871,22 @@ def perturb_graph(G, annotators, range_ = (1,4), share = 0.1, normalization = la
     G = make_weights(G, annotators+['annotator_noise'], normalization=normalization, non_value=0.0)
     
     return G
+
+def get_date_format(date_string: str) -> str:
+    for fmt in ["%Y", "%Y-%m-%d"]:
+        try:
+            datetime.strptime(date_string, fmt)
+            return fmt
+        except ValueError:
+            pass
+    return "Unknown format"
+
+def date_fits(date_string: str, t1: datetime, t2: datetime) -> bool:
+    try:
+        fmt = get_date_format(date_string)
+        date = datetime.strptime(date_string, fmt)
+        if t1 < date < t2:
+            return True
+    except ValueError:
+        pass
+    return False

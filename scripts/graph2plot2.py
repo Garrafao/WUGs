@@ -41,7 +41,10 @@ if modus == 'full':
 if summary_statistic=='median':
     summary_statistic=np.median
 if summary_statistic=='mean':
-    summary_statistic=np.mean 
+    summary_statistic=np.mean
+
+current_dir = os.getcwd()
+output_folder = os.path.relpath(output_folder, current_dir)
 
 output_folder_full = output_folder + '/full/'
 if not os.path.exists(output_folder_full):

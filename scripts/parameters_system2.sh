@@ -1,4 +1,4 @@
-
+graph_type=clustered
 annotators=$dir/annotators.csv
 modus=system
 graphtype=uug
@@ -6,6 +6,9 @@ isanonymize=False
 # aggregation
 summarystatistic=median # one of mean, median
 excluded=None # path to file with excluded annotators (e.g. $dir/annotators_excluded.csv), or None
+annotator_filter=all # filter for annotators during graph2filter (2nd filtering by annotator)
+t1=None # filter by timespan 1
+t2=None # filter by timespan 2
 isnannodes=True # whether to keep nannodes
 isnanedges=True # whether to keep nanedges
 grouping=full # which grouping to keep, full means to keep all groupings
@@ -27,7 +30,7 @@ adjacency=False # only needed for wsbm, if True, the adjacency term of the descr
 degreedl=False # only needed for wsbm, if True, and dl == True the degree sequence description length will be included (for degree-corrected models)
 ambiguity=None # removes influence of ambiguous edges on clustering, one of "scale_edges", "remove_nodes", "None"
 # plotting
-templatepath=$scriptsdir/misc/DURel_filter_template_springboot.html
+templatepath=$scriptsdir/misc/DURel_template_setup_dec2024.html
 position=spring # one of "spring", "sfdp", "spectral"
 colors=(colorful)
 periods=(full)

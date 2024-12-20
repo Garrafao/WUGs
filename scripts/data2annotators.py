@@ -3,9 +3,9 @@ import csv
 
 [_, annotation, is_anonymize, output_file] = sys.argv
 
-if is_anonymize=='True':
+if is_anonymize=='true' or is_anonymize == 'True':
     is_anonymize=True
-if is_anonymize=='False':
+if is_anonymize=='false' or is_anonymize == 'False':
     is_anonymize=False
     
 with open(annotation, encoding='utf-8') as csvfile: 

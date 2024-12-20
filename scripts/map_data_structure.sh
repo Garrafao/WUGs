@@ -10,8 +10,7 @@ for use in "${uses[@]}"
 do
     file=$(basename "$use") 
     echo $file # for testing
-    IFS='_' read -ra wordparts <<< "$file" # problematic: assumes word as no _
-    word=${wordparts[0]}
+    word=${file%_*}
     echo $word # for testing
     mkdir -p $outdir/$word
     cp $datadir/$word\_uses.csv $outdir/$word/uses.csv 

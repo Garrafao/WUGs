@@ -33,31 +33,31 @@ with open(annotators, encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
     annotators = [row['annotator'] for row in reader]
     
-if is_multiple=='True':
+if is_multiple=='true' or is_multiple == 'True':
     is_multiple=True
-if is_multiple=='False':
+if is_multiple=='false' or is_multiple == 'False':
     is_multiple=False
 if is_multiple and not algorithm in ['wsbm']:
     sys.exit('Breaking: Multiple edge weights not supported for this clustering algorithm')
 
-if degcorr=='True':
+if degcorr=='true' or degcorr == 'True':
     degcorr=True
-if degcorr=='False':
+if degcorr=='false' or degcorr == 'False':
     degcorr=False
 
-if adjacency=='True':
+if adjacency=='true' or adjacency == 'True':
     adjacency=True
-if adjacency=='False':
+if adjacency=='false' or adjacency == 'False':
     adjacency=False
 
-if degreedl=='True':
+if degreedl=='true' or degreedl == 'True':
     degreedl=True
-if degreedl=='False':
+if degreedl=='false' or degreedl == 'False':
     degreedl=False
     
 iters=int(iters)    
-if iters > 1 and not algorithm in ['correlation']:
-    sys.exit('Breaking: Multiple clustering iterations not supported for this clustering algorithm')
+#if iters > 1 and not algorithm in ['correlation']:
+#    sys.exit('Breaking: Multiple clustering iterations not supported for this clustering algorithm')
     
 if is_clean=='True':
     is_clean=True

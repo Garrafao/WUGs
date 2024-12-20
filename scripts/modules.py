@@ -144,15 +144,16 @@ def remove_annotators(G, annotators):
     return G
 
 
-def get_annotator_subgraph(G, annotators, summary_statistic=np.median, non_value=0.0, normalization=lambda x: x):
+def get_annotator_subgraph(G, annotators, name,
+                           summary_statistic=np.median, non_value=0.0, normalization=lambda x: x):
     """
     Get annotator subgraph from graph.
     :param G: graph
     :param annotators: list of annotators to get the sub graph for
     :return subgraph: subgraph with judgments, comments and weights
     """
-    subgraph = nx.Graph()
-    subgraph.add_nodes_from(G.nodes())
+    subgraph = nx.Graph(lemma=name, annotators=annotators, summary_statistic=summary_statistic, non_value=non_value)
+    subgraph.add_nodes_from((node, data) for node, data in G.nodes(data=True))
     
     for (i,j) in G.edges():
 

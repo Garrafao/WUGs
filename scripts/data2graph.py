@@ -24,7 +24,7 @@ non_value=float(non_value)
 
 # Initialize graph
 name = unicodedata.normalize('NFC', name)
-graph = nx.Graph(lemma=name)
+graph = nx.Graph(lemma=name, annotators=annotators, summary_statistic=summary_statistic, non_value=non_value)
     
 # Open uses
 with open(uses, encoding='utf-8') as csvfile: 
@@ -42,7 +42,7 @@ for (k, row) in enumerate(uses):
 nx.set_node_attributes(graph, identifier2data)
 #print(graph.nodes()[identifier])
 
-print('number of nodes: ', len(graph.nodes()))    
+print('number of nodes: ', len(graph.nodes()))
 
 # Create mapping from system identifiers to use identifiers    
 try:    
@@ -64,8 +64,8 @@ with open(annotators, encoding='utf-8') as csvfile:
     annotators = list(user2annotator.values())
 
 # Get judgments with mapped identifiers and annotators    
-judgments = [(identifier2identifier(row['identifier1']),identifier2identifier(row['identifier2']),float(row['judgment']),row['comment'],user2annotator[row['annotator']]) for row in judgments if not row['annotator'] in excluded]
-#judgments = [(row['identifier1'],row['identifier2'],float(row['judgment']),row['comment'],user2annotator[row['annotator']]) for row in judgments if not row['annotator'] in excluded]
+#judgments = [(identifier2identifier(row['identifier1']),identifier2identifier(row['identifier2']),float(row['judgment']),row['comment'],user2annotator[row['annotator']]) for row in judgments if not row['annotator'] in excluded]
+judgments = [(row['identifier1'],row['identifier2'],float(row['judgment']),row['comment'],user2annotator[row['annotator']]) for row in judgments if not row['annotator'] in excluded]
 
 # Make sure judgments don't have more identifiers than uses
 identifiers1 = [row[0] for row in judgments]

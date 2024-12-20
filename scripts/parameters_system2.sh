@@ -6,6 +6,9 @@ isanonymize=False
 # aggregation
 summarystatistic=median # one of mean, median
 excluded=None # path to file with excluded annotators (e.g. $dir/annotators_excluded.csv), or None
+annotator_filter=all # filter for annotators during graph2filter (2nd filtering by annotator)
+t1=None # filter by timespan 1
+t2=None # filter by timespan 2
 isnannodes=True # whether to keep nannodes
 isnanedges=True # whether to keep nanedges
 grouping=full # which grouping to keep, full means to keep all groupings

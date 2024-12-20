@@ -1,9 +1,9 @@
 
 echo $(tput bold)$BASH_SOURCE$(tput sgr0)
 
-graphdir=$dir/graphs
+graphdir=$dir/graphs/$graph_type
 graphs=($graphdir/*)
-outdir=$dir/plots
+outdir=$dir/plots/$graph_type
 mkdir -p $outdir
 mkdir -p $dir/stats
 
@@ -30,7 +30,7 @@ do
 				do
 					outdirlmcp=$outdirlmc/$edgestyle
 					mkdir -p $outdirlmcp
-					python3 $scriptsdir/graph2plot2.py $graph $templatepath $dir $outdirlmcp $color $mode $style $edgestyle $annotators $thresholdplot $position $nonvalue $summarystatistic $deviationmin $modus
+					python3 $scriptsdir/graph2plot2.py $graph $templatepath $dir $outdirlmcp $color $mode $style $edgestyle $dir/$annotators $thresholdplot $position $nonvalue $summarystatistic $deviationmin $modus
 				done
 			done
 		done

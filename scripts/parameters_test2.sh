@@ -1,4 +1,7 @@
 annotators=$dir/annotators.csv
+t1=None
+t2=None
+annotator_filter=all
 excluded=$dir/annotators_excluded.csv
 modus=test
 graphtype=uug

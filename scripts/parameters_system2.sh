@@ -1,4 +1,4 @@
-graph_type=clustered
+graph_type=
 annotators=$dir/annotators.csv
 modus=system
 graphtype=uug

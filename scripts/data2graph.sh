@@ -1,7 +1,7 @@
 
 echo $(tput bold)$BASH_SOURCE$(tput sgr0)
 
-outdir=$dir/graphs
+outdir=$dir/graphs/$graph_type2
 datadir=$dir/data
 datas=($datadir/*)
 mkdir -p $outdir

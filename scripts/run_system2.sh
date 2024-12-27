@@ -41,7 +41,7 @@ rm -rf $dir/stats # when running multiple times (e.g. testing)
 
 source $scriptsdir/data2join.sh
 source $scriptsdir/data2annotators.sh
-# source $scriptsdir/data2agr2.sh
+source $scriptsdir/data2agr2.sh
 source $scriptsdir/data2graph.sh # aggregates the graph according to input options
 source $scriptsdir/graph2filter.sh
 source $scriptsdir/graph2cluster2.sh
@@ -53,5 +53,3 @@ source $scriptsdir/graph2plot2.sh
 #rm -rf $dir/graphs # when running multiple times (e.g. testing)
 #rm -rf $dir/stats # when running multiple times (e.g. testing)
 #rm $dir/annotators.csv # when running multiple times (e.g. testing)
-
-#todo: remove dependency on data2agr and graph2stats, remove multiple unnecessary plots in system version

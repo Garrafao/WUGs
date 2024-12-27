@@ -37,7 +37,9 @@ echo "position: $position"
 modes=${12}
 echo "modes: $modes"
 
-graph_type=filtered
+graph_type1=original
+graph_type2=filtered
+annotators=$dir/annotators.csv
 
 source $scriptsdir/graph2filter.sh
 

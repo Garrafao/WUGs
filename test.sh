@@ -80,3 +80,17 @@ do
 	done
     done
 done
+
+dir=test_uug
+bash -e scripts/DURel_tool_create_graph_from_data.sh $dir False median 0.0 weight 2.5 spring full
+bash -e scripts/DURel_tool_filter_existing_graph.sh $dir all full None None None True True weight 2.5 spring full
+bash -e scripts/DURel_tool_cluster_filtered_graph.sh $dir True None correlation None False discrete-binomial False False False 1 system weight 2.5 spring full median 0.0 2.5
+rm -rf $dir/data_joint
+rm -rf $dir/graphs
+rm -rf $dir/graphs_full
+rm -rf $dir/graphs1
+rm -rf $dir/clusters
+rm -rf $dir/stats
+rm -rf $dir/plots
+rm -f $dir/annotators.csv
+rm -rf scripts/__pycache__

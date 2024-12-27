@@ -60,7 +60,9 @@ nonvalue=${18}
 
 threshold=${19}
 
-graph_type=clustered
+graph_type1=filtered
+graph_type2=clustered
+annotators=$dir/annotators.csv
 
 source $scriptsdir/graph2cluster2.sh
 

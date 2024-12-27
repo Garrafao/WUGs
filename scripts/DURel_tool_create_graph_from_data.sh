@@ -31,15 +31,16 @@ echo "position: $position"
 modes=$8
 echo "modes: $modes"
 
-graph_type=original
+graph_type2=original
+annotators=$dir/annotators.csv
 
 rm -rf $dir/data_joint # when running multiple times (e.g. testing)
 rm -rf $dir/graphs # when running multiple times (e.g. testing)
 rm -rf $dir/plots # when running multiple times (e.g. testing)
 rm -rf $dir/stats # when running multiple times (e.g. testing)
-rm $dir/annotators.csv # when running multiple times (e.g. testing)
+rm -f $dir/annotators.csv # when running multiple times (e.g. testing)
 
-source $scriptsdir/map_data_structure.sh
+#source $scriptsdir/map_data_structure.sh
 source $scriptsdir/data2join.sh
 source $scriptsdir/data2annotators.sh
 source $scriptsdir/data2graph.sh

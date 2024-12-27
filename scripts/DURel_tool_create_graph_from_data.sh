@@ -40,7 +40,7 @@ rm -rf $dir/plots # when running multiple times (e.g. testing)
 rm -rf $dir/stats # when running multiple times (e.g. testing)
 rm -f $dir/annotators.csv # when running multiple times (e.g. testing)
 
-#source $scriptsdir/map_data_structure.sh
+source $scriptsdir/map_data_structure.sh
 source $scriptsdir/data2join.sh
 source $scriptsdir/data2annotators.sh
 source $scriptsdir/data2graph.sh

@@ -1,5 +1,5 @@
  # Define input folder
-dir=test_uug
+dir=data/discowug
 
 # Remove previous data from release folder
 outdir=$dir/release

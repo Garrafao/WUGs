@@ -1,7 +1,7 @@
 
 echo $(tput bold)$BASH_SOURCE$(tput sgr0)
 
-graphdir=$dir/graphs/clustered
+graphdir=$dir/graphs
 graphs=($graphdir/*)
 isheader=True
 outdir=$dir/stats

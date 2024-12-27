@@ -15,15 +15,20 @@ with open(uses, encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
     uses = [row for row in reader]
 
-with open(judgments, encoding='utf-8') as csvfile: 
-    reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
-    judgments = [row for row in reader]
+try:    
+    with open(judgments, encoding='utf-8') as csvfile: 
+        reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
+        judgments = [row for row in reader]
+except FileNotFoundError:
+    print('No judgments found!')
+    judgments = None
     
 # Check all judgments are present in uses    
 
 punctuation = [' ', '.', ',', '!', '"', '\'']
 error_no = 0
 for row in uses:
+    #row['lemma'] = row['lemma'].replace('-', '_') # only do this for erroneous English data
     identifier = row['identifier']
     if (identifier == 'vogt_briefe02_1851-7019-783' or identifier == 'vogt_briefe02_1851-7019-780'):
         print(identifier, 'problem: identifier')
@@ -239,35 +244,37 @@ with open(annotators, encoding='utf-8') as csvfile:
     
 # Check all anonymized annotators our present in judgments and vice versa
 
-user2annotator = {row['user']:row['annotator'] for row in annotators}
 
-for row in judgments:
-   # map space comments to empty comments
-   row['comment'] = row['comment'] if not (row['comment'] == ' ' or row['comment'] == 'comment') else ''
-   if len(row['comment'].split(' ')[0].split('-'))==3:
-       print(row['comment'], 'problem: comment is daytime')
-       row['comment'] = ''
-       error_no += 1
-   # map floats to integers
-   assert int(float(row['judgment'])) == float(row['judgment'])
-   row['judgment'] = str(int(float(row['judgment'])))
-   # check annotator in anonymized annotators
-   assert row['annotator'] in user2annotator.values()
+if judgments != None:
+    user2annotator = {row['user']:row['annotator'] for row in annotators}
+    for row in judgments:
+       #row['lemma'] = row['lemma'].replace('-', '_') # only do this for erroneous English data
+       # map space comments to empty comments
+       row['comment'] = row['comment'] if not (row['comment'] == ' ' or row['comment'] == 'comment') else ''
+       if len(row['comment'].split(' ')[0].split('-'))==3:
+           print(row['comment'], 'problem: comment is daytime')
+           row['comment'] = ''
+           error_no += 1
+       # map floats to integers
+       assert int(float(row['judgment'])) == float(row['judgment'])
+       row['judgment'] = str(int(float(row['judgment'])))
+       # check annotator in anonymized annotators
+       assert row['annotator'] in user2annotator.values()
 
 
-# Optionally export data
-if judgmentsout != 'None' and usesout != 'None':       
-    # Export data
-    with open(judgmentsout, 'w') as f:  
-        # write header
-        header = '\t'.join(judgments[0].keys())
-        f.write(header)
-        f.write('\n')
-        for row in judgments:
-            line = '\t'.join(row.values())
-            f.write(line)
+    # Optionally export data
+    if judgmentsout != 'None':       
+        # Export data
+        with open(judgmentsout, 'w') as f:  
+            # write header
+            header = '\t'.join(judgments[0].keys())
+            f.write(header)
             f.write('\n')
-    
+            for row in judgments:
+                line = '\t'.join(row.values())
+                f.write(line)
+                f.write('\n')
+
     '''
     # Export data
     with open(judgmentsout, 'w') as f:  
@@ -276,6 +283,7 @@ if judgmentsout != 'None' and usesout != 'None':
         w.writerows(judgments)
     '''
        
+if  usesout != 'None':       
     # Export data
     with open(usesout, 'w') as f:  
         # write header

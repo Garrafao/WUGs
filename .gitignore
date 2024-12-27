@@ -1,5 +1,6 @@
 .conda
 lib
+sig
 update-git.sh
 data
 results

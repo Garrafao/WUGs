@@ -60,6 +60,7 @@ nonvalue=${18}
 
 threshold=${19}
 
+distinguish_graph_types=true
 graph_type1=filtered
 graph_type2=clustered
 annotators=$dir/annotators.csv

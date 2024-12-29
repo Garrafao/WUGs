@@ -37,6 +37,7 @@ echo "position: $position"
 modes=${12}
 echo "modes: $modes"
 
+distinguish_graph_types=true
 graph_type1=original
 graph_type2=filtered
 annotators=$dir/annotators.csv

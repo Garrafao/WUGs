@@ -2,8 +2,13 @@
 echo $(tput bold)$BASH_SOURCE$(tput sgr0)
 
 graphdir=$dir/graphs
-graphs=($graphdir/$graph_type2/*)
-outdir=$dir/plots/$graph_type2
+if [ "$distinguish_graph_types" ]; then
+    graphs=($graphdir/$graph_type2/*)
+    outdir=$dir/plots/$graph_type2
+else
+    graphs=($graphdir/*)
+    outdir=$dir/plots/$graph_type2
+fi
 mkdir -p $outdir
 mkdir -p $dir/stats
 

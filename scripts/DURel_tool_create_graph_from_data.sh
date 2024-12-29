@@ -2,7 +2,7 @@
 scriptsdir=${0%/*}
 
 # parameters, will be partly overridden below
-parameterfile=$scriptsdir/parameters_system2.sh
+parameterfile=$scriptsdir/parameters_system.sh
 source $parameterfile
 echo "parameterfile: $parameterfile"
 

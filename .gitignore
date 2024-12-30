@@ -2,7 +2,7 @@
 lib
 sig
 update-git.sh
-data
+data/
 results
 .idea
 venv

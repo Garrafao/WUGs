@@ -1,0 +1,13 @@
+identifier1	identifier2	annotator	judgment	comment	lemma
+2532889X_1977-01-01_01_162.tcf.xml-63-12	2532889X_1989-04-10_01_050.tcf.xml-50-50	stekade	3	 	abbauen
+2532889X_1950-04-12_01_080.tcf.xml-8-22	2532889X_1989-04-10_01_050.tcf.xml-50-50	stekade	2	 	abbauen
+2532889X_1989-04-10_01_050.tcf.xml-50-50	2532889X_1963-03-05_01_016.tcf.xml-3-16	stekade	3	 	abbauen
+nn_maehrisches166_1893-368-17	2532889X_1989-04-10_01_050.tcf.xml-50-50	stekade	1	 	abbauen
+2532889X_1989-04-10_01_050.tcf.xml-50-50	2532889X_1963-03-05_01_016.tcf.xml-3-16	FWetzel	3	 	abbauen
+2532889X_1977-01-01_01_162.tcf.xml-63-12	2532889X_1989-04-10_01_050.tcf.xml-50-50	FWetzel	3	 	abbauen
+nn_maehrisches166_1893-368-17	2532889X_1989-04-10_01_050.tcf.xml-50-50	FWetzel	2	 	abbauen
+2532889X_1950-04-12_01_080.tcf.xml-8-22	2532889X_1989-04-10_01_050.tcf.xml-50-50	FWetzel	3	 	abbauen
+2532889X_1989-04-10_01_050.tcf.xml-50-50	2532889X_1963-03-05_01_016.tcf.xml-3-16	Zori	3	 	abbauen
+nn_maehrisches166_1893-368-17	2532889X_1989-04-10_01_050.tcf.xml-50-50	Zori	2	 	abbauen
+2532889X_1977-01-01_01_162.tcf.xml-63-12	2532889X_1989-04-10_01_050.tcf.xml-50-50	Zori	3	 	abbauen
+2532889X_1950-04-12_01_080.tcf.xml-8-22	2532889X_1989-04-10_01_050.tcf.xml-50-50	Zori	2	 	abbauen

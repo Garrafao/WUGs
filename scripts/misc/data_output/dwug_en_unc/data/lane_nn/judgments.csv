@@ -1,0 +1,5 @@
+identifier1	identifier2	annotator	judgment	comment	timestamp	lemma
+nf_1852_771569.txt-625-17	fic_1817_8809.txt-8-8	st189492	2.0	 	2023-11-29 13:43:08.96	lane_nn
+nf_1852_771569.txt-625-17	fic_1847_7190.txt-1403-45	st189492	2.0	 	2023-11-29 13:43:33.964	lane_nn
+nf_1852_771569.txt-625-17	fic_1847_7190.txt-1403-45	amariac810	2.0	 	2023-12-18 23:37:51.9	lane_nn
+nf_1852_771569.txt-625-17	fic_1817_8809.txt-8-8	amariac810	2.0	 	2023-12-18 23:38:01.211	lane_nn

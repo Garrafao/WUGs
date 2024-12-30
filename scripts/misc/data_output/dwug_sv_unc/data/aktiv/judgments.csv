@@ -1,0 +1,7 @@
+identifier1	identifier2	annotator	judgment	comment	timestamp	lemma
+bib11653828_18250322_144028_67_0002_alto.xml-9-22	bib11653792_18111012_146919_41_0002_alto.xml-12-1	Benjamin	1.0	 	2023-07-24 14:41:13.284	aktiv
+bib19520388_18050213_147487_7_0003_alto.xml-4-26	bib11653828_18250322_144028_67_0002_alto.xml-9-22	Benjamin	1.0	 	2023-07-24 14:41:30.45	aktiv
+bib19520388_18050213_147487_7_0003_alto.xml-4-26	bib11653792_18111012_146919_41_0002_alto.xml-12-1	Benjamin	2.0	 	2023-07-24 14:42:12.457	aktiv
+bib19520388_18050213_147487_7_0003_alto.xml-4-26	bib11653828_18250322_144028_67_0002_alto.xml-9-22	Josefin_Kokkinakis	2.0	 	2023-07-24 17:41:19.099	aktiv
+bib19520388_18050213_147487_7_0003_alto.xml-4-26	bib11653792_18111012_146919_41_0002_alto.xml-12-1	Josefin_Kokkinakis	0.0	Do not understand the meaning of the word in the first sentence 	2023-07-24 17:42:23.807	aktiv
+bib11653828_18250322_144028_67_0002_alto.xml-9-22	bib11653792_18111012_146919_41_0002_alto.xml-12-1	Josefin_Kokkinakis	0.0	Do not understand the meaning of the word in the second sentence 	2023-07-24 17:42:38.792	aktiv

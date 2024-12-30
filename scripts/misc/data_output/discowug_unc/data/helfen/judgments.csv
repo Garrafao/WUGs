@@ -1,0 +1,10 @@
+identifier1	identifier2	annotator	judgment	comment	lemma
+helfen-c1-i63	helfen-c1-i43	FWetzel	1	 	helfen
+helfen-c1-i87	helfen-c1-i43	FWetzel	1	 	helfen
+helfen-c1-i87	helfen-c1-i63	FWetzel	1	 	helfen
+helfen-c1-i87	helfen-c1-i43	Zori	0	 	helfen
+helfen-c1-i87	helfen-c1-i63	Zori	0	 	helfen
+helfen-c1-i63	helfen-c1-i43	Zori	0	 	helfen
+helfen-c1-i87	helfen-c1-i43	stekade	1	 	helfen
+helfen-c1-i87	helfen-c1-i63	stekade	1	 	helfen
+helfen-c1-i63	helfen-c1-i43	stekade	1	 	helfen

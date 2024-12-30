@@ -1,0 +1,19 @@
+identifier1	identifier2	annotator	judgment	comment	lemma
+Mauer-c2-i69	Mauer-c2-i84	stekade	2	 	Mauer
+Mauer-c2-i84	Mauer-c2-i14	stekade	3	 	Mauer
+Mauer-c2-i69	Mauer-c2-i74	stekade	1	 	Mauer
+Mauer-c2-i14	Mauer-c2-i74	stekade	1	 	Mauer
+Mauer-c2-i84	Mauer-c2-i74	stekade	1	 	Mauer
+Mauer-c2-i69	Mauer-c2-i14	stekade	2	 	Mauer
+Mauer-c2-i69	Mauer-c2-i84	FWetzel	2	 	Mauer
+Mauer-c2-i69	Mauer-c2-i74	FWetzel	1	 	Mauer
+Mauer-c2-i14	Mauer-c2-i74	FWetzel	1	 	Mauer
+Mauer-c2-i84	Mauer-c2-i14	FWetzel	3	 	Mauer
+Mauer-c2-i69	Mauer-c2-i14	FWetzel	2	 	Mauer
+Mauer-c2-i14	Mauer-c2-i74	Zori	0	 	Mauer
+Mauer-c2-i69	Mauer-c2-i74	Zori	0	 	Mauer
+Mauer-c2-i84	Mauer-c2-i14	Zori	4	 	Mauer
+Mauer-c2-i84	Mauer-c2-i74	Zori	0	 	Mauer
+Mauer-c2-i69	Mauer-c2-i14	Zori	2	 	Mauer
+Mauer-c2-i69	Mauer-c2-i84	Zori	2	 	Mauer
+Mauer-c2-i84	Mauer-c2-i74	FWetzel	1	 	Mauer

@@ -1,0 +1,16 @@
+identifier1	identifier2	annotator	judgment	comment	lemma
+Triebkraft-c1-i8	Triebkraft-c1-i31	FWetzel	2	 	Triebkraft
+Triebkraft-c2-i98	Triebkraft-c1-i31	FWetzel	2	 	Triebkraft
+Triebkraft-c1-i97	Triebkraft-c1-i31	FWetzel	3	 	Triebkraft
+Triebkraft-c1-i57	Triebkraft-c1-i31	FWetzel	4	 	Triebkraft
+Triebkraft-c1-i29	Triebkraft-c1-i31	FWetzel	4	 	Triebkraft
+Triebkraft-c2-i98	Triebkraft-c1-i31	stekade	2	 	Triebkraft
+Triebkraft-c1-i57	Triebkraft-c1-i31	stekade	4	 	Triebkraft
+Triebkraft-c1-i29	Triebkraft-c1-i31	stekade	3	 	Triebkraft
+Triebkraft-c1-i97	Triebkraft-c1-i31	stekade	3	 	Triebkraft
+Triebkraft-c2-i98	Triebkraft-c1-i31	Zori	3	 	Triebkraft
+Triebkraft-c1-i57	Triebkraft-c1-i31	Zori	4	 	Triebkraft
+Triebkraft-c1-i29	Triebkraft-c1-i31	Zori	4	 	Triebkraft
+Triebkraft-c1-i97	Triebkraft-c1-i31	Zori	4	 	Triebkraft
+Triebkraft-c1-i8	Triebkraft-c1-i31	Zori	2	 	Triebkraft
+Triebkraft-c1-i8	Triebkraft-c1-i31	stekade	3	 	Triebkraft

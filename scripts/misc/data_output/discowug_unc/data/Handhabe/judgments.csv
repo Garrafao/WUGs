@@ -1,0 +1,10 @@
+identifier1	identifier2	annotator	judgment	comment	lemma
+Handhabe-c1-i41	Handhabe-c2-i64	stekade	3	 	Handhabe
+Handhabe-c1-i41	Handhabe-c1-i61	stekade	2	 	Handhabe
+Handhabe-c1-i61	Handhabe-c2-i64	stekade	1	 	Handhabe
+Handhabe-c1-i41	Handhabe-c2-i64	FWetzel	3	 	Handhabe
+Handhabe-c1-i41	Handhabe-c1-i61	FWetzel	2	 	Handhabe
+Handhabe-c1-i61	Handhabe-c2-i64	FWetzel	2	 	Handhabe
+Handhabe-c1-i61	Handhabe-c2-i64	Zori	1	 	Handhabe
+Handhabe-c1-i41	Handhabe-c1-i61	Zori	1	 	Handhabe
+Handhabe-c1-i41	Handhabe-c2-i64	Zori	4	 	Handhabe

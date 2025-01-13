@@ -1,4 +1,15 @@
 #!/bin/bash
+function install_module_if_need() {
+  module=$1
+  install_script=$2
+  echo "Checking if $module is installed..."
+  python -c "import $module" 2>/dev/null && echo "$module is installed." || eval $install_script
+}
+
+source ~/.bashrc
+conda activate wug
+install_module_if_need 'mlrose' 'python -m pip install https://github.com/gkhayes/mlrose/archive/refs/heads/master.zip --no-cache-dir'
+
 scriptsdir=${0%/*}
 
 # parameters, will be partly overridden below

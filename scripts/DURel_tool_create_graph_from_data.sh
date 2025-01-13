@@ -34,6 +34,7 @@ echo "modes: $modes"
 distinguish_graph_types=true
 graph_type2=original
 annotators=$dir/annotators.csv
+map_identifiers=false
 
 rm -rf $dir/data_joint # when running multiple times (e.g. testing)
 rm -rf $dir/graphs # when running multiple times (e.g. testing)

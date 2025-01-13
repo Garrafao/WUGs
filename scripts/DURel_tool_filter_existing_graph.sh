@@ -41,6 +41,7 @@ distinguish_graph_types=true
 graph_type1=original
 graph_type2=filtered
 annotators=$dir/annotators.csv
+map_identifiers=false
 
 source $scriptsdir/graph2filter.sh
 

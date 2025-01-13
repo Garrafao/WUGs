@@ -1,3 +1,4 @@
+map_identifiers=true
 graph_type=
 annotators=$dir/annotators.csv
 modus=system

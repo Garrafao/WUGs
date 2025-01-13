@@ -12,5 +12,5 @@ mkdir -p $outdir
 for data in "${datas[@]}"
 do
     echo $data
-    python3 $scriptsdir/data2graph.py $data/judgments.csv $data/uses.csv $(basename "$data") $annotators $outdir/$(basename "$data") $excluded $summarystatistic $nonvalue
+    python3 $scriptsdir/data2graph.py $data/judgments.csv $data/uses.csv $(basename "$data") $annotators $outdir/$(basename "$data") $excluded $summarystatistic $nonvalue $map_identifiers
 done

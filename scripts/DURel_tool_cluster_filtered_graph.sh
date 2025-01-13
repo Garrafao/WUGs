@@ -48,8 +48,8 @@ echo "modus: $modus"
 # graph2plot2: parameters for visualization
 edgestyles=${13}
 echo "edgestyles: $edgestyles"
-thresholdplot=${14}
-echo "thresholdplot: $thresholdplot"
+threshold=${14}
+echo "threshold: $threshold"
 position=${15}
 echo "position: $position"
 modes=${16}
@@ -58,12 +58,11 @@ echo "modes: $modes"
 summarystatistic=${17}
 nonvalue=${18}
 
-threshold=${19}
-
 distinguish_graph_types=true
 graph_type1=filtered
 graph_type2=clustered
 annotators=$dir/annotators.csv
+map_identifiers=false
 
 source $scriptsdir/graph2cluster2.sh
 

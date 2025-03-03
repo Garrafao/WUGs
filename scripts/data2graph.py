@@ -4,7 +4,7 @@ import unicodedata
 
 from modules import *
 
-[_, judgments, uses, name, annotators, output_file, excluded, summary_statistic, non_value] = sys.argv
+[_, judgments, uses, name, annotators, output_file, excluded, summary_statistic, non_value, map_identifiers] = sys.argv
 
 # Open user list to exclude, if existent    
 if excluded=='None':
@@ -19,6 +19,11 @@ if summary_statistic=='median':
     summary_statistic=np.median
 if summary_statistic=='mean':
     summary_statistic=np.mean
+
+if map_identifiers=='true':
+    map_identifiers=True
+else:
+    map_identifiers=False
 
 non_value=float(non_value)
 
@@ -63,9 +68,11 @@ with open(annotators, encoding='utf-8') as csvfile:
     user2annotator = {row['user']:row['annotator'] for row in reader}
     annotators = list(user2annotator.values())
 
-# Get judgments with mapped identifiers and annotators    
-judgments = [(identifier2identifier(row['identifier1']),identifier2identifier(row['identifier2']),float(row['judgment']),row['comment'],user2annotator[row['annotator']]) for row in judgments if not row['annotator'] in excluded]
-#judgments = [(row['identifier1'],row['identifier2'],float(row['judgment']),row['comment'],user2annotator[row['annotator']]) for row in judgments if not row['annotator'] in excluded]
+# Get judgments with mapped identifiers and annotators
+if map_identifiers:
+    judgments = [(identifier2identifier(row['identifier1']),identifier2identifier(row['identifier2']),float(row['judgment']),row['comment'],user2annotator[row['annotator']]) for row in judgments if not row['annotator'] in excluded]
+else:
+    judgments = [(row['identifier1'],row['identifier2'],float(row['judgment']),row['comment'],user2annotator[row['annotator']]) for row in judgments if not row['annotator'] in excluded]
 
 # Make sure judgments don't have more identifiers than uses
 identifiers1 = [row[0] for row in judgments]

@@ -1,3 +1,4 @@
+map_identifiers=true
 annotators=$dir/annotators.csv
 t1=None
 t2=None

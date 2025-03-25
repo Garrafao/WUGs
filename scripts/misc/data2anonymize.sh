@@ -15,17 +15,20 @@ scriptsdir=${0%/*}
 #indir=data/dwug_de_resampled_1.0.0_unfinished/source/dwug_de_resampled
 #indir=data/dwug_en_resampled_1.0.0_unfinished/source/dwug_en_resampled
 #indir=data/dwug_sv_resampled_1.0.0_unfinished/source/dwug_sv_resampled
-indir=data/dwug_sv_resampled_1.0.0_unfinished/source/dwug_sv_resampled2
+#indir=data/dwug_sv_resampled_1.0.0_unfinished/source/dwug_sv_resampled2
+indir=data/dwug_es_4.0.1
 #datadir=$indir/data
-datadir=$indir/data_normalized
-outdir=$indir/data_anonymized
+#datadir=$indir/data_normalized
+datadir=$indir/data_output_cleaning_script
+outdir=$indir/data_output_cleaning_script_anonymized
 #annotators=data/dwug_de_3.0.0_unfinished/source/annotators.csv
 #annotators=data/dwug_en_3.0.0_unfinished/source/annotators.csv
 #annotators=data/dwug_sv_3.0.0_unfinished/source/annotators.csv
 #annotators=data/discowug_2.0.0_unfinished/source/annotators.csv
 #annotators=data/dwug_de_resampled_1.0.0_unfinished/source/annotators.csv
 #annotators=data/dwug_en_resampled_1.0.0_unfinished/source/annotators.csv
-annotators=data/dwug_sv_resampled_1.0.0_unfinished/source/annotators.csv
+#annotators=data/dwug_sv_resampled_1.0.0_unfinished/source/annotators.csv
+annotators=data/dwug_es_4.0.1/annotators_non_anonymized.csv
 rm -rf $outdir
 cp -r $datadir/ $outdir/ # this will copy weird umlauts in filenames
 words=($datadir/*)

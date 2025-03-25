@@ -1,5 +1,5 @@
  # Define input folder
-dir=data/discowug
+dir=data/dwug_es
 
 # Remove previous data from release folder
 outdir=$dir/release
@@ -15,13 +15,18 @@ mkdir -p $outdir/clusters
 # Copy data, graphs, plots and clusters
 cp -r $dir/data $outdir/data
 cp -r $dir/graphs $outdir/graphs/opt
+#cp -r $dir/graphs $outdir/ # for data without clusters
 cp -r $dir/plots/interactive/full/colorful $outdir/plots/opt
 cp -r $dir/clusters $outdir/clusters/opt
+#cp -r $dir/plots/interactive/full/blue $outdir/plots/full # for data without clusters
+#cp -r $dir/plots/interactive/compare/blue $outdir/plots/compare # for data without clusters
 
 # Copy and filter stats
 mkdir -p $outdir/stats/opt
 python3 scripts/misc/stats2filter.py $dir/stats/stats.csv $outdir/stats/opt/stats.csv
 python3 scripts/misc/stats2filter.py $dir/stats/stats_groupings.csv $outdir/stats/opt/stats_groupings.csv
+#python3 scripts/misc/stats2filter.py $dir/stats/stats.csv $outdir/stats/stats.csv # for data without clusters
+#python3 scripts/misc/stats2filter.py $dir/stats/stats_groupings.csv $outdir/stats/stats_groupings.csv # for data without clusters
 cp $dir/stats/stats_agreement.csv $outdir/stats/stats_agreement.csv
 
 # Copy and filter annotators
@@ -32,6 +37,8 @@ if [ -f "$dir/README.html" ]
 then
     cp $dir/README.html $outdir/README.html
 fi
+
+#cp $dir/README.md $outdir/README.md # only for special data
 
 # Copy guidelines if existent, to include the guidelines used for annotation is recommended
 if [ -d "$dir/guidelines" ]

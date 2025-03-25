@@ -1,9 +1,0 @@
-identifier1	identifier2	annotator	judgment	comment	timestamp	lemma
-mag_1995_415117.txt-3-23	fic_1974_10593.txt-3510-10	st189492	0.0	I reckon lass is a name here	2023-12-06 22:54:59.88	lass_nn
-mag_1966_488145.txt-89-11	fic_1974_10593.txt-3510-10	st189492	0.0	 	2023-12-06 22:55:34.71	lass_nn
-mag_1966_488145.txt-89-11	news_1972_730482.txt-1-7	amariac810	3.0	 	2023-12-18 23:40:33.359	lass_nn
-mag_1995_415117.txt-3-23	fic_1974_10593.txt-3510-10	amariac810	2.0	 	2023-12-18 23:42:04.701	lass_nn
-mag_1966_488145.txt-89-11	fic_1974_10593.txt-3510-10	amariac810	3.0	 	2023-12-18 23:42:07.928	lass_nn
-mag_1966_488145.txt-89-11	mag_1995_415117.txt-3-23	amariac810	4.0	 	2023-12-18 23:42:18.399	lass_nn
-mag_1966_488145.txt-89-11	mag_1995_415117.txt-3-23	st189492	0.0	 	2023-12-06 22:55:05.076	lass_nn
-mag_1966_488145.txt-89-11	news_1972_730482.txt-1-7	st189492	0.0	 	2023-12-06 22:55:28.315	lass_nn

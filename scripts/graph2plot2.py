@@ -61,7 +61,7 @@ if style == 'static':
 mappings_nodes = get_data_maps_nodes(graph)
 node2period = mappings_nodes['node2period']
 periods = sorted(set(node2period.values()))
-if len(periods) > 1:
+if len(periods) > 1 and mode != 'compare':
     for period in periods:
 
         output_folder_period = output_folder + '/' + period + '/'
@@ -77,18 +77,18 @@ if len(periods) > 1:
                               node_size=300, name=name)
 
     if style == 'interactive':
-        output_folder_aligned = output_folder + '/aligned_1_2/'
-        if not os.path.exists(output_folder_aligned):
-            os.makedirs(output_folder_aligned)
         combos = combinations(periods, 2)
         for (old, new) in combos:
+            output_folder_aligned = output_folder + '/aligned/'
+            if not os.path.exists(output_folder_aligned):
+                os.makedirs(output_folder_aligned)
             with open(output_folder_aligned + name + '_{0}_{1}'.format(old, new) + '.html', 'w',
                       encoding='utf-8') as f_out:
                 f_out.write(
                     '<html>\n<head>\n</head>\n<frameset cols=\"50%,*\">\n<frame src=\"../{0}/{1}\">\n<frame src=\"../{2}/{1}\">\n</frameset>\n</html>\n'.format(
                         old, name + '.html', new))
 
-        output_folder_aligned_full = output_folder + '/aligned_full/'
+        output_folder_aligned_full = output_folder + '/aligned/'
         if not os.path.exists(output_folder_aligned_full):
             os.makedirs(output_folder_aligned_full)
         combos = combinations(['full', 'full'], 2)

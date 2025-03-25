@@ -4,11 +4,12 @@ import os
 import unicodedata
 from difflib import SequenceMatcher
 
-[_, uses, judgments, usesout, judgmentsout, annotators] = sys.argv
+[_, uses, judgments, usesout, judgmentsout, annotators, dataset] = sys.argv
     
 # encoding of filenames
 assert uses == unicodedata.normalize('NFC', uses)
 usesout = unicodedata.normalize('NFC', usesout)
+#print([usesout])
 judgmentsout = unicodedata.normalize('NFC', judgmentsout)
 
 with open(uses, encoding='utf-8') as csvfile: 
@@ -64,19 +65,34 @@ for row in uses:
         indexes_target_sentence_tokenized = row['indexes_target_sentence_tokenized']
         index_target_sentence_tokenized_start = int(indexes_target_sentence_tokenized.split(':')[0])
         index_target_sentence_tokenized_end = int(indexes_target_sentence_tokenized.split(':')[1])
+        if dataset == 'dwug_es':
+            indexes_target_token_lemmatized = int(row['indexes_target_token_lemmatized'])
+            indexes_target_sentence_lemmatized = row['indexes_target_sentence_lemmatized']
+            index_target_sentence_lemmatized_start = int(indexes_target_sentence_lemmatized.split(':')[0])
+            index_target_sentence_lemmatized_end = int(indexes_target_sentence_lemmatized.split(':')[1])
+            indexes_target_token_pos = int(row['indexes_target_token_pos'])
+            indexes_target_sentence_pos = row['indexes_target_sentence_pos']
+            index_target_sentence_pos_start = int(indexes_target_sentence_pos.split(':')[0])
+            index_target_sentence_pos_end = int(indexes_target_sentence_pos.split(':')[1])
         target_token = context_tokenized_split[indexes_target_token_tokenized]
         assert len(target_token) > 0
         if target_token[0] in punctuation:
             print(target_token, 'problem: target_token[0] in punctuation')
+            #raise AssertionError
             error_no += 1
         if target_token[-1] in punctuation:                   
             print(target_token, 'problem: target_token[-1] in punctuation')
+            #raise AssertionError
             error_no += 1
         string_similarity = SequenceMatcher(None, target.lower(), target_token.lower()).ratio()
         if string_similarity < 0.5:
-            print(target, target_token, 'problem: string_similarity < 0.5')
+            print(target, target_token, identifier, 'problem: string_similarity < 0.5')
+            print(context_tokenized_split)
             error_no += 1
-            raise AssertionError            
+            raise AssertionError
+        #print(context_tokenized_split)
+        #print(index_target_sentence_tokenized_start)
+        #print(context_tokenized_split[index_target_sentence_tokenized_start:index_target_sentence_tokenized_end])
         assert 0 <= index_target_sentence_tokenized_start <= len(context_tokenized_split)
         assert 0 <= index_target_sentence_tokenized_end <= len(context_tokenized_split)
         
@@ -92,41 +108,63 @@ for row in uses:
         try:
             assert len(context_tokenized_split) == len(context_lemmatized_split)
         except AssertionError:            
-            print(context_tokenized_split, '***', context_lemmatized_split, 'problem: len(context_tokenized_split) == len(context_lemmatized_split)')
             #print(len(context_tokenized_split), len(context_lemmatized_split))
             #print(identifier)
-            raise AssertionError # For now raise the error as we don't want anything to pass here           
-            error_no += 1
-            # Try to solve it by removing empty strings
-            context_lemmatized_split = [token for token in context_lemmatized_split if not token == '']
-            try:
-                assert len(context_tokenized_split) == len(context_lemmatized_split)
-                row['context_lemmatized'] = ' '.join(context_lemmatized_split)
-                print('solved one error by removing empty strings')
-                raise AssertionError
-            except AssertionError:
+            if dataset != 'dwug_es':
                 print(context_tokenized_split, '***', context_lemmatized_split, 'problem: len(context_tokenized_split) == len(context_lemmatized_split)')
-                is_optimize = True
+                raise AssertionError # For now raise the error as we don't want anything to pass here           
                 error_no += 1
+                # Try to solve it by removing empty strings
+                context_lemmatized_split = [token for token in context_lemmatized_split if not token == '']
+                try:
+                    assert len(context_tokenized_split) == len(context_lemmatized_split)
+                    row['context_lemmatized'] = ' '.join(context_lemmatized_split)
+                    print('solved one error by removing empty strings')
+                    raise AssertionError
+                except AssertionError:
+                    print(context_tokenized_split, '***', context_lemmatized_split, 'problem: len(context_tokenized_split) == len(context_lemmatized_split)')
+                    is_optimize = True
+                    error_no += 1
         if is_optimize:    
                 # adjust source file
                 row['context_lemmatized'] = ''
         if row['context_lemmatized'] != '':       
-            target_lemma = context_lemmatized_split[indexes_target_token_tokenized]
+            if dataset == 'dwug_es':
+                target_lemma = context_lemmatized_split[indexes_target_token_lemmatized]
+            else:
+                target_lemma = context_lemmatized_split[indexes_target_token_tokenized]
             assert len(target_lemma) > 0
             if target_lemma[0] in punctuation:
                 print(target_lemma, 'problem: target_lemma[0] in punctuation')
+                #raise AssertionError
                 error_no += 1
             if target_lemma[-1] in punctuation:                   
                 print(target_lemma, 'problem: target_lemma[-1] in punctuation')
+                #raise AssertionError
                 error_no += 1
             string_similarity = SequenceMatcher(None, target.lower(), target_lemma.lower()).ratio()
             if string_similarity < 0.5:
                 string_similarity = SequenceMatcher(None, target.lower(), target_lemma.lower().replace('ß', 'ss').replace('fack', 'fackafdelning')).ratio()
                 if string_similarity < 0.5:
-                    print(target, target_lemma, 'problem: string_similarity < 0.5')
-                    error_no += 1
-                    raise AssertionError
+                    if dataset == 'dwug_es':
+                        if target.lower()=='peleándose' and target_lemma.lower()=='pelear':
+                            pass
+                        elif target.lower()=='pelear' and target_lemma.lower()=='peleándose':
+                            pass
+                        elif target.lower()=='quemar' and target_lemma.lower()=='quemándose':
+                            pass
+                        elif target.lower()=='obtener' and target_lemma.lower()=='obtuvo':
+                            pass
+                        elif target.lower()=='obtuvo' and target_lemma.lower()=='obtener':
+                            pass
+                        else:
+                            print(target, target_lemma, 'problem: string_similarity < 0.5')
+                            error_no += 1
+                            raise AssertionError
+                    else:
+                        print(target, target_lemma, 'problem: string_similarity < 0.5')
+                        error_no += 1
+                        raise AssertionError
             assert 0 <= index_target_sentence_tokenized_start <= len(context_lemmatized_split)
             assert 0 <= index_target_sentence_tokenized_end <= len(context_lemmatized_split)
 
@@ -139,14 +177,20 @@ for row in uses:
             error_no += 1
         context_pos = row['context_pos']
         context_pos_split = context_pos.split(' ')            
+        if dataset == 'dwug_es':
+            target_pos = context_pos_split[indexes_target_token_pos]
+        else:
+            target_pos = context_pos_split[indexes_target_token_tokenized]
+        assert len(target_pos) > 0
         try:
             assert len(context_tokenized_split) == len(context_pos_split)
         except AssertionError:            
             print(context_tokenized_split, '***', context_pos_split, 'problem: len(context_tokenized_split) == len(context_pos_split)')
-            #print(len(context_tokenized_split), len(context_pos_split))
-            print(identifier)
-            raise AssertionError # For now raise the error as we don't want anything to pass here           
-            error_no += 1
+            if dataset != 'dwug_es':
+                #print(len(context_tokenized_split), len(context_pos_split))
+                print(identifier)
+                raise AssertionError # For now raise the error as we don't want anything to pass here           
+                error_no += 1
         assert 0 <= index_target_sentence_tokenized_start <= len(context_pos_split)
         assert 0 <= index_target_sentence_tokenized_end <= len(context_pos_split)
     
@@ -217,7 +261,7 @@ for row in uses:
     assert 0 <= index_target_sentence_end <= len(context)
     assert len(target) > 0
     if target[0] in punctuation:
-        print(target, 'problem: target[0] in punctuation')
+        print([target], 'problem: target[0] in punctuation')
         error_no += 1
     if target[-1] in punctuation:                   
         print(target, 'problem: target[-1] in punctuation')
@@ -231,6 +275,7 @@ for row in uses:
         if context[index_target_end].isalpha():
             print(context, 'problem: context[index_target_end+1].isalpha()')
             error_no += 1
+    #print([target])
 
 print('error_no', error_no)
 #assert error_no == 0 # strict condition
@@ -259,6 +304,7 @@ if judgments != None:
        assert int(float(row['judgment'])) == float(row['judgment'])
        row['judgment'] = str(int(float(row['judgment'])))
        # check annotator in anonymized annotators
+       #print(row['annotator'], user2annotator.values())
        assert row['annotator'] in user2annotator.values()
 
 

@@ -2,6 +2,10 @@ import sys
 import networkx as nx
 import pickle
 from modules import *
+try:
+    np.set_printoptions(legacy='1.25') # for newer versions of numpy
+except:
+    pass
 from constellation import Constellation
 import csv
 from itertools import combinations

@@ -110,3 +110,4 @@ scripts/misc/string_utils.py
 scripts/misc/use2id.py
 scripts/misc/use2id.sh
 scripts/misc/analyze_dwug_de_en_sv_reannotation_studies.ipynb
+scripts/misc/250128_lexicography_experiments.ipynb

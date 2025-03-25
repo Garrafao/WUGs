@@ -7,8 +7,9 @@ import networkx as nx
 from collections import Counter
 
 import graph_tool
-from graph_tool.inference import minimize_blockmodel_dl
-from graph_tool.inference.blockmodel import BlockState
+import graph_tool.all as gt
+minimize_blockmodel_dl = gt.minimize_blockmodel_dl
+BlockState = gt.BlockState
 
 
 def wsbm_clustering(graph: nx.Graph, distribution: str = 'discrete-binomial', is_weighted: bool = False, weight_data_type: str = 'int', weight_attributes = ['weight'], B_min: int = 1, B_max: int = 30, niter: int = 100, deg_corr: bool = False, adjacency: bool = False, degree_dl: bool = False) -> list:

@@ -1,4 +1,4 @@
-map_identifiers=true
+map_identifiers=False
 annotators=$dir/annotators.csv
 t1=None
 t2=None

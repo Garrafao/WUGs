@@ -20,7 +20,7 @@ if summary_statistic=='median':
 if summary_statistic=='mean':
     summary_statistic=np.mean
 
-if map_identifiers=='true':
+if map_identifiers=='True':
     map_identifiers=True
 else:
     map_identifiers=False
@@ -50,10 +50,10 @@ nx.set_node_attributes(graph, identifier2data)
 print('number of nodes: ', len(graph.nodes()))
 
 # Create mapping from system identifiers to use identifiers    
-try:    
+if map_identifiers:    
     identifier2identifier_ = {row['identifier_system']:row['identifier'] for row in uses}    
     identifier2identifier = lambda x: identifier2identifier_[x]
-except KeyError:
+else:
     identifier2identifier = lambda x: x    
 
 

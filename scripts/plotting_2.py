@@ -13,6 +13,7 @@ import jinja2
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+#from matplotlib.lines import Line2D
 
 nice_colors = [x for x in mcolors.get_named_colors_mapping().values() if isinstance(x, str)]  # Nice colors
 colors_global = ['#377eb8', '#ff7f00', '#4daf4a', '#f781bf', '#a65628', '#984ea3', '#999999', '#e41a1c',
@@ -193,7 +194,7 @@ def plot_graph_interactive(G, outDir, c2n, threshold=0.5, non_value=0.0, normali
 def plot_graph_static(G, outDir, c2n, threshold=0.5, non_value=0.0, normalization=lambda x: x, deviation_min=1, color='colorful', period='full',
                       mode='full', annotators=[], summary_statistic=np.median, s=2, node_size=80, edge_width=1, k=0.8,
                       position_method='spring', seed=0, is_edge_labels=False, edge_label_style='weight', dpi=300,
-                      font_size_nodes=11, font_size_edges=11, node_label_style=None, pos={}, noise_color='k', name='name'):
+                      font_size_nodes=11, font_size_edges=11, node_label_style=None, pos={}, noise_color='k', name='name', transformation=lambda x: (x ** 6), node_shape='o'):
     """
     Plots static graph with cluster structure.
     :param G: Networkx graph
@@ -213,15 +214,28 @@ def plot_graph_static(G, outDir, c2n, threshold=0.5, non_value=0.0, normalizatio
         if pos == {}:
             G_pos = G.copy()
             G_pos.remove_edges_from(enan)  # Remove nan edges for finding positions
-            pos = find_node_positions(G_pos, position_method, k=k, seed=seed, threshold=threshold)
+            pos = find_node_positions(G_pos, position_method, k=k, seed=seed, threshold=threshold, transformation=transformation)
 
     if color == 'black':
         colors = ['black'] * 300
     elif color == 'blue':
         colors = ['blue'] * 300
+    elif color == 'lightgray':
+        colors = ['lightgray'] * 300    
+    elif color == 'gray':
+        colors = ['gray'] * 300    
     else:
         colors = colors_global
-
+        
+    if node_shape == 'o':
+        node_shapes = ['o'] * 300
+    elif node_shape == 'clusters':
+        node_shapes = ['.', "+", "1", "2", '3', '4', "*", 'o', 'X', '^', 's', 'D', 'H', 'h', 'P', 'p', '>', 'v', '<', 'h'] * 100 # careful here this list is too small        
+    #elif node_shape == 'clusters':
+    #    node_shapes = list(Line2D.markers.keys()) * 10
+    else:
+        node_shapes = ['o'] * 300
+        
     # print([G.nodes()[node] for node in G.nodes()])
     # print(len(G.nodes()))
     if period == 'full':
@@ -252,6 +266,7 @@ def plot_graph_static(G, outDir, c2n, threshold=0.5, non_value=0.0, normalizatio
         for node in cluster:
             label = ''
             color = colors[n] if n != -1 else noise_color
+            node_shape = node_shapes[n] # we have no noise shape because color will anyway encode this
             if not node in nodes:  # skip nodes not in time period
                 nx.draw_networkx_nodes(G, pos, node_size=node_size, alpha=0.0, node_color=color, nodelist=[node])
                 continue
@@ -261,7 +276,7 @@ def plot_graph_static(G, outDir, c2n, threshold=0.5, non_value=0.0, normalizatio
                 # print(G.nodes()[node])
                 label = G.nodes()[node]['lemma'][0]
             node_labels[node] = label
-            nx.draw_networkx_nodes(G, pos, node_size=node_size, alpha=1.0, node_color=color, nodelist=[node])
+            nx.draw_networkx_nodes(G, pos, node_size=node_size, alpha=1.0, node_color=color, nodelist=[node], node_shape=node_shape)
 
     edge_labels = {}
     for (i, j) in elarge:

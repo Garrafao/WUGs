@@ -2,7 +2,7 @@ import sys
 import csv
 
 
-[_, uses, judgments, senses, is_header, output_file] = sys.argv
+[_, uses, judgments, senses, is_header, is_map_identifiers, output_file] = sys.argv
         
 with open(uses, encoding='utf-8') as csvfile: 
     reader = csv.DictReader(csvfile, delimiter='\t',quoting=csv.QUOTE_NONE,strict=True)
@@ -12,7 +12,11 @@ if is_header=='True':
     is_header=True
 if is_header=='False':
     is_header=False
-
+if is_map_identifiers=='True':
+    is_map_identifiers=True
+if is_map_identifiers=='False':
+    is_map_identifiers=False
+    
 id2identifier_senses = {}
 if senses!='None':
     with open(senses, encoding='utf-8') as csvfile: 
@@ -20,9 +24,9 @@ if senses!='None':
         senses = [row for row in reader]
         id2identifier_senses = {row['identifier_sense']:row['identifier_sense'] for row in senses}
     
-try:
+if is_map_identifiers:
     id2identifier = {row['identifier_system']:row['identifier'] for row in uses}
-except KeyError:
+else:
     id2identifier = {row['identifier']:row['identifier'] for row in uses}
     id2identifier = id2identifier | id2identifier_senses
 

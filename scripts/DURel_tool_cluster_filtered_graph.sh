@@ -8,7 +8,7 @@ function install_module_if_need() {
 
 source ~/.bashrc
 conda activate wug
-install_module_if_need 'mlrose' 'python -m pip install https://github.com/gkhayes/mlrose/archive/refs/heads/master.zip --no-cache-dir'
+#install_module_if_need 'mlrose' 'python -m pip install https://github.com/gkhayes/mlrose/archive/refs/heads/master.zip --no-cache-dir'
 
 scriptsdir=${0%/*}
 

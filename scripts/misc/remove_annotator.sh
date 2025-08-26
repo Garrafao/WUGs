@@ -2,11 +2,13 @@
 echo $(tput bold)$BASH_SOURCE$(tput sgr0)
 scriptsdir=${0%/*}
 
-indir=data/dwug_es_4.0.1
+#indir=data/dwug_es_4.0.1
+indir=data/lexicographer_project/swewug_pilot
 datadir=$indir/data
 words=($datadir/*)
 outdir=$indir/data_cleaned
 annotator=gecsa
+annotator=XL-Lexeme-Binary
 
 for word in "${words[@]}"
 do

@@ -128,7 +128,7 @@ def get_low_prob_clusters(clusters, threshold=2):
     return cluster_ids_low_prob
 
 
-def make_meta_graph(graph, test_statistic=np.nanmedian):
+def make_meta_graph(graph, test_statistic=np.nanmedian, is_include_between=True, is_include_self=False):
     """
     Make meta-graph from input graph.
     :param clusters: clusters
@@ -152,17 +152,33 @@ def make_meta_graph(graph, test_statistic=np.nanmedian):
         c1 = n2c[u]
         c2 = n2c[v]
         if c1==c2:
-            continue
+            if not is_include_self:
+                continue
+        else:
+            if not is_include_between:
+                continue
         d = d['weight']
         combo2weights[frozenset((c1,c2))].append(d)
 
     for combo, weights in combo2weights.items():
         combo = list(combo)
-        graph_meta.add_edge(str(combo[0]), str(combo[1]), weight=test_statistic(weights))
+        if len(combo) == 1:
+            graph_meta.add_edge(str(combo[0]), str(combo[0]), weight=test_statistic(weights))
+        else:
+            graph_meta.add_edge(str(combo[0]), str(combo[1]), weight=test_statistic(weights))
        
     graph_meta = add_clusters(graph_meta, n2c_meta)
     
     return graph_meta
+
+
+def get_mean_weights_per_node(graph, test_statistic=np.nanmean):
+    """
+    """
+
+    node2mean = {node:test_statistic([graph[node][d]['weight'] for d in nx.descendants(graph, node)]) for node in graph.nodes()}
+    
+    return node2mean
 
 
 def cluster_accuracy(y_true, y_pred):

@@ -125,7 +125,8 @@ if algorithm=='chinese':
     cluster_stats = {}
     cluster_stats = cluster_stats | {'algorithm':algorithm, 'threshold':threshold, 'ambiguity':ambiguity, 'degree':degree}
 if algorithm=='wsbm':
-    if is_multiple:
+
+    if is_multiple: # to do: does currently not interact with ambiguity or real-to-discrete mappings
         annotators_graph = get_annotators(G_clean)
         enan = []
         # make weights for each annotator
@@ -138,9 +139,13 @@ if algorithm=='wsbm':
         weight_attributes = annotators_graph
     else:
         weight_attributes = ['weight']
+    if distribution in ["real-binomial", "real-geometric", "real-poisson"]: # for mappings to real numbers if weights are dense
+        transformation = lambda x: x*10
+        G_clean = transform_edge_weights(G_clean, transformation = transformation) # scale edge weights
+        distribution = 'discrete-' + distribution.split('-')[1]
     B_min, B_max = 1, 30 # minimum and maximum number of blocks
     niter = 100 # number of sweeps to perform
-    clusters = wsbm_clustering(G_clean, is_weighted=True, weight_attributes = weight_attributes, weight_data_type = 'float', distribution = distribution, B_min = B_min, B_max = B_max, niter = niter, deg_corr = degcorr, adjacency = adjacency, degree_dl = degreedl) # attention: weight_data_type = 'int' will cast median judgments like 3.5 to 3
+    clusters = wsbm_clustering(G_clean, is_weighted=True, weight_attributes = weight_attributes, weight_data_type = 'double', distribution = distribution, B_min = B_min, B_max = B_max, niter = niter, deg_corr = degcorr, adjacency = adjacency, degree_dl = degreedl) # attention: weight_data_type = 'int' will cast median judgments like 3.5 to 3
     cluster_stats = {}
     cluster_stats = cluster_stats | {'algorithm':algorithm, 'is_multiple':is_multiple, 'distribution':distribution, 'B_min':B_min, 'B_max':B_max, 'niter':niter, 'deg_corr':degcorr, 'adjacency':adjacency, 'degree_dl':degreedl, 'threshold':threshold, 'ambiguity':ambiguity}
 if algorithm=='louvain':

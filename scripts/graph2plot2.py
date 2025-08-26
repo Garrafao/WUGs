@@ -56,7 +56,7 @@ if style == 'interactive':
 if style == 'static':
     plot_graph_static(graph, output_folder_full + name, c2n, threshold=threshold, deviation_min=deviation_min, non_value=non_value, summary_statistic=summary_statistic, period='full', color=color, mode=mode,
                       edge_label_style=edge_label_style, annotators=annotators, dpi=dpi, position_method = position,
-                      node_size=100, name=name)
+                      node_size=100, name=name, node_shape='clusters')
 
 mappings_nodes = get_data_maps_nodes(graph)
 node2period = mappings_nodes['node2period']
@@ -74,7 +74,7 @@ if len(periods) > 1 and mode != 'compare':
         if style == 'static':
             plot_graph_static(graph, output_folder_period + name, c2n, threshold=threshold, deviation_min=deviation_min, non_value=non_value, summary_statistic=summary_statistic, period=period, color=color,
                               mode=mode, edge_label_style=edge_label_style, annotators=annotators, dpi=dpi, position_method = position,
-                              node_size=300, name=name)
+                              node_size=300, name=name, node_shape='clusters')
 
     if style == 'interactive':
         combos = combinations(periods, 2)

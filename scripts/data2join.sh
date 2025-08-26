@@ -15,6 +15,6 @@ do
 	senses=$word/senses.csv
     fi
     echo $word
-    python3 $scriptsdir/data2join.py $word/uses.csv $word/judgments.csv $senses $isheader $outdir/data_joint
+    python3 $scriptsdir/data2join.py $word/uses.csv $word/judgments.csv $senses $isheader $map_identifiers $outdir/data_joint
     isheader=False
 done

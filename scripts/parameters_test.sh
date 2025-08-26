@@ -1,4 +1,4 @@
-map_identifiers=true
+map_identifiers=False
 annotators=$dir/annotators.csv
 excluded=$dir/annotators_excluded.csv
 modus=test

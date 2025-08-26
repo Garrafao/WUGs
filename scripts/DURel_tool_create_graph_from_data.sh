@@ -8,7 +8,7 @@ function install_module_if_need() {
 
 source ~/.bashrc
 conda activate wug
-install_module_if_need 'mlrose' 'python -m pip install https://github.com/gkhayes/mlrose/archive/refs/heads/master.zip --no-cache-dir'
+#install_module_if_need 'mlrose' 'python -m pip install https://github.com/gkhayes/mlrose/archive/refs/heads/master.zip --no-cache-dir'
 
 scriptsdir=${0%/*}
 
@@ -45,7 +45,7 @@ echo "modes: $modes"
 distinguish_graph_types=true
 graph_type2=original
 annotators=$dir/annotators.csv
-map_identifiers=false
+map_identifiers=False
 
 rm -rf $dir/data_joint # when running multiple times (e.g. testing)
 rm -rf $dir/graphs # when running multiple times (e.g. testing)

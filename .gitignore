@@ -5,6 +5,7 @@ update-git.sh
 ./data/
 results
 .idea
+.jupyter_ystore.db
 venv
 test_uug/uses
 test_uug/annotators.csv
@@ -111,3 +112,4 @@ scripts/misc/use2id.py
 scripts/misc/use2id.sh
 scripts/misc/analyze_dwug_de_en_sv_reannotation_studies.ipynb
 scripts/misc/250128_lexicography_experiments.ipynb
+scripts/misc/analyze_study_stefano.ipynb

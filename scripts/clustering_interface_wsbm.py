@@ -43,6 +43,12 @@ def wsbm_clustering(graph: nx.Graph, distribution: str = 'discrete-binomial', is
     gt_graph, _, gt2nx = _nxgraph_to_graphtoolgraph(graph.copy(), is_weighted = is_weighted, weight_data_type = weight_data_type, weight_attributes = weight_attributes)
     state: BlockState = _minimize_weighted(gt_graph, distribution, weight_attributes = weight_attributes, B_min=B_min, B_max=B_max, niter=niter, deg_corr=deg_corr, adjacency=adjacency, degree_dl=degree_dl)
 
+    print("state.entropy()", state.entropy())
+    #for i in range(2000):
+    #    ret = state.multiflip_mcmc_sweep(niter=10, beta=np.inf)
+    gt.mcmc_anneal(state, beta_range=(1, 10), niter=1000, mcmc_equilibrate_args=dict(force_niter=10)) # this seems to find better solutions than iteration above
+    print("state.entropy()", state.entropy())
+
     block2clusterid_map = {}
     for i, (k, _) in enumerate(dict(sorted(Counter(state.get_blocks().get_array()).items(), key=lambda item: item[1], reverse=True)).items()):
         block2clusterid_map[k] = i

@@ -1,5 +1,4 @@
-map_identifiers=true
-graph_type=
+map_identifiers=False
 annotators=$dir/annotators.csv
 modus=system
 graphtype=uug
@@ -38,7 +37,7 @@ periods=(full)
 modes=(full)
 styles=(interactive)
 edgestyles=(weight)
-thresholdplot=2.5
+thresholdplot=$threshold
 # change scores
 lowerrangemin=1
 lowerrangemax=3

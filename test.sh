@@ -1,5 +1,5 @@
 # test pipeline
-: '
+
 bash -e scripts/run_uug.sh
 dir=test_uug
 rm -rf $dir/data_joint
@@ -75,23 +75,24 @@ do
 	  done
   done
 done
-'
+
 # test system pipeline 2 simple (simple example for pipeline run with minimal parameter provision)
 dir=test_uug_system
-thresholds=(2.5 2.0) # default 2.5
+thresholds=(2.5 0.5) # default 2.5
 for threshold in "${thresholds[@]}"
-do		rm -rf $dir/data # this is only done here for testing, probably not necessary in system
-		cp -r $dir/data_original/ $dir/data/ # this is only done here for testing, probably not necessary in system
-		bash -e scripts/DURel_tool_create_graph_from_data.sh $dir False mean 0.0 weight $threshold spring full
-		bash -e scripts/DURel_tool_filter_existing_graph.sh $dir all full None None None True True weight $threshold spring full
-		bash -e scripts/DURel_tool_cluster_filtered_graph.sh $dir True None correlation None False discrete-binomial False False False 1 system weight $threshold spring full mean 0.0
-		# below not needed in system, only for testing
-		rm -rf $dir/data_joint
-		rm -rf $dir/graphs
-		rm -rf $dir/clusters
-		rm -rf $dir/stats
-		rm -rf $dir/plots
-		rm -f $dir/annotators.csv
-		rm -rf $dir/data # this is only done here for testing, probably not necessary in system
-		rm -rf scripts/__pycache__
+do		
+	rm -rf $dir/data # this is only done here for testing, probably not necessary in system
+	cp -r $dir/data_original/ $dir/data/ # this is only done here for testing, probably not necessary in system
+	bash -e scripts/DURel_tool_create_graph_from_data.sh $dir False mean 0.0 weight $threshold spring full
+	bash -e scripts/DURel_tool_filter_existing_graph.sh $dir all full None None None True True weight $threshold spring full
+	bash -e scripts/DURel_tool_cluster_filtered_graph.sh $dir True None correlation None False discrete-binomial False False False 1 system weight $threshold spring full mean 0.0
+	# below not needed in system, only for testing
+	rm -rf $dir/data_joint
+	rm -rf $dir/graphs
+	rm -rf $dir/clusters
+	rm -rf $dir/stats
+	rm -rf $dir/plots
+	rm -f $dir/annotators.csv
+	rm -rf $dir/data # this is only done here for testing, probably not necessary in system
+	rm -rf scripts/__pycache__
 done

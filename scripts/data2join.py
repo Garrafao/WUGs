@@ -31,6 +31,10 @@ else:
     id2identifier = id2identifier | id2identifier_senses
 
 if len(id2identifier.values())!=len(uses)+len(id2identifier_senses.values()):
+    identifiers = [row['identifier'] for row in uses]
+    seen = set()
+    duplicates = {x for x in identifiers if x in seen or seen.add(x)}
+    print('Duplicate identifiers found in uses:', duplicates)
     sys.exit('Breaking: Non-unique identifiers found.')
 
 with open(judgments, encoding='utf-8') as csvfile: 

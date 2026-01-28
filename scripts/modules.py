@@ -71,6 +71,26 @@ def add_annotation(G, annotation, is_non_value=lambda x: np.isnan(x)):
         
     return G
     
+def add_edge_attribute(G, annotation, name, raise_errors = True):
+    """
+    Update graph with annotations.
+    :param G: graph
+    :param annotation: mappings from edges to values
+    :return G: updated graph
+
+    """
+    for (i,j,attribute) in annotation:
+
+        if (i,j) in G.edges():
+                
+            G[i][j][name] = attribute
+            
+        else:
+            if raise_errors:
+                assert 1 == 0
+        
+    return G    
+    
 def get_edge_data(G, normalization = lambda x: x):
     """
     Get data for edges.
@@ -246,6 +266,121 @@ def get_edge_std(G, annotators, non_value=0.0, normalization=lambda x: ((x-1)/3.
         
     return combo2std
 
+def get_median(G, annotators, non_value=0.0, filter=None):
+    """
+    Get median of annotations.
+    :param G: graph
+    :param annotators: list of annotators
+    :return combo2value: mapping from edges to their values
+    """
+    
+    mappings_edges = get_data_maps_edges(G, annotators)
+    combo2judgments = mappings_edges['combo2judgments']
+    
+    
+    if filter=='comedi': # filter used in comedi shared task
+        combo2judgments = {c:js if not len(js) < 2 else [] for (c,js) in combo2judgments.items()}
+        combo2judgments = {c:js if not non_value in js else [] for (c,js) in combo2judgments.items()}
+        combo2judgments = {c:js if not any(abs(j1-j2) > 1 for (j1,j2) in combinations(js, 2)) else [] for (c,js) in combo2judgments.items()}
+        combo2judgments = {c:js if not (np.isnan(np.median(js)) or (np.median(js) != int(np.median(js)))) else [] for (c,js) in combo2judgments.items()}
+    
+    combo2judgments = {c:[j for j in js if j != non_value] for (c,js) in combo2judgments.items()} # standard filter removing non-values
+    combo2value = {c:np.median(js) for (c,js) in combo2judgments.items()}
+        
+    return combo2value
+
+def get_disagreement(G, annotators, non_value=0.0, filter=None):
+    """
+    Get mean pairwise disagreement.
+    :param G: graph
+    :param annotators: list of annotators
+    :return combo2value: mapping from edges to their values
+    """
+    
+    mappings_edges = get_data_maps_edges(G, annotators)
+    combo2judgments = mappings_edges['combo2judgments']
+   
+    combo2judgments = {c:[j for j in js if not np.isnan(j)] for (c,js) in combo2judgments.items()} # standard filter removing nan
+    combo2judgments = {c:[j for j in js if j != non_value] for (c,js) in combo2judgments.items()} # standard filter removing non-values
+
+    if filter=='comedi': # filter used in comedi shared task, removing pairs with less than 2 judgments
+        combo2judgments = {c:js if not len(js) < 2 else [] for (c,js) in combo2judgments.items()}
+
+    combo2value = {c:np.mean([abs(j1-j2) for (j1,j2) in combinations(js, 2)]) for (c,js) in combo2judgments.items()}
+        
+    return combo2value  
+
+def get_noise(G, annotators, non_value=0.0, share=0.5, filter=None):
+    """
+    Get noisy edges.
+    :param G: graph
+    :param annotators: list of annotators
+    :param share: minimum share of for noise label 1
+    :return combo2value: mapping from edges to their values
+    """
+    
+    mappings_edges = get_data_maps_edges(G, annotators)
+    combo2judgments = mappings_edges['combo2judgments']
+   
+    combo2judgments = {c:[j for j in js if not np.isnan(j)] for (c,js) in combo2judgments.items()} # standard filter removing nan
+    combo2non = {c:[j for j in js if j == non_value] for (c,js) in combo2judgments.items()} # count noise
+    
+    if filter=='<2': # filter removing pairs with less than 2 judgments
+        combo2judgments = {c:js if not len(js) < 2 else [] for (c,js) in combo2judgments.items()}    
+
+    # condition used in Choppa et al. irregular submission to comedi shared task 
+    combo2value_ = {c:1.0 if (len(js) > 0 and len(combo2non[c])/len(js) > share) else 0.0 for (c,js) in combo2judgments.items()} 
+    combo2value__ = {c:combo2value_[c] if not (any(j == non_value for j in js) and combo2value_[c] == 0.0) else np.nan for (c,js) in combo2judgments.items()} # catch pairs with any non_value labeled 0.0
+    combo2value = {c:combo2value__[c] if len(js) > 0 else np.nan for (c,js) in combo2judgments.items()} # catch empty lists    
+        
+    return combo2value  
+    
+    
+def get_judgments(G, annotators):
+    """
+    Get list of judgments.
+    :param G: graph
+    :param annotators: list of annotators
+    :return combo2judgments: mapping from edges to list of judgments 
+    """
+    
+    mappings_edges = get_data_maps_edges(G, annotators)
+    combo2judgments = mappings_edges['combo2judgments']
+
+    return combo2judgments  
+    
+def get_annotators_edges(G, annotators):
+    """
+    Get list of annotators per at.
+    :param G: graph
+    :param annotators: list of annotators
+    :return combo2judgments: mapping from edges to list of annotators 
+    """
+    
+    mappings_edges = get_data_maps_edges(G, annotators)
+    combo2annotators = mappings_edges['combo2annotators']
+
+    return combo2annotators  
+
+def get_groups(G):
+    """
+    Get groups from edges if they exist.
+    :param G: graph
+    :return combo2value: mapping from edges to their values
+    """
+    
+    combo2value = {}
+    for (i,j) in G.edges():
+        
+        if 'group' in G[i][j]:
+            group = G[i][j]['group']
+        else:
+            group = ''
+            
+        combo2value[(i,j)] = group
+
+    return combo2value    
+    
 def get_node_std(G, annotators, non_value=0.0, normalization=lambda x: ((x-1)/3.0)):
     """
     Get standard deviation an outgoing edges from each node.
@@ -400,6 +535,7 @@ def get_data_maps_edges(G, annotators, summary_statistic=np.median):
     annotator2judgments = {annotator:[summary_statistic(combo2annotator2judgment[(i,j)][annotator]) if annotator in combo2annotator2judgment[(i,j)] else float('nan') for (i,j) in combo2annotator2judgment.keys()] for annotator in annotators}
 
     combo2judgments = {combo:[combo2annotator2judgment[combo][annotator] for annotator in combo2annotator2judgment[combo]] for combo in combo2annotator2judgment.keys()}
+    combo2annotators = {combo:[annotator for annotator in combo2annotator2judgment[combo]] for combo in combo2annotator2judgment.keys()} # importantly needs to have same order as combo2judgments
     
     node2judgments = defaultdict(lambda: [])
     node2weights = defaultdict(lambda: [])
@@ -414,6 +550,7 @@ def get_data_maps_edges(G, annotators, summary_statistic=np.median):
     mappings['combo2annotator2comment'] = combo2annotator2comment    
     mappings['annotator2judgments'] = annotator2judgments    
     mappings['combo2judgments'] = combo2judgments    
+    mappings['combo2annotators'] = combo2annotators    
     mappings['node2judgments'] = node2judgments   
     mappings['node2weights'] = node2weights    
                                

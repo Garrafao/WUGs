@@ -119,8 +119,8 @@ Find information on the individual fields below:
 
 Find further research on WUGs in these papers:
 
-
-- Dominik Schlechtweg, Emma Sköldberg, Shafqat Mumtaz Virk, James White, Simon Hengchen. 2025. Automatic Non-recorded Sense Detection for Swedish through Word Sense Induction with fine-tuned Word-in-Context models. Proceedings of Electronic lexicography in the 21st century.
+- Dominik Schlechtweg, Sachin Yadav, Nikolay Arefyev. 2026. [The LSCD Benchmark: a Testbed for Diachronic Word Meaning Tasks](https://arxiv.org/abs/2404.00176). Proceedings of *SEM 2026: The 15th Joint Conference on Lexical and Computational Semantics.
+- Dominik Schlechtweg, Emma Sköldberg, Shafqat Mumtaz Virk, James White, Simon Hengchen. 2025. [Automatic Non-recorded Sense Detection for Swedish through Word Sense Induction with fine-tuned Word-in-Context models](https://elex.link/elex2025/wp-content/uploads/eLex2025-11-Schlechtweg_etal.pdf). Proceedings of Electronic lexicography in the 21st century.
 - Dominik Schlechtweg, Tejaswi Choppa, Wei Zhao, Michael Roth. 2025. [CoMeDi Shared Task: Median Judgment Classification & Mean Disagreement Ranking with Ordinal Word-in-Context Judgments](https://aclanthology.org/2025.comedi-1.4/). Proceedings of Context and Meaning: Navigating Disagreements in NLP Annotation, 33-47.
 - Tejaswi Choppa, Michael Roth, Dominik Schlechtweg. 2025. [Predicting Median, Disagreement and Noise Label in Ordinal Word-in-Context Data](https://aclanthology.org/2025.comedi-1.6/). Proceedings of Context and Meaning: Navigating Disagreements in NLP Annotation, 65-77.
 - Ying Xuan Loke, Dominik Schlechtweg, Wei Zhao. 2025. [ABDN-NLP at CoMeDi Shared Task: Predicting the Aggregated Human Judgment via Weighted Few-Shot Prompting](https://aclanthology.org/2025.comedi-1.12/). Proceedings of Context and Meaning: Navigating Disagreements in NLP Annotation, 122-128.

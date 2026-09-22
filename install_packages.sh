@@ -7,8 +7,8 @@ conda config --set auto_activate_base false
 conda create --name wug_wsbm1 -c conda-forge graph-tool -y # this should work only linux
 
 # Install remaining main packages
-#conda create --name wug
-conda activate wug_wsbm1
+conda create --name wug_test1
+conda activate wug_test1
 conda install -y jupyter
 conda install -y jupyterlab
 conda install -y scikit-learn

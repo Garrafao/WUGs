@@ -3,6 +3,7 @@ lib
 sig
 update-git.sh
 ./data/
+venv_wug
 results
 .idea
 .jupyter_ystore.db

@@ -31,16 +31,33 @@ There are two scripts for external use with the [DURel annotation tool](https://
 
 __Attention__: modifies graphs iteratively, i.e., current run is dependent on previous run. Script deletes previously written data to avoid dependence. **Important**: The script uses simple test parameters; in order to improve the clustering load `parameters_opt.sh` in `run_uug.sh` or `run_usg.sh`.
 
-We recommend you to run the scripts within a Python Anaconda environment. You have two options:
-1. Create and activate the conda environment yourself, and then install the required packages with `conda env update --file packages.yml`.
-2. Run `source install_packages.sh`. This will create the conda environment and install all required packages. 
 
-Both installation options were tested on Linux. You can test if your installation is working by running
+### Installation instructions
+
+To get started with an environment providing the basic functionalities, make sure that you have **Python `3.14`**. After that, clone the repository, then create a new virtual environment and install minimal packages with:
+
+```sh
+python -m venv venv_wug
+source venv_wug/bin/activate
+pip install scikit-learn
+pip install matplotlib
+pip install correlation-clustering
+pip install pyvis==0.1.9
+```
+
+You can test if your installation is working by running
 
 	bash -e test.sh
 
 After installation, please check whether pygraphviz was installed correctly. There have been recurring errors with pygraphviz installation across operating systems. If an error occurs, you can check [this page](https://pygraphviz.github.io/documentation/stable/install.html#providing-path-to-graphviz) for solutions. On Linux, installing graphviz through the package manager is recommended.
 
+If this doesn't work, you can also try one of these older installation recommendations also providing the graph-tool functionality:
+
+We recommend you to run the scripts within a Python Anaconda environment. You have two options:
+1. Create and activate the conda environment yourself, and then install the required packages with `conda env update --file packages.yml`.
+2. Run `source install_packages.sh`. This will create the conda environment and install all required packages. 
+
+Both installation options were tested on Linux.
 
 ### Description
 

@@ -8,6 +8,8 @@ results
 .idea
 .jupyter_ystore.db
 venv
+./wug_test/
+old
 test_uug/uses
 test_uug/annotators.csv
 test_uug/clusters

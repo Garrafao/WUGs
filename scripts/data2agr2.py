@@ -85,6 +85,7 @@ for lemma in lemmas:
     #print(totalcombos)
 
     annotator2judgments = defaultdict(lambda: [])
+    annotator2number2judgments_repeated = defaultdict(lambda: defaultdict(lambda: []))
 
     judgments_total = 0
     for pair, annotator2judgment in combo2annotator2judgment.items():
@@ -98,6 +99,7 @@ for lemma in lemmas:
                     j = np.median(values)
                     if not j in value_domain: # exclude instances with more than one judgment from the same annotator which don't yield median in the value domain
                         j = float('nan')
+                    annotator2number2judgments_repeated[annotator][len(values)].append(values)                
                 else:
                     j = values[0]
             elif len(non_values)>0:
@@ -124,6 +126,8 @@ for lemma in lemmas:
 
     # Get agreement between annotators
     #print(annotator2judgments)
+    #print(annotator2number2judgments_repeated)
+    
     agreements = get_agreements(annotator2judgments, non_value=non_value, value_domain=value_domain, expected=global_distribution, combo2annotator2judgment=combo2annotator2judgment, metrics=metrics)
     limit = 50
     for metric in agreements:
@@ -131,6 +135,24 @@ for lemma in lemmas:
             if i==limit:
                 break
             agree_stats[metric+'_'+s] = agreements[metric][s]
+            
+    # Prepare repeated dictionary
+    agreements_intra = {}
+    for annotator, number2values in annotator2number2judgments_repeated.items():
+        for i, values in number2values.items():
+            #print(values, i)
+            annotator2judgments_repeated = {annotator+'_'+str(i)+'_'+str(j):[row[j] for row in values] for j in range(i)}
+            agreement_intra = get_agreements(annotator2judgments_repeated, non_value=non_value, value_domain=value_domain, metrics=['kri', 'spr', 'ham'])
+            #print(annotator2judgments_repeated)
+            agreements_intra = agreements_intra | agreement_intra
+    #print(agreements_intra).pl    
+    limit = 50
+    for metric in agreements_intra:
+        for i, s in enumerate(sorted(agreements_intra[metric].keys(), reverse=True)):
+            if i==limit:
+                break
+            agree_stats[metric+'_intra'+'_'+s] = agreements_intra[metric][s]
+       
 
     annotator2numberjudgments = {}  
     # Get judgment frequencies per annotator
